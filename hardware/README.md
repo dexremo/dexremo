@@ -41,10 +41,10 @@ All structural parts are 3D printed in PLA. Print the quantity shown for each fi
 
 | Part | Qty | Notes |
 |---|---|---|
-| Feetech STS3215 serial bus servo | 12 | Four per finger |
-| Miniature S-type load cell | 9 | Three per fingertip; only needed for force sensing |
+| Feetech ST-3215-C018 serial bus servo (12 V, 30 kg·cm) | 12 | Four per finger |
+| Miniature tension/compression load cell (0–5 kg, M2.5) | 9 | Three per fingertip; only needed for force sensing |
 
-Fasteners, the servo bus adapter, the power supply and wiring are not listed yet. A full bill of materials and the assembly guide will follow.
+The full list, with power supplies, cables, the load-cell transmitter, cameras and leader-device parts, is in [`BOM.md`](BOM.md).
 
 ## Licence
 
