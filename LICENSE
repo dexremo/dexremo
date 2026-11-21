@@ -1,0 +1,10 @@
+DexRemo is released under two licences.
+
+hardware/   CC BY-NC-SA 4.0  (Attribution-NonCommercial-ShareAlike 4.0 International)
+            Full text: hardware/LICENSE
+sim/        MIT for the model files and scripts; the meshes in sim/meshes/ are
+            hardware geometry and fall under CC BY-NC-SA 4.0.
+            Full text: sim/LICENSE
+
+For commercial use of the hardware design, contact the corresponding author,
+Jihong Zhu (University of York).

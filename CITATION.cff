@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use DexRemo, please cite the paper."
+title: "DexRemo"
+repository-code: "https://github.com/dexremo/dexremo"
+url: "https://dexremo.github.io"
+authors:
+  - {family-names: Wang, given-names: Liman}
+  - {family-names: Zhong, given-names: Hanyang}
+  - {family-names: Sun, given-names: Zhaole}
+  - {family-names: Cao, given-names: Wenting}
+  - {family-names: Jamil, given-names: Babar}
+  - {family-names: Tyrrell, given-names: Andy}
+  - {family-names: Luo, given-names: Shan}
+  - {family-names: Zhu, given-names: Jihong}
+preferred-citation:
+  type: article
+  title: "DexRemo: A Force-Sensing Hand Platform and Task Suite for Contact-Rich Removal Manipulation"
+  journal: "arXiv preprint arXiv:2611.15981"
+  year: 2026
+  notes: "Accepted to IEEE Transactions on Robotics"
+  authors:
+    - {family-names: Wang, given-names: Liman}
+    - {family-names: Zhong, given-names: Hanyang}
+    - {family-names: Sun, given-names: Zhaole}
+    - {family-names: Cao, given-names: Wenting}
+    - {family-names: Jamil, given-names: Babar}
+    - {family-names: Tyrrell, given-names: Andy}
+    - {family-names: Luo, given-names: Shan}
+    - {family-names: Zhu, given-names: Jihong}
