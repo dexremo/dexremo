@@ -34,6 +34,8 @@ pip install mujoco
 python -m mujoco.viewer --mjcf=mjcf/scene.xml
 ```
 
+**Isaac Sim / Isaac Lab:** import `urdf/<version>.urdf` with Isaac Sim's URDF Importer to get a USD model.
+
 ## Frames
 
 - **Base frame (`base_link`)**: the origin sits at the centre of the Franka flange's mounting face, and +z points out of the flange towards the fingers. This is also the `franka_attach` site in the MJCF. The leader model is the exception: see above.
