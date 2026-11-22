@@ -2,7 +2,7 @@
 
 This guide builds the hand in four stages:
 
-1. Build one finger, from the base of the finger out to the fingertip (steps 1–12).
+1. Build one finger (steps 1–12): the finger from its base up to the IP servo, then the fingertip as a separate unit, which is fitted last.
 2. Build the other two fingers the same way (step 13).
 3. Screw the three fingers onto the palm (step 14).
 4. Add the connector, the flange adapter and, if you need it, the camera mount (steps 15–17).
@@ -91,31 +91,36 @@ Place the IP servo between the free arms of the IP link. Fix it with eight M3×6
 
 ![Step 8](img/step08.gif)
 
-### Step 9: distal link over the IP servo
+### Step 9: fingertip sensor
 
-Slide the distal link (`fingertip_joints`) over the IP servo. Fix it with four ST2.2×4.5 self-tapping screws.
+Build the fingertip on the bench before fitting it to the finger. The three load cells sit between the two sensor plates (`force_sensor_layer1`):
+
+1. Take the inner plate, with its three embedded M3 nuts.
+2. Fit the three load cells to it, each with one M2.5×3 screw.
+3. Place the outer plate on the load cells. Fix it with three M2.5×3 screws, one into each load cell.
+4. Fit the fingernail on the outer plate.
+
+Each finger has its own nail: `left_finger_nail`, `mid_finger_nail` or `right_finger_nail`.
+
+Skip steps 9 and 10 if you are building the version without force sensing; go to step 12.
 
 ![Step 9](img/step09.gif)
 
-### Step 10: fingertip sensor, inner plate and load cells
+### Step 10: distal link onto the sensor
 
-Fit the inner sensor plate (`force_sensor_layer1`, with its embedded nuts) onto the distal link. Then fit the three load cells, each with one M2.5×3 screw.
-
-Skip steps 10 and 11 if you are building the version without force sensing; go to step 12.
+Fit the distal link (`fingertip_joints`) onto the inner plate from below, and screw it to the embedded nuts.
 
 ![Step 10](img/step10.gif)
 
-### Step 11: fingertip sensor, outer plate and fingernail
+### Step 11: fingertip onto the IP servo
 
-Place the outer sensor plate on the load cells. Fix it with three M2.5×3 screws, one into each load cell. Then fit the fingernail.
-
-Each finger has its own nail: `left_finger_nail`, `mid_finger_nail` or `right_finger_nail`.
+Slide the whole fingertip unit over the IP servo. Fix it with four ST2.2×4.5 self-tapping screws through the distal link.
 
 ![Step 11](img/step11.gif)
 
 ### Step 12: version without force sensing
 
-Fit the fingernail, with its embedded nuts, straight onto the distal link.
+Fit the fingernail, with its embedded nuts, straight onto the distal link. Then fit the fingertip onto the IP servo as in step 11.
 
 The mushroom fingertip (`mushroom_finger`) fits the same way. It is for holding a sponge or a wet wipe.
 

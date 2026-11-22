@@ -94,9 +94,10 @@ seq = lambda *keys: sum(([f[k]] if isinstance(f[k], int) else list(f[k]) for k i
 BASE = ["housing", "nuts1", "s1", "body1", "cmc2", "horn1", "s2", "body2", "mcp", "horn2", "s3", "horn3", "ip", "body3",
         "s4", "horn4", "tip", "body4"]          # m25 (a loose M2.5 on the IP link) is a CAD leftover, left out
 upto = lambda k: seq(*BASE[:BASE.index(k)])
+TIPSTACK = seq("inner", "nuts_in", "cells", "scr_in", "outer", "scr_out", "nail")
 VF = (0, 10, 1.0)                     # default finger view (azimuth, elevation, zoom)
 FINGER_STEPS = [
- ("CMC1 housing: hide the nuts", FIN, [], [ph([f["housing"]], 0, "show", name="CMC1_left_joint (left finger) / CMC1_mid_right_joint"), ph(f["nuts1"], 25)], (160, 20, 0.8)),
+ ("CMC1 housing: hide the nuts", FIN, [], [ph([f["housing"]], 0, "show", name="CMC1_left_joint (left finger) / CMC1_mid_right_joint"), ph(f["nuts1"], 30)], (145, 20, 0.8, "flip_x")),
  ("CMC1 servo into the housing", FIN, upto("s1"), [ph([f["s1"]], 45), scr(f["body1"])], (-30, 25, 0.7)),
  ("CMC2 bracket onto the CMC1 servo horn", FIN, upto("cmc2"), [ph([f["cmc2"]], 40), scr(f["horn1"])], (-30, 25, 1.2)),
  ("CMC2 servo into the CMC2 bracket", FIN, upto("s2"), [ph([f["s2"]], 45), scr(f["body2"])], (-30, 20, 1.2)),
@@ -104,23 +105,24 @@ FINGER_STEPS = [
  ("MCP servo onto the MCP link", FIN, upto("s3"), [ph([f["s3"]], 45), scr(f["horn3"])], (-30, 15, 1.1)),
  ("IP link over the MCP servo", FIN, upto("ip"), [ph([f["ip"]], 40), scr(f["body3"])], (-30, 15, 1.0)),
  ("IP servo onto the IP link", FIN, upto("s4"), [ph([f["s4"]], 45), scr(f["horn4"])], (-30, 15, 1.0)),
- ("Distal link over the IP servo", FIN, upto("tip"), [ph([f["tip"]], 40), scr(f["body4"])], (-30, 15, 1.0)),
- ("Fingertip sensor: inner plate and load cells", FIN, seq(*BASE), [ph([f["inner"]], 30, carry=f["nuts_in"], name="force_sensor_layer1 (nuts embedded while printing)"),
-                                                                    ph(f["cells"], 30), scr(f["scr_in"], count=3)], (-30, 15, 1.0)),
- ("Fingertip sensor: outer plate and fingernail", FIN, seq(*BASE) + seq("nuts_in", "inner", "cells", "scr_in"),
-  [ph([f["outer"]], 30), scr(f["scr_out"]), ph([f["nail"]], 40)], (-30, 15, 1.0)),
+ # the fingertip is built as a unit first (sensor sandwich, then the distal link from below), then fitted onto the IP servo
+ ("Fingertip sensor: plates and load cells", FIN, [], [ph([f["inner"]], 0, "show", name="force_sensor_layer1 (inner plate)"),
+   ph(f["nuts_in"], 0, "show", name="M3 hex nut, embedded while printing"), ph(f["cells"], 25), scr(f["scr_in"], count=3),
+   ph([f["outer"]], 25, name="force_sensor_layer1 (outer plate)"), scr(f["scr_out"]), ph([f["nail"]], 35)], (-30, 15, 0.55)),
+ ("Distal link onto the sensor", FIN, TIPSTACK, [ph([f["tip"]], 35)], (-30, 15, 1.7)),
+ ("Fingertip onto the IP servo", FIN, upto("tip"), [ph([f["tip"]] + TIPSTACK, 45, name="Fingertip unit (steps 9-10)", count=1), scr(f["body4"])], (-30, 15, 1.0)),
 ]
 
 # no-sensor fingertip: map the no-sensor finger by part name and position onto its own indices
 def nsf():
     P = FNS.P; c = lambda i: (np.array(P[i]["bbox_min_mm"]) + np.array(P[i]["bbox_max_mm"])) / 2
     nail = [p["idx"] for p in P if p["part"] == "left_finger_nail"][0]
+    tip = [p["idx"] for p in P if p["part"] == "fingertip_joints"][0]
     nuts = [p["idx"] for p in P if "NUT" in p["part"] and np.linalg.norm(c(p["idx"]) - c(nail)) < 40]
-    rest = [p["idx"] for p in P if p["idx"] != nail and p["idx"] not in nuts]
-    return nail, nuts, rest
-N_NAIL, N_NUTS, N_REST = nsf()
-NS_STEPS = [("No-sensor version: fingernail onto the distal link", FNS, N_REST,
-             [ph([N_NAIL], 40, carry=N_NUTS, name="left_finger_nail (nuts embedded while printing)")], (-30, 15, 1.0))]
+    return nail, nuts, tip
+N_NAIL, N_NUTS, N_TIP = nsf()
+NS_STEPS = [("No-sensor version: fingernail onto the distal link", FNS, [],
+             [ph([N_TIP], 0, "show"), ph([N_NAIL], 35, carry=N_NUTS, name="left_finger_nail (nuts embedded while printing)")], (-30, 15, 0.75))]
 
 # whole hand (indices from dexremo_hand_full_assemble). The STEP repeats the right finger's four palm screws once; drop the copies
 # and the one loose screw that touches nothing.
@@ -167,7 +169,7 @@ STEPS = FINGER_STEPS + NS_STEPS + HAND_STEPS
 
 COLS = [(0.95, 0.45, 0.10), (0.15, 0.62, 0.55), (0.25, 0.48, 0.90), (0.75, 0.30, 0.65), (0.85, 0.25, 0.25)]
 FCOL = {"M3 hex nut": (0.55, 0.25, 0.80), "M3x6 countersunk screw": (0.92, 0.72, 0.10), "ST2.2x4.5 self-tapping screw": (0.85, 0.20, 0.20),
-        "M2.5x3 screw": (0.20, 0.35, 0.95), "M3x12 cheese-head screw": (0.92, 0.72, 0.10)}
+        "M2.5x3 screw": (0.10, 0.12, 0.55), "M3x12 cheese-head screw": (0.92, 0.72, 0.10)}
 GREY = (0.76, 0.77, 0.79); SERVO = (0.18, 0.19, 0.22)
 W, H = 900, 640; FR = 10
 
@@ -211,7 +213,8 @@ def render(k, title, A, ctx, phases, view):
         for i in parts:
             key = p.get("name") or label(A.part(i)); L = next((L for L in legend if L[0] == key), None)
             if L is None:
-                c = SERVO if is_servo(A, i) else FCOL.get(key) or COLS[ci % len(COLS)]; ci += not (is_servo(A, i) or key in FCOL)
+                fc = next((v for k_, v in FCOL.items() if key.startswith(k_)), None)
+                c = SERVO if is_servo(A, i) else fc or COLS[ci % len(COLS)]; ci += not (is_servo(A, i) or fc)
                 L = [key, c, 0]; legend.append(L)
             colour[i] = L[1]; L[2] += 1
         if "count" in p: L[2] = p["count"]
@@ -221,17 +224,21 @@ def render(k, title, A, ctx, phases, view):
     bid = {i: m.body("b%d" % i).mocapid[0] for i, _ in items}
     nph = max(len(phases), 1)
     gid = {i: m.body("b%d" % i).geomadr[0] for i, _ in items}
+    # optional whole-scene turn for a clearer view: "flip_x" turns the scene upside down about the x axis
+    C0 = np.vstack([A.mesh(i).bounds for i, _ in items]).mean(0)
+    RV, QV = (np.diag([1.0, -1, -1]), np.array([0, 1.0, 0, 0])) if len(view) > 3 and view[3] == "flip_x" else (np.eye(3), np.array([1.0, 0, 0, 0]))
     def place(t):                                       # t in [0, nph]: phase n moves during [n, n+1]; later phases stay hidden
         for i, _ in items:
             pos = offs[i] * (1 - ease(np.clip(t - when[i], 0, 1))) if i in offs else np.zeros(3)
             if i in ride: pos = pos + ride[i][0] * (1 - ease(np.clip(t - ride[i][1], 0, 1)))
-            d.mocap_pos[bid[i]] = pos
+            d.mocap_pos[bid[i]] = RV @ pos + (C0 - RV @ C0)
+            d.mocap_quat[bid[i]] = QV
             if i in when: m.geom_rgba[gid[i], 3] = 1.0 if t >= vis.get(i, when[i]) else 0.0
         mujoco.mj_forward(m, d)
     focus = list(colour) or [i for i, _ in items]
     pts = np.vstack([A.mesh(i).bounds for i in focus] + [A.mesh(i).bounds + offs[i] + (ride[i][0] if i in ride else 0) for i in offs])
     allp = np.vstack([A.mesh(i).bounds for i, _ in items])
-    az, el, zoom = view
+    az, el, zoom = view[:3]
     cam = mujoco.MjvCamera(); cam.lookat[:] = 0.6 * (pts.min(0) + pts.max(0)) / 2 + 0.4 * (allp.min(0) + allp.max(0)) / 2
     cam.distance = max(np.linalg.norm(pts.max(0) - pts.min(0)), 0.6 * np.linalg.norm(allp.max(0) - allp.min(0))) * 1.5 * zoom
     cam.azimuth = az; cam.elevation = -el
@@ -250,7 +257,11 @@ def render(k, title, A, ctx, phases, view):
         for n in range(nph):
             if any(when.get(i) == n for i in offs): frames += [frame(n + t) for t in np.linspace(0, 1, FR)] + [frame(n + 1)] * 3
         frames += [frame(nph)] * 9
-        frames = [s.resize((W * 3 // 5, H * 3 // 5), Image.LANCZOS).quantize(128, dither=0) for s in frames]
+        frames = [s.resize((W * 3 // 5, H * 3 // 5), Image.LANCZOS) for s in frames]
+        strip = Image.new("RGB", (frames[0].width, frames[0].height * 3))   # palette from the start, middle and end frames
+        for j, fr in enumerate((frames[0], frames[len(frames) // 2], frames[-1])): strip.paste(fr, (0, j * fr.height))
+        pal = strip.quantize(255, method=2, dither=0)
+        frames = [s.quantize(palette=pal, dither=0) for s in frames]
         frames[0].save(os.path.join(OUT, "step%02d.gif" % k), save_all=True, append_images=frames[1:], duration=90, loop=0, optimize=True)
     r.close()
     return {"step": k, "title": title, "parts": [[n_, q] for n_, c, q in legend]}
