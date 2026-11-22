@@ -124,6 +124,9 @@ for name, parent, joint, idxs, frame in LINKS:
         if s["body"] == name: s["pos"] = (T @ np.r_[s["pos"], 1])[:3]
     posed.append((name, parent, joint, idxs, (T @ np.r_[frame, 1])[:3]))
 LINKS = posed
+if os.environ.get("DUMP_POSED"):                     # optional: every part, posed at q = 0, for display models (e.g. the website GLB)
+    d_ = ensure(os.environ["DUMP_POSED"])
+    for i, m_ in MESH.items(): m_.export(os.path.join(d_, "%03d_%s.stl" % (i, P[i]["part"].split(" gb_")[0][:40].replace(" ", "_"))))
 
 def xyz(v): return " ".join("%.6f" % x for x in v)
 def zaxis_quat(n):
