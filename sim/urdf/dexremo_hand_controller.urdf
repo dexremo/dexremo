@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!-- DexRemo three-finger hand. Generated from the STEP assembly; see README for assumptions. -->
+<robot name="dexremo_hand_controller">
+  <link name="base_link">
+    <inertial><origin xyz="0.000963 0.000058 0.023493"/><mass value="0.64893"/><inertia ixx="1.189e-03" ixy="1.323e-06" ixz="-3.200e-06" iyy="7.402e-04" iyz="2.248e-07" izz="1.738e-03"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/base_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/base_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/base_link_1.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/base_link_2.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/base_link_3.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/base_link_4.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/base_link_5.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/base_link_6.stl"/></geometry></collision>
+  </link>
+  <link name="left_cmc1_link">
+    <inertial><origin xyz="-0.000829 -0.000130 0.042133"/><mass value="0.06543"/><inertia ixx="1.978e-05" ixy="-2.319e-08" ixz="-6.846e-07" iyy="1.667e-05" iyz="-1.726e-07" izz="1.071e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/left_cmc1_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_cmc1_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_cmc1_link_1.stl"/></geometry></collision>
+  </link>
+  <joint name="left_cmc1" type="revolute"><parent link="base_link"/><child link="left_cmc1_link"/><origin xyz="-0.002908 0.049950 0.028942"/><axis xyz="0.000000 0.000000 1.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="left_cmc2_link">
+    <inertial><origin xyz="-0.000127 0.013888 0.015825"/><mass value="0.01913"/><inertia ixx="9.806e-06" ixy="1.059e-07" ixz="4.325e-08" iyy="6.207e-06" iyz="-1.503e-06" izz="1.157e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/left_cmc2_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_cmc2_link_0.stl"/></geometry></collision>
+  </link>
+  <joint name="left_cmc2" type="revolute"><parent link="left_cmc1_link"/><child link="left_cmc2_link"/><origin xyz="0.000000 -0.000100 0.058000"/><axis xyz="-0.000000 1.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="left_mcp_link">
+    <inertial><origin xyz="-0.000258 0.013788 0.011813"/><mass value="0.07467"/><inertia ixx="2.426e-05" ixy="1.303e-08" ixz="-3.361e-08" iyy="2.189e-05" iyz="-7.499e-06" izz="2.261e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/left_mcp_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_mcp_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_mcp_link_1.stl"/></geometry></collision>
+  </link>
+  <joint name="left_mcp" type="revolute"><parent link="left_cmc2_link"/><child link="left_mcp_link"/><origin xyz="0.000300 0.037800 0.030000"/><axis xyz="1.000000 0.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="left_ip_link">
+    <inertial><origin xyz="-0.000120 0.014091 0.014026"/><mass value="0.07434"/><inertia ixx="2.656e-05" ixy="-8.330e-08" ixz="-8.318e-08" iyy="2.037e-05" iyz="-9.335e-06" izz="2.053e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/left_ip_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_ip_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_ip_link_1.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/left_ip_link_2.stl"/></geometry></collision>
+  </link>
+  <joint name="left_ip" type="revolute"><parent link="left_mcp_link"/><child link="left_ip_link"/><origin xyz="0.000200 0.040447 0.037618"/><axis xyz="1.000000 0.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="mid_cmc1_link">
+    <inertial><origin xyz="0.000130 -0.000829 0.042133"/><mass value="0.06543"/><inertia ixx="1.667e-05" ixy="2.319e-08" ixz="1.726e-07" iyy="1.978e-05" iyz="-6.846e-07" izz="1.071e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/mid_cmc1_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_cmc1_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_cmc1_link_1.stl"/></geometry></collision>
+  </link>
+  <joint name="mid_cmc1" type="revolute"><parent link="base_link"/><child link="mid_cmc1_link"/><origin xyz="-0.001008 -0.000050 0.028942"/><axis xyz="0.000000 0.000000 1.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="mid_cmc2_link">
+    <inertial><origin xyz="-0.013888 -0.000127 0.015825"/><mass value="0.01913"/><inertia ixx="6.207e-06" ixy="-1.059e-07" ixz="1.503e-06" iyy="9.806e-06" iyz="4.325e-08" izz="1.157e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/mid_cmc2_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_cmc2_link_0.stl"/></geometry></collision>
+  </link>
+  <joint name="mid_cmc2" type="revolute"><parent link="mid_cmc1_link"/><child link="mid_cmc2_link"/><origin xyz="0.000100 0.000000 0.058000"/><axis xyz="-1.000000 0.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="mid_mcp_link">
+    <inertial><origin xyz="-0.013788 -0.000258 0.011813"/><mass value="0.07467"/><inertia ixx="2.189e-05" ixy="-1.303e-08" ixz="7.499e-06" iyy="2.426e-05" iyz="-3.361e-08" izz="2.261e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/mid_mcp_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_mcp_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_mcp_link_1.stl"/></geometry></collision>
+  </link>
+  <joint name="mid_mcp" type="revolute"><parent link="mid_cmc2_link"/><child link="mid_mcp_link"/><origin xyz="-0.037800 0.000300 0.030000"/><axis xyz="0.000000 1.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="mid_ip_link">
+    <inertial><origin xyz="-0.014091 -0.000120 0.014026"/><mass value="0.07434"/><inertia ixx="2.037e-05" ixy="8.330e-08" ixz="9.335e-06" iyy="2.656e-05" iyz="-8.318e-08" izz="2.053e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/mid_ip_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_ip_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_ip_link_1.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/mid_ip_link_2.stl"/></geometry></collision>
+  </link>
+  <joint name="mid_ip" type="revolute"><parent link="mid_mcp_link"/><child link="mid_ip_link"/><origin xyz="-0.040447 0.000200 0.037618"/><axis xyz="0.000000 1.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="right_cmc1_link">
+    <inertial><origin xyz="0.000829 0.000130 0.042133"/><mass value="0.06543"/><inertia ixx="1.978e-05" ixy="-2.319e-08" ixz="6.846e-07" iyy="1.667e-05" iyz="1.726e-07" izz="1.071e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/right_cmc1_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_cmc1_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_cmc1_link_1.stl"/></geometry></collision>
+  </link>
+  <joint name="right_cmc1" type="revolute"><parent link="base_link"/><child link="right_cmc1_link"/><origin xyz="-0.003008 -0.050050 0.029142"/><axis xyz="0.000000 0.000000 1.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="right_cmc2_link">
+    <inertial><origin xyz="0.000127 -0.013888 0.015825"/><mass value="0.01913"/><inertia ixx="9.806e-06" ixy="1.059e-07" ixz="-4.325e-08" iyy="6.207e-06" iyz="1.503e-06" izz="1.157e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/right_cmc2_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_cmc2_link_0.stl"/></geometry></collision>
+  </link>
+  <joint name="right_cmc2" type="revolute"><parent link="right_cmc1_link"/><child link="right_cmc2_link"/><origin xyz="0.000000 0.000100 0.058000"/><axis xyz="-0.000000 -1.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="right_mcp_link">
+    <inertial><origin xyz="0.000258 -0.013788 0.011813"/><mass value="0.07467"/><inertia ixx="2.426e-05" ixy="1.303e-08" ixz="3.361e-08" iyy="2.189e-05" iyz="7.499e-06" izz="2.261e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/right_mcp_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_mcp_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_mcp_link_1.stl"/></geometry></collision>
+  </link>
+  <joint name="right_mcp" type="revolute"><parent link="right_cmc2_link"/><child link="right_mcp_link"/><origin xyz="-0.000300 -0.037800 0.030000"/><axis xyz="-1.000000 0.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+  <link name="right_ip_link">
+    <inertial><origin xyz="0.000120 -0.014091 0.014026"/><mass value="0.07434"/><inertia ixx="2.656e-05" ixy="-8.330e-08" ixz="8.318e-08" iyy="2.037e-05" iyz="9.335e-06" izz="2.053e-05"/></inertial>
+    <visual><geometry><mesh filename="../meshes/dexremo_hand_controller/visual/right_ip_link.stl"/></geometry></visual>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_ip_link_0.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_ip_link_1.stl"/></geometry></collision>
+    <collision><geometry><mesh filename="../meshes/dexremo_hand_controller/collision/right_ip_link_2.stl"/></geometry></collision>
+  </link>
+  <joint name="right_ip" type="revolute"><parent link="right_mcp_link"/><child link="right_ip_link"/><origin xyz="-0.000200 -0.040447 0.037618"/><axis xyz="-1.000000 0.000000 0.000000"/><limit lower="-1.5708" upper="1.5708" effort="1.90" velocity="4.70"/><dynamics damping="0.1"/></joint>
+</robot>

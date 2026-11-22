@@ -12,7 +12,7 @@ This repository holds the open-source release of the DexRemo hand.
 | Folder | Contents | Licence |
 |---|---|---|
 | [`hardware/`](hardware/) | Assembly STEP files, printable STL files, [bill of materials](hardware/BOM.md), [assembly guide](hardware/assembly/README.md) | CC BY-NC-SA 4.0 |
-| [`sim/`](sim/) | URDF and MuJoCo (MJCF) models of three fingertip versions, with the scripts that build them from the STEP | MIT (meshes: CC BY-NC-SA 4.0) |
+| [`sim/`](sim/) | URDF and MuJoCo (MJCF) models of the hand (three fingertip versions) and the leader device, with the scripts that build them from the STEP | MIT (meshes: CC BY-NC-SA 4.0) |
 
 The leader device and the control code will be released later. See the [roadmap](https://dexremo.github.io/roadmap.html).
 

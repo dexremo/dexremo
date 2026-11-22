@@ -2,15 +2,20 @@
 
 URDF and MuJoCo (MJCF) models of the DexRemo three-finger hand, generated from the STEP assemblies in [`../hardware/step/`](../hardware/step/).
 
-There are three versions. They share the same kinematics, zero pose and joint names; only the fingertips differ.
+There are four versions. They share the same kinematics, zero pose and joint names; only the fingertips differ.
 
 | Version | Fingertip | Model | Demo scene |
 |---|---|---|---|
 | `dexremo_hand` | Wedge nail on a 3-axis force sensor | `mjcf/dexremo_hand.xml`, `urdf/dexremo_hand.urdf` | `mjcf/scene.xml` |
 | `dexremo_hand_no_sensor` | Wedge nail, no force sensor | `mjcf/dexremo_hand_no_sensor.xml`, `urdf/dexremo_hand_no_sensor.urdf` | `mjcf/scene_no_sensor.xml` |
 | `dexremo_hand_mushroom` | Mushroom tip (holds a sponge or wipe), no force sensor | `mjcf/dexremo_hand_mushroom.xml`, `urdf/dexremo_hand_mushroom.urdf` | `mjcf/scene_mushroom.xml` |
+| `dexremo_hand_controller` | Ring for the operator's finger: the leader device | `mjcf/dexremo_hand_controller.xml`, `urdf/dexremo_hand_controller.urdf` | `mjcf/scene_controller.xml` |
 
-![The three versions](docs/variants.png)
+![The four versions](docs/variants.png)
+
+The leader model is the no-sensor hand with the nails replaced by the ring fingertip from `../hardware/step/assembly/dexremo_controller_finger_assemble.step`. It has no connector, flange adapter or camera mount: the real leader stands on a mount of your choice.
+
+Because it has no flange, its base frame sits at the centre of the palm's back face (site `mount_site`). The palm's back face is 34.5 mm from the flange face along z, so the leader's base frame is offset by that much from the other versions' base frame.
 
 ```
 urdf/<version>.urdf                 URDF (ROS, Isaac, PyBullet, ...)
@@ -31,7 +36,7 @@ python -m mujoco.viewer --mjcf=mjcf/scene.xml
 
 ## Frames
 
-- **Base frame (`base_link`)**: the origin sits at the centre of the Franka flange's mounting face, and +z points out of the flange towards the fingers. This is also the `franka_attach` site in the MJCF.
+- **Base frame (`base_link`)**: the origin sits at the centre of the Franka flange's mounting face, and +z points out of the flange towards the fingers. This is also the `franka_attach` site in the MJCF. The leader model is the exception: see above.
 - **Fingertip force frame (`{finger}_force_site`, force-sensing version only)**: the site lies on the mid-plane of the force sensor, with its z axis along the sensor-plate normal.
 - **Fingertip point (`{finger}_tip_site`, all versions)**: the far end of the fingertip.
 
@@ -76,7 +81,7 @@ All axes follow the right-hand rule. Joint ranges are set to ±90° around the z
 
 ## Notes
 
-- Masses are rough. Printed parts are modelled as solid PLA (1.24 g/cm³), each servo as 55 g and the load cells as steel. The totals come out at about 2.0 kg (force-sensing), 1.95 kg (no sensor) and 1.92 kg (mushroom). Real prints are partly hollow, so the real hand is lighter.
+- Masses are rough. Printed parts are modelled as solid PLA (1.24 g/cm³), each servo as 55 g and the load cells as steel. The totals come out at about 2.0 kg (force-sensing), 1.95 kg (no sensor), 1.92 kg (mushroom) and 1.35 kg (leader, palm and fingers only). Real prints are partly hollow, so the real hand is lighter.
 - Inertias come from the part meshes. Joint damping, armature and friction are generic values, not identified from the hardware.
 - The model includes the hand-eye camera mount used in the paper's experiments.
 

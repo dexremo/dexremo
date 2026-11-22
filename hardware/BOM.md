@@ -25,7 +25,8 @@ Links point to the shops the authors bought from. Equivalent parts from other su
 | Power supply | 5 V, 5 A | 1 | [Taobao](https://item.taobao.com/item.htm?id=544824248494) |
 | Servo driver board | Connects the servo bus to the PC over USB | 1 | [Tmall](https://detail.tmall.com/item.htm?id=738817173460&skuId=5096283384143) |
 | Servo cable | 3-pin, 200 mm | 5 | [Taobao](https://item.taobao.com/item.htm?id=607253676830) |
-| Screws and bolts | Assorted M2, M2.5, M3 and M4 | as needed | |
+| Printed parts | Same as the hand, with `controller_finger.stl` (x3) in place of the nails and fingertip sensors; no connector, flange adapter or camera mount | | |
+| Screws and bolts | As for the hand without force sensing; see [Fasteners](#fasteners) | | |
 
 ## Cameras
 
@@ -51,12 +52,13 @@ Counts for one follower hand with force-sensing fingertips, taken from the assem
 | M3×6 countersunk screw | 84 | Servo horns: 28 per finger |
 | ST2.2×4.5 self-tapping screw | 48 | Servo bodies into their brackets: 4 per servo |
 | M3×12 screw | 12 | Fingers onto the palm: 4 per finger |
-| M3 hex nut | 21 | 4 in each CMC1 housing; 3 embedded in each sensor inner plate while printing |
+| M3×6 cheese-head screw | 9 | Fingertips onto the distal links: 3 per finger |
+| M3 hex nut | 21 | 4 in each CMC1 housing; 3 embedded in each fingertip part while printing |
 | M2.5×3 screw | 18 | Fingertip sensor plates to the load cells: 6 per finger |
 
-Without force sensing:
-- the M2.5 screws are not needed;
-- the 9 M3 nuts go into the fingernails instead of the sensor plates.
+Without force sensing, the M2.5 screws are not needed, and the 9 fingertip nuts go into the fingernails instead of the sensor plates.
+
+The leader device uses the same fasteners as a hand without force sensing; its fingertip nuts go into the rings. Mount the leader on a stand of your choice.
 
 **Not counted above**
 - The connector, the flange adapter, the camera mount and the leader device are fixed with M2–M4 screws; choose lengths to suit your prints.

@@ -21,8 +21,11 @@ EFFORT, VELOCITY = 1.9, 4.7                          # N m, rad/s (STS3215 at 7.
 LIMIT = math.radians(90)                             # placeholder range +-90 deg until measured limits arrive
 # --------------------------------------------------------------------------------
 
-fl = [p for p in P if p["part"] == "franka_flange"][0]
+# base frame: centre of the Franka flange's mounting face; a hand without the flange (the leader device) uses the centre of
+# the palm's back face, where the connector would sit
+fl = next((p for p in P if p["part"] == "franka_flange"), None) or [p for p in P if p["part"] == "hand-base"][0]
 ORIGIN = np.array([(fl["bbox_min_mm"][0] + fl["bbox_max_mm"][0]) / 2, (fl["bbox_min_mm"][1] + fl["bbox_max_mm"][1]) / 2, fl["bbox_min_mm"][2]]) / 1000
+ATTACH = "franka_attach" if fl["part"] == "franka_flange" else "mount_site"
 
 palm = [g for g, m in G.items() if any(P[i]["part"] == "hand-base" for i in m)][0]
 FINGERS = {}
@@ -172,7 +175,7 @@ def body(L_, depth):
         out.append('%s  <joint name="%s" axis="%s" range="%.4f %.4f"/>' % (pad, joint["name"], xyz(joint["axis"]), -LIMIT, LIMIT))
     out.append('%s  <geom class="visual" mesh="%s"/>' % (pad, name))
     for k in range(len(idxs)): out.append('%s  <geom class="collision" mesh="%s_%d"/>' % (pad, name, k))
-    if name == "base_link": out.append('%s  <site name="franka_attach" pos="0 0 0" size="0.005" rgba="1 0.5 0 1"/>' % pad)
+    if name == "base_link": out.append('%s  <site name="%s" pos="0 0 0" size="0.005" rgba="1 0.5 0 1"/>' % (pad, ATTACH))
     for s in SENSORS:
         if s["body"] == name: out.append('%s  <site name="%s_force_site" pos="0 0 0" quat="%s" size="0.004" rgba="0.2 0.8 1 1"/>' % (pad, s["finger"], xyz(zaxis_quat(s["normal"]))))
     for s in TIPS:

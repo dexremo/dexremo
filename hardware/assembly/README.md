@@ -2,10 +2,15 @@
 
 This guide builds the hand in four stages:
 
-1. Build one finger (steps 1–12): the finger from its base up to the IP servo, then the fingertip as a separate unit, which is fitted last.
-2. Build the other two fingers the same way (step 13).
-3. Screw the three fingers onto the palm (step 14).
-4. Add the connector, the flange adapter and, if you need it, the camera mount (steps 15–17).
+1. Build one finger (steps 1–13): the finger from its base up to the IP servo, then the fingertip as a separate unit, which is fitted last.
+2. Build the other two fingers the same way (step 14).
+3. Screw the three fingers onto the palm (step 15).
+4. Add the connector, the flange adapter and, if you need it, the camera mount (steps 16–18).
+
+**Fingertip versions**
+- The hand can take three fingertips: force-sensing (steps 9–11), plain nail (step 12) or mushroom.
+- The leader device for teleoperation is the same hand with ring fingertips (step 13) and 7.4 V servos.
+- The leader skips steps 16–18. Mount it on any stand that suits you.
 
 **How to read the pictures**
 - New parts are coloured; parts already in place are grey.
@@ -20,9 +25,10 @@ All views are rendered from the assembly STEP files in [`../step/assembly/`](../
 - the printed parts listed in [`../README.md`](../README.md#printed-parts);
 - the bought parts and fasteners listed in the [bill of materials](../BOM.md).
 
-**Nuts embedded while printing.** Two printed parts carry M3 nuts that you place during the print:
-- each fingertip sensor inner plate (`force_sensor_layer1`);
-- each fingernail in the no-sensor version.
+**Nuts embedded while printing.** Every fingertip part carries three M3 nuts that you place during the print:
+- the fingertip sensor inner plate (`force_sensor_layer1`);
+- the fingernail, in the no-sensor version;
+- the ring (`controller_finger`), on the leader device.
 
 Pause the print at the layer that closes the nut pockets, drop in the nuts, then resume.
 
@@ -32,7 +38,7 @@ Pause the print at the layer that closes the nut pockets, drop in the nuts, then
 
 ## Stage 1: one finger
 
-These steps show the left finger. The middle and right fingers are built the same way; step 13 lists what differs.
+These steps show the left finger. The middle and right fingers are built the same way; step 14 lists what differs.
 
 ### Step 1: CMC1 housing, hide the nuts
 
@@ -108,7 +114,7 @@ Skip steps 9 and 10 if you are building the version without force sensing; go to
 
 ### Step 10: distal link onto the sensor
 
-Fit the distal link (`fingertip_joints`) onto the inner plate from below, and screw it to the embedded nuts.
+Fit the distal link (`fingertip_joints`) onto the inner plate from below. Fix it with three M3×6 screws from inside the distal link into the embedded nuts.
 
 ![Step 10](img/step10.gif)
 
@@ -120,17 +126,25 @@ Slide the whole fingertip unit over the IP servo. Fix it with four ST2.2×4.5 se
 
 ### Step 12: version without force sensing
 
-Fit the fingernail, with its embedded nuts, straight onto the distal link. Then fit the fingertip onto the IP servo as in step 11.
+Fit the fingernail, with its embedded nuts, straight onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
 
 The mushroom fingertip (`mushroom_finger`) fits the same way. It is for holding a sponge or a wet wipe.
 
 ![Step 12](img/step12.gif)
 
+### Step 13: leader device, ring fingertip
+
+The leader device has a ring (`controller_finger`) instead of a nail, for the operator's fingertip.
+
+Fit the ring, with its embedded nuts, onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
+
+![Step 13](img/step13.gif)
+
 ## Stage 2: three fingers
 
-### Step 13: build the other two fingers
+### Step 14: build the other two fingers
 
-Repeat steps 1–12 for the middle and right fingers. The three fingers differ in only two parts:
+Repeat steps 1–13 for the middle and right fingers. The three fingers differ in only two parts:
 
 | Finger | CMC1 housing | Fingernail |
 |---|---|---|
@@ -138,39 +152,39 @@ Repeat steps 1–12 for the middle and right fingers. The three fingers differ i
 | Middle | `CMC1_mid_right_joint` | `mid_finger_nail` |
 | Right | `CMC1_mid_right_joint` | `right_finger_nail` |
 
-![Step 13](img/step13.png)
+![Step 14](img/step14.png)
 
 ## Stage 3: fingers onto the palm
 
-### Step 14: screw the fingers onto the palm
+### Step 15: screw the fingers onto the palm
 
 Lower each finger onto the palm (`hand-base`). Fix each one with four M3×12 screws into the nuts you placed in step 1.
 
-![Step 14](img/step14.gif)
+![Step 15](img/step15.gif)
 
 ## Stage 4: mounting parts
 
 The STEP does not include the screws for these parts. Choose screw lengths to suit your prints.
 
-### Step 15: hand connector
+### Step 16: hand connector
 
 Screw the hand connector to the underside of the palm.
 
-![Step 15](img/step15.gif)
+![Step 16](img/step16.gif)
 
-### Step 16: Franka flange adapter
+### Step 17: Franka flange adapter
 
 Screw the flange adapter to the connector. The adapter bolts directly onto the Franka Emika flange.
 
-![Step 16](img/step16.gif)
+![Step 17](img/step17.gif)
 
-### Step 17: hand-eye camera mount (optional)
+### Step 18: hand-eye camera mount (optional)
 
 Fit the camera arm (`hand_eye_cam_mount`) under the palm. Then fit the camera holder (`camera_mount`) at the end of the arm.
 
 Skip this step if you do not use a wrist camera.
 
-![Step 17](img/step17.gif)
+![Step 18](img/step18.gif)
 
 ---
 

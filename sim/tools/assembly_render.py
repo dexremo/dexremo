@@ -24,13 +24,15 @@ class Asm:
         if i not in self.V: self.V[i] = np.round(self.mesh(i).voxelized(0.001).fill().points * 1000).astype(np.int32)
         return self.V[i]
 
-FIN = Asm("v2/dexremo_hand_full_finger_assemble")
-FNS = Asm("v2/dexremo_hand_full_no_sensor_finger_assemble")
+FIN = Asm("v3/dexremo_hand_full_finger_assemble")
+FNS = Asm("v3/dexremo_hand_full_no_sensor_finger_assemble")
+CTL = Asm("v3/dexremo_controller_finger_assemble")
 HAND = Asm("v2/dexremo_hand_full_assemble")
 
 def label(name):
     if " gb_" not in name:
         return {"STS3215_03a.step": "ST3215 servo", "tension-sensor": "Load cell (0-5 kg)"}.get(name, name)
+    if "M3X6" in name and "TYPE135" in name: return "M3x6 cheese-head screw"
     if "M3X6" in name: return "M3x6 countersunk screw"
     if "M3X12" in name: return "M3x12 cheese-head screw"
     if "M2.5X3" in name: return "M2.5x3 screw"
@@ -165,10 +167,18 @@ HAND_STEPS = [
  ("Hand-eye camera mount (optional)", HAND, [PALM, CONN, FLANGE] + allf() + allps(), [ph([ARM], 60), ph([CAM], 60)], (120, -15, 1.1)),
 ]
 
-STEPS = FINGER_STEPS + NS_STEPS + HAND_STEPS
+def ctl():
+    P = CTL.P; one = lambda n: [p["idx"] for p in P if p["part"] == n][0]
+    return one("fingertip_joints"), one("controller_finger"), [p["idx"] for p in P if "NUT" in p["part"]], [p["idx"] for p in P if "M3X6" in p["part"]]
+C_TIP, C_RING, C_NUTS, C_SCR = ctl()
+CTL_STEPS = [("Leader device: ring fingertip onto the distal link", CTL, [],
+              [ph([C_TIP], 0, "show"), ph([C_RING], 35, carry=C_NUTS, name="controller_finger (nuts embedded while printing)"),
+               scr(C_SCR, 14)], (-35, -25, 1.05))]
+
+STEPS = FINGER_STEPS + NS_STEPS + CTL_STEPS + HAND_STEPS
 
 COLS = [(0.95, 0.45, 0.10), (0.15, 0.62, 0.55), (0.25, 0.48, 0.90), (0.75, 0.30, 0.65), (0.85, 0.25, 0.25)]
-FCOL = {"M3 hex nut": (0.55, 0.25, 0.80), "M3x6 countersunk screw": (0.92, 0.72, 0.10), "ST2.2x4.5 self-tapping screw": (0.85, 0.20, 0.20),
+FCOL = {"M3x6 cheese-head screw": (0.10, 0.12, 0.55), "M3 hex nut": (0.55, 0.25, 0.80), "M3x6 countersunk screw": (0.92, 0.72, 0.10), "ST2.2x4.5 self-tapping screw": (0.85, 0.20, 0.20),
         "M2.5x3 screw": (0.10, 0.12, 0.55), "M3x12 cheese-head screw": (0.92, 0.72, 0.10)}
 GREY = (0.76, 0.77, 0.79); SERVO = (0.18, 0.19, 0.22)
 W, H = 900, 640; FR = 10

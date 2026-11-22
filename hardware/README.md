@@ -6,7 +6,8 @@ The design files for the DexRemo three-finger hand: assembly STEP files, the STL
 step/dexremo_hand_full.step                        full hand with force-sensing fingertips
 step/dexremo_hand_no_sensor.step                   full hand, wedge nails without force sensors
 step/dexremo_hand_no_sensor_mushroom_finger.step   full hand, mushroom fingertips without force sensors
-step/assembly/*.step                               assemblies with every screw and nut, used by the assembly guide
+step/assembly/*.step                               assemblies with every screw and nut, used by the assembly guide,
+                                                   including the leader device's ring fingertip
 stl/*.stl                                          printed parts, one file per distinct part, in millimetres
 BOM.md                                             bill of materials
 assembly/                                          step-by-step assembly guide
@@ -42,6 +43,7 @@ All structural parts are 3D printed in PLA. Print the quantity shown for each fi
 | `mid_finger_nail.stl` | 1 | Wedge fingertip, middle |
 | `right_finger_nail.stl` | 1 | Wedge fingertip, right |
 | `mushroom_finger.stl` | 3 | Mushroom fingertip for a sponge or wipe (alternative to the nails and sensor) |
+| `controller_finger.stl` | 3 | Ring fingertip for the leader device (in place of the nails and sensor); embed three M3 nuts in each while printing |
 | `hand_eye_cam_mount.stl` | 1 | Hand-eye camera arm (optional) |
 | `camera_mount.stl` | 1 | Camera holder on the arm (optional) |
 
