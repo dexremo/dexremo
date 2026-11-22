@@ -1,6 +1,6 @@
 <mujoco model="dexremo_hand">
-  <!-- DexRemo three-finger hand. Generated from the full-hand STEP; see README for assumptions. -->
-  <compiler angle="radian" meshdir="../meshes" autolimits="true"/>
+  <!-- DexRemo three-finger hand. Generated from the STEP assembly; see README for assumptions. -->
+  <compiler angle="radian" meshdir="../meshes/dexremo_hand" autolimits="true"/>
   <option integrator="implicitfast"/>
   <default>
     <joint damping="0.1" armature="0.005" frictionloss="0.01"/>
@@ -125,6 +125,7 @@
                 <geom class="collision" mesh="left_tip_0"/>
                 <geom class="collision" mesh="left_tip_1"/>
                 <site name="left_force_site" pos="0 0 0" quat="0.923880 -0.382683 -0.000000 0.000000" size="0.004" rgba="0.2 0.8 1 1"/>
+                <site name="left_tip_site" pos="-0.004110 0.052426 0.039086" size="0.003" rgba="1 0.2 0.2 1"/>
               </body>
             </body>
           </body>
@@ -163,6 +164,7 @@
                 <geom class="collision" mesh="mid_tip_0"/>
                 <geom class="collision" mesh="mid_tip_1"/>
                 <site name="mid_force_site" pos="0 0 0" quat="0.923880 0.000000 -0.382683 0.000000" size="0.004" rgba="0.2 0.8 1 1"/>
+                <site name="mid_tip_site" pos="-0.052338 0.000772 0.039303" size="0.003" rgba="1 0.2 0.2 1"/>
               </body>
             </body>
           </body>
@@ -201,6 +203,7 @@
                 <geom class="collision" mesh="right_tip_0"/>
                 <geom class="collision" mesh="right_tip_1"/>
                 <site name="right_force_site" pos="0 0 0" quat="0.923880 0.382683 -0.000000 0.000000" size="0.004" rgba="0.2 0.8 1 1"/>
+                <site name="right_tip_site" pos="-0.005451 -0.052397 0.039170" size="0.003" rgba="1 0.2 0.2 1"/>
               </body>
             </body>
           </body>
@@ -226,6 +229,9 @@
     <force name="left_force" site="left_force_site"/>
     <force name="mid_force" site="mid_force_site"/>
     <force name="right_force" site="right_force_site"/>
+    <framepos name="left_tip_pos" objtype="site" objname="left_tip_site" reftype="body" refname="base_link"/>
+    <framepos name="mid_tip_pos" objtype="site" objname="mid_tip_site" reftype="body" refname="base_link"/>
+    <framepos name="right_tip_pos" objtype="site" objname="right_tip_site" reftype="body" refname="base_link"/>
     <jointpos name="left_cmc1_pos" joint="left_cmc1"/>
     <jointpos name="left_cmc2_pos" joint="left_cmc2"/>
     <jointpos name="left_mcp_pos" joint="left_mcp"/>

@@ -1,0 +1,202 @@
+<mujoco model="dexremo_hand_mushroom">
+  <!-- DexRemo three-finger hand. Generated from the STEP assembly; see README for assumptions. -->
+  <compiler angle="radian" meshdir="../meshes/dexremo_hand_mushroom" autolimits="true"/>
+  <option integrator="implicitfast"/>
+  <default>
+    <joint damping="0.1" armature="0.005" frictionloss="0.01"/>
+    <position kp="6" forcerange="-1.90 1.90"/>
+    <default class="visual"><geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.18 0.19 0.21 1"/></default>
+    <default class="collision"><geom type="mesh" group="3" rgba="0.9 0.4 0.1 0.35" friction="0.8 0.02 0.001"/></default>
+  </default>
+  <asset>
+    <mesh name="base_link" file="visual/base_link.stl"/>
+    <mesh name="left_cmc1_link" file="visual/left_cmc1_link.stl"/>
+    <mesh name="left_cmc2_link" file="visual/left_cmc2_link.stl"/>
+    <mesh name="left_mcp_link" file="visual/left_mcp_link.stl"/>
+    <mesh name="left_ip_link" file="visual/left_ip_link.stl"/>
+    <mesh name="mid_cmc1_link" file="visual/mid_cmc1_link.stl"/>
+    <mesh name="mid_cmc2_link" file="visual/mid_cmc2_link.stl"/>
+    <mesh name="mid_mcp_link" file="visual/mid_mcp_link.stl"/>
+    <mesh name="mid_ip_link" file="visual/mid_ip_link.stl"/>
+    <mesh name="right_cmc1_link" file="visual/right_cmc1_link.stl"/>
+    <mesh name="right_cmc2_link" file="visual/right_cmc2_link.stl"/>
+    <mesh name="right_mcp_link" file="visual/right_mcp_link.stl"/>
+    <mesh name="right_ip_link" file="visual/right_ip_link.stl"/>
+    <mesh name="base_link_0" file="collision/base_link_0.stl"/>
+    <mesh name="base_link_1" file="collision/base_link_1.stl"/>
+    <mesh name="base_link_2" file="collision/base_link_2.stl"/>
+    <mesh name="base_link_3" file="collision/base_link_3.stl"/>
+    <mesh name="base_link_4" file="collision/base_link_4.stl"/>
+    <mesh name="base_link_5" file="collision/base_link_5.stl"/>
+    <mesh name="base_link_6" file="collision/base_link_6.stl"/>
+    <mesh name="base_link_7" file="collision/base_link_7.stl"/>
+    <mesh name="base_link_8" file="collision/base_link_8.stl"/>
+    <mesh name="base_link_9" file="collision/base_link_9.stl"/>
+    <mesh name="base_link_10" file="collision/base_link_10.stl"/>
+    <mesh name="left_cmc1_link_0" file="collision/left_cmc1_link_0.stl"/>
+    <mesh name="left_cmc1_link_1" file="collision/left_cmc1_link_1.stl"/>
+    <mesh name="left_cmc2_link_0" file="collision/left_cmc2_link_0.stl"/>
+    <mesh name="left_mcp_link_0" file="collision/left_mcp_link_0.stl"/>
+    <mesh name="left_mcp_link_1" file="collision/left_mcp_link_1.stl"/>
+    <mesh name="left_ip_link_0" file="collision/left_ip_link_0.stl"/>
+    <mesh name="left_ip_link_1" file="collision/left_ip_link_1.stl"/>
+    <mesh name="left_ip_link_2" file="collision/left_ip_link_2.stl"/>
+    <mesh name="mid_cmc1_link_0" file="collision/mid_cmc1_link_0.stl"/>
+    <mesh name="mid_cmc1_link_1" file="collision/mid_cmc1_link_1.stl"/>
+    <mesh name="mid_cmc2_link_0" file="collision/mid_cmc2_link_0.stl"/>
+    <mesh name="mid_mcp_link_0" file="collision/mid_mcp_link_0.stl"/>
+    <mesh name="mid_mcp_link_1" file="collision/mid_mcp_link_1.stl"/>
+    <mesh name="mid_ip_link_0" file="collision/mid_ip_link_0.stl"/>
+    <mesh name="mid_ip_link_1" file="collision/mid_ip_link_1.stl"/>
+    <mesh name="mid_ip_link_2" file="collision/mid_ip_link_2.stl"/>
+    <mesh name="right_cmc1_link_0" file="collision/right_cmc1_link_0.stl"/>
+    <mesh name="right_cmc1_link_1" file="collision/right_cmc1_link_1.stl"/>
+    <mesh name="right_cmc2_link_0" file="collision/right_cmc2_link_0.stl"/>
+    <mesh name="right_mcp_link_0" file="collision/right_mcp_link_0.stl"/>
+    <mesh name="right_mcp_link_1" file="collision/right_mcp_link_1.stl"/>
+    <mesh name="right_ip_link_0" file="collision/right_ip_link_0.stl"/>
+    <mesh name="right_ip_link_1" file="collision/right_ip_link_1.stl"/>
+    <mesh name="right_ip_link_2" file="collision/right_ip_link_2.stl"/>
+  </asset>
+  <worldbody>
+    <body name="base_link" pos="0.000000 0.000000 0.000000">
+      <inertial pos="0.033405 0.000009 0.048806" mass="1.18165" fullinertia="2.098e-03 8.608e-03 9.446e-03 4.146e-06 -5.831e-04 -4.166e-07"/>
+      <geom class="visual" mesh="base_link"/>
+      <geom class="collision" mesh="base_link_0"/>
+      <geom class="collision" mesh="base_link_1"/>
+      <geom class="collision" mesh="base_link_2"/>
+      <geom class="collision" mesh="base_link_3"/>
+      <geom class="collision" mesh="base_link_4"/>
+      <geom class="collision" mesh="base_link_5"/>
+      <geom class="collision" mesh="base_link_6"/>
+      <geom class="collision" mesh="base_link_7"/>
+      <geom class="collision" mesh="base_link_8"/>
+      <geom class="collision" mesh="base_link_9"/>
+      <geom class="collision" mesh="base_link_10"/>
+      <site name="franka_attach" pos="0 0 0" size="0.005" rgba="1 0.5 0 1"/>
+      <body name="left_cmc1_link" pos="-0.010908 0.049950 0.063442">
+        <inertial pos="-0.000829 -0.000130 0.042133" mass="0.06543" fullinertia="1.978e-05 1.667e-05 1.071e-05 -2.319e-08 -6.846e-07 -1.726e-07"/>
+        <joint name="left_cmc1" axis="0.000000 0.000000 1.000000" range="-1.5708 1.5708"/>
+        <geom class="visual" mesh="left_cmc1_link"/>
+        <geom class="collision" mesh="left_cmc1_link_0"/>
+        <geom class="collision" mesh="left_cmc1_link_1"/>
+        <body name="left_cmc2_link" pos="0.000000 -0.000100 0.058000">
+          <inertial pos="-0.000127 0.013888 0.015825" mass="0.01913" fullinertia="9.806e-06 6.207e-06 1.157e-05 1.059e-07 4.325e-08 -1.503e-06"/>
+          <joint name="left_cmc2" axis="-0.000000 1.000000 0.000000" range="-1.5708 1.5708"/>
+          <geom class="visual" mesh="left_cmc2_link"/>
+          <geom class="collision" mesh="left_cmc2_link_0"/>
+          <body name="left_mcp_link" pos="0.000300 0.037800 0.030000">
+            <inertial pos="-0.000258 0.013788 0.011813" mass="0.07467" fullinertia="2.426e-05 2.189e-05 2.261e-05 1.303e-08 -3.361e-08 -7.499e-06"/>
+            <joint name="left_mcp" axis="1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+            <geom class="visual" mesh="left_mcp_link"/>
+            <geom class="collision" mesh="left_mcp_link_0"/>
+            <geom class="collision" mesh="left_mcp_link_1"/>
+            <body name="left_ip_link" pos="0.000200 0.040447 0.037618">
+              <inertial pos="-0.000117 0.019321 0.019280" mass="0.08709" fullinertia="6.005e-05 3.804e-05 3.829e-05 -9.093e-08 -9.088e-08 -2.159e-05"/>
+              <joint name="left_ip" axis="1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+              <geom class="visual" mesh="left_ip_link"/>
+              <geom class="collision" mesh="left_ip_link_0"/>
+              <geom class="collision" mesh="left_ip_link_1"/>
+              <geom class="collision" mesh="left_ip_link_2"/>
+              <site name="left_tip_site" pos="-0.000079 0.064343 0.062346" size="0.003" rgba="1 0.2 0.2 1"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="mid_cmc1_link" pos="-0.009008 -0.000050 0.063442">
+        <inertial pos="0.000130 -0.000829 0.042133" mass="0.06543" fullinertia="1.667e-05 1.978e-05 1.071e-05 2.319e-08 1.726e-07 -6.846e-07"/>
+        <joint name="mid_cmc1" axis="0.000000 0.000000 1.000000" range="-1.5708 1.5708"/>
+        <geom class="visual" mesh="mid_cmc1_link"/>
+        <geom class="collision" mesh="mid_cmc1_link_0"/>
+        <geom class="collision" mesh="mid_cmc1_link_1"/>
+        <body name="mid_cmc2_link" pos="0.000100 0.000000 0.058000">
+          <inertial pos="-0.013888 -0.000127 0.015825" mass="0.01913" fullinertia="6.207e-06 9.806e-06 1.157e-05 -1.059e-07 1.503e-06 4.325e-08"/>
+          <joint name="mid_cmc2" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+          <geom class="visual" mesh="mid_cmc2_link"/>
+          <geom class="collision" mesh="mid_cmc2_link_0"/>
+          <body name="mid_mcp_link" pos="-0.037800 0.000300 0.030000">
+            <inertial pos="-0.013788 -0.000258 0.011813" mass="0.07467" fullinertia="2.189e-05 2.426e-05 2.261e-05 -1.303e-08 7.499e-06 -3.361e-08"/>
+            <joint name="mid_mcp" axis="0.000000 1.000000 0.000000" range="-1.5708 1.5708"/>
+            <geom class="visual" mesh="mid_mcp_link"/>
+            <geom class="collision" mesh="mid_mcp_link_0"/>
+            <geom class="collision" mesh="mid_mcp_link_1"/>
+            <body name="mid_ip_link" pos="-0.040447 0.000200 0.037618">
+              <inertial pos="-0.019321 -0.000117 0.019280" mass="0.08709" fullinertia="3.804e-05 6.005e-05 3.829e-05 9.093e-08 2.159e-05 -9.088e-08"/>
+              <joint name="mid_ip" axis="0.000000 1.000000 0.000000" range="-1.5708 1.5708"/>
+              <geom class="visual" mesh="mid_ip_link"/>
+              <geom class="collision" mesh="mid_ip_link_0"/>
+              <geom class="collision" mesh="mid_ip_link_1"/>
+              <geom class="collision" mesh="mid_ip_link_2"/>
+              <site name="mid_tip_site" pos="-0.064343 -0.000079 0.062346" size="0.003" rgba="1 0.2 0.2 1"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="right_cmc1_link" pos="-0.011008 -0.050050 0.063642">
+        <inertial pos="0.000829 0.000130 0.042133" mass="0.06543" fullinertia="1.978e-05 1.667e-05 1.071e-05 -2.319e-08 6.846e-07 1.726e-07"/>
+        <joint name="right_cmc1" axis="0.000000 0.000000 1.000000" range="-1.5708 1.5708"/>
+        <geom class="visual" mesh="right_cmc1_link"/>
+        <geom class="collision" mesh="right_cmc1_link_0"/>
+        <geom class="collision" mesh="right_cmc1_link_1"/>
+        <body name="right_cmc2_link" pos="0.000000 0.000100 0.058000">
+          <inertial pos="0.000127 -0.013888 0.015825" mass="0.01913" fullinertia="9.806e-06 6.207e-06 1.157e-05 1.059e-07 -4.325e-08 1.503e-06"/>
+          <joint name="right_cmc2" axis="-0.000000 -1.000000 0.000000" range="-1.5708 1.5708"/>
+          <geom class="visual" mesh="right_cmc2_link"/>
+          <geom class="collision" mesh="right_cmc2_link_0"/>
+          <body name="right_mcp_link" pos="-0.000300 -0.037800 0.030000">
+            <inertial pos="0.000258 -0.013788 0.011813" mass="0.07467" fullinertia="2.426e-05 2.189e-05 2.261e-05 1.303e-08 3.361e-08 7.499e-06"/>
+            <joint name="right_mcp" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+            <geom class="visual" mesh="right_mcp_link"/>
+            <geom class="collision" mesh="right_mcp_link_0"/>
+            <geom class="collision" mesh="right_mcp_link_1"/>
+            <body name="right_ip_link" pos="-0.000200 -0.040447 0.037618">
+              <inertial pos="0.000117 -0.019321 0.019280" mass="0.08709" fullinertia="6.005e-05 3.804e-05 3.829e-05 -9.093e-08 9.088e-08 2.159e-05"/>
+              <joint name="right_ip" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+              <geom class="visual" mesh="right_ip_link"/>
+              <geom class="collision" mesh="right_ip_link_0"/>
+              <geom class="collision" mesh="right_ip_link_1"/>
+              <geom class="collision" mesh="right_ip_link_2"/>
+              <site name="right_tip_site" pos="0.000079 -0.064343 0.062346" size="0.003" rgba="1 0.2 0.2 1"/>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="left_cmc1_act" joint="left_cmc1" ctrlrange="-1.5708 1.5708"/>
+    <position name="left_cmc2_act" joint="left_cmc2" ctrlrange="-1.5708 1.5708"/>
+    <position name="left_mcp_act" joint="left_mcp" ctrlrange="-1.5708 1.5708"/>
+    <position name="left_ip_act" joint="left_ip" ctrlrange="-1.5708 1.5708"/>
+    <position name="mid_cmc1_act" joint="mid_cmc1" ctrlrange="-1.5708 1.5708"/>
+    <position name="mid_cmc2_act" joint="mid_cmc2" ctrlrange="-1.5708 1.5708"/>
+    <position name="mid_mcp_act" joint="mid_mcp" ctrlrange="-1.5708 1.5708"/>
+    <position name="mid_ip_act" joint="mid_ip" ctrlrange="-1.5708 1.5708"/>
+    <position name="right_cmc1_act" joint="right_cmc1" ctrlrange="-1.5708 1.5708"/>
+    <position name="right_cmc2_act" joint="right_cmc2" ctrlrange="-1.5708 1.5708"/>
+    <position name="right_mcp_act" joint="right_mcp" ctrlrange="-1.5708 1.5708"/>
+    <position name="right_ip_act" joint="right_ip" ctrlrange="-1.5708 1.5708"/>
+  </actuator>
+  <sensor>
+    <framepos name="left_tip_pos" objtype="site" objname="left_tip_site" reftype="body" refname="base_link"/>
+    <framepos name="mid_tip_pos" objtype="site" objname="mid_tip_site" reftype="body" refname="base_link"/>
+    <framepos name="right_tip_pos" objtype="site" objname="right_tip_site" reftype="body" refname="base_link"/>
+    <jointpos name="left_cmc1_pos" joint="left_cmc1"/>
+    <jointpos name="left_cmc2_pos" joint="left_cmc2"/>
+    <jointpos name="left_mcp_pos" joint="left_mcp"/>
+    <jointpos name="left_ip_pos" joint="left_ip"/>
+    <jointpos name="mid_cmc1_pos" joint="mid_cmc1"/>
+    <jointpos name="mid_cmc2_pos" joint="mid_cmc2"/>
+    <jointpos name="mid_mcp_pos" joint="mid_mcp"/>
+    <jointpos name="mid_ip_pos" joint="mid_ip"/>
+    <jointpos name="right_cmc1_pos" joint="right_cmc1"/>
+    <jointpos name="right_cmc2_pos" joint="right_cmc2"/>
+    <jointpos name="right_mcp_pos" joint="right_mcp"/>
+    <jointpos name="right_ip_pos" joint="right_ip"/>
+  </sensor>
+  <contact>
+    <exclude body1="base_link" body2="left_cmc1_link"/>
+    <exclude body1="base_link" body2="mid_cmc1_link"/>
+    <exclude body1="base_link" body2="right_cmc1_link"/>
+  </contact>
+</mujoco>

@@ -11,10 +11,10 @@ This repository holds the open-source release of the DexRemo hand.
 
 | Folder | Contents | Licence |
 |---|---|---|
-| [`hardware/`](hardware/) | Assembly STEP, printable STL files, bill of materials | CC BY-NC-SA 4.0 |
-| [`sim/`](sim/) | URDF and MuJoCo (MJCF) models, with the scripts that build them from the STEP | MIT (meshes: CC BY-NC-SA 4.0) |
+| [`hardware/`](hardware/) | Assembly STEP files, printable STL files, [bill of materials](hardware/BOM.md), [assembly guide](hardware/assembly/README.md) | CC BY-NC-SA 4.0 |
+| [`sim/`](sim/) | URDF and MuJoCo (MJCF) models of three fingertip versions, with the scripts that build them from the STEP | MIT (meshes: CC BY-NC-SA 4.0) |
 
-The assembly guide, the leader device and the control code will be released later. See the [roadmap](https://dexremo.github.io/roadmap.html).
+The leader device and the control code will be released later. See the [roadmap](https://dexremo.github.io/roadmap.html).
 
 ## Quick start
 
@@ -25,7 +25,7 @@ pip install mujoco
 python -m mujoco.viewer --mjcf=sim/mjcf/scene.xml
 ```
 
-To build one, print the STL files listed in [`hardware/README.md`](hardware/README.md) and buy the parts in [`hardware/BOM.md`](hardware/BOM.md).
+To build one, follow the [assembly guide](hardware/assembly/README.md). It covers the printed parts in [`hardware/README.md`](hardware/README.md) and the bought parts in [`hardware/BOM.md`](hardware/BOM.md).
 
 ## Citation
 

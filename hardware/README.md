@@ -1,19 +1,26 @@
 # DexRemo hand: hardware
 
-The design files for the DexRemo three-finger hand: one assembly STEP and the STL files for every printed part.
+The design files for the DexRemo three-finger hand: assembly STEP files, the STL files for every printed part, a bill of materials and an assembly guide.
 
 ```
-step/dexremo_hand_full.step   full hand, with Franka flange adapter and hand-eye camera mount
-stl/*.stl                     printed parts, one file per distinct part, in millimetres
+step/dexremo_hand_full.step                        full hand with force-sensing fingertips
+step/dexremo_hand_no_sensor.step                   full hand, wedge nails without force sensors
+step/dexremo_hand_no_sensor_mushroom_finger.step   full hand, mushroom fingertips without force sensors
+step/assembly/*.step                               assemblies with every screw and nut, used by the assembly guide
+stl/*.stl                                          printed parts, one file per distinct part, in millimetres
+BOM.md                                             bill of materials
+assembly/                                          step-by-step assembly guide
 ```
+
+All three hands include the Franka flange adapter and the hand-eye camera mount.
 
 ## Assembly STEP
 
-`dexremo_hand_full.step` is an AP214 assembly that keeps every part as a separate, named body. It opens in SolidWorks, Fusion, FreeCAD, Onshape and other CAD tools.
+Each STEP file is an AP214 assembly that keeps every part as a separate, named body. It opens in SolidWorks, Fusion, FreeCAD, Onshape and other CAD tools.
 
 The part names match the STL file names below.
 
-The model is in the CAD pose with the fingers parallel. The calibrated zero pose of the real hand is different; it is described in [`../sim/README.md`](../sim/README.md#zero-pose).
+The models are in the CAD pose with the fingers parallel. The calibrated zero pose of the real hand is different; it is described in [`../sim/README.md`](../sim/README.md#zero-pose).
 
 ## Printed parts
 
@@ -30,10 +37,11 @@ All structural parts are 3D printed in PLA. Print the quantity shown for each fi
 | `MCP_joints.stl` | 3 | MCP link |
 | `IP_joints.stl` | 3 | IP link |
 | `fingertip_joints.stl` | 3 | Distal link, carries the fingertip sensor |
-| `force_sensor_layer1.stl` | 6 | Fingertip sensor plates, two per finger |
+| `force_sensor_layer1.stl` | 6 | Fingertip sensor plates, two per finger; embed three M3 nuts in each inner plate while printing |
 | `left_finger_nail.stl` | 1 | Wedge fingertip, left |
 | `mid_finger_nail.stl` | 1 | Wedge fingertip, middle |
 | `right_finger_nail.stl` | 1 | Wedge fingertip, right |
+| `mushroom_finger.stl` | 3 | Mushroom fingertip for a sponge or wipe (alternative to the nails and sensor) |
 | `hand_eye_cam_mount.stl` | 1 | Hand-eye camera arm (optional) |
 | `camera_mount.stl` | 1 | Camera holder on the arm (optional) |
 

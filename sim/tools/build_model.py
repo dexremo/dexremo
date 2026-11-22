@@ -1,11 +1,14 @@
 """Build URDF + MJCF for the DexRemo hand from the STEP-derived parts (read_step.py) and links (links.py).
-Usage: python3 build_model.py step_out <output package dir>
+Usage: python3 build_model.py <parts dir> <output package dir> [model name] [scene file name]
+The model name (default dexremo_hand) names the MJCF/URDF files and the mesh folder meshes/<model name>/.
 All lengths in metres. The base frame sits at the centre of the Franka flange's mounting face, axes as in the CAD;
 fingers point along +z."""
 import json, math, os, sys
 import numpy as np, trimesh
 
 SRC, OUT = sys.argv[1], sys.argv[2]
+MODEL = sys.argv[3] if len(sys.argv) > 3 else "dexremo_hand"
+SCENE = sys.argv[4] if len(sys.argv) > 4 else "scene.xml"
 P = json.load(open(os.path.join(SRC, "parts.json"))); L = json.load(open(os.path.join(SRC, "links.json")))
 G = {int(k): v for k, v in L["groups"].items()}; J = {j["servo"]: j for j in L["joints"]}
 MESH = {p["idx"]: trimesh.load(os.path.join(SRC, "parts", p["file"])) for p in P}
@@ -62,18 +65,22 @@ def inertial(idxs, frame):
     return m_tot, com - frame, I
 
 def ensure(d): os.makedirs(d, exist_ok=True); return d
-VIS, COL = ensure(os.path.join(OUT, "meshes", "visual")), ensure(os.path.join(OUT, "meshes", "collision"))
+VIS, COL = ensure(os.path.join(OUT, "meshes", MODEL, "visual")), ensure(os.path.join(OUT, "meshes", MODEL, "collision"))
 ensure(os.path.join(OUT, "urdf")); ensure(os.path.join(OUT, "mjcf"))
 
 LINKS = []                                           # (name, parent name, joint dict or None, part idxs, frame origin)
 LINKS.append(("base_link", None, None, G[palm], ORIGIN))
-SENSORS = []
+SENSORS = []; TIPS = []
 for f, chain in FINGERS.items():
     parent_name, parent_origin = "base_link", ORIGIN
     for k, c in enumerate(chain):
         j = J[c["servo"]]; pt = np.array(j["point"]); ax = np.array(j["dir"]) * (-1 if c["flip"] else 1)
         name = "%s_%s_link" % (f, JNAMES[k]); members = list(G[c["child"]])
-        if k == 3:                                   # split the distal group at the force sensor: tip body = nail + outer plate
+        if k == 3:
+            # fingertip point: the far end of the distal group along the finger (+z in the CAD pose, fingers parallel)
+            V = np.vstack([MESH[i].vertices for i in members if P[i]["part"] != "STS3215_03a.step"])
+            tip_pt = V[V[:, 2] > V[:, 2].max() - 0.001].mean(axis=0)
+        if k == 3 and any(P[i]["part"] == "force_sensor_layer1" for i in members):   # split the distal group at the force sensor: tip body = nail + outer plate
             layers = sorted([i for i in members if P[i]["part"] == "force_sensor_layer1"], key=lambda i: np.array(P[i]["T"])[2][3])
             cells = [i for i in members if P[i]["part"] == "tension-sensor"]
             inner, outer = [(np.array(P[i]["bbox_min_mm"]) + np.array(P[i]["bbox_max_mm"])) / 2000 for i in layers]
@@ -82,8 +89,10 @@ for f, chain in FINGERS.items():
             LINKS.append((name, parent_name, {"name": "%s_%s" % (f, JNAMES[k]), "point": pt, "axis": ax}, [i for i in members if i not in tip], pt))
             LINKS.append(("%s_tip" % f, name, {"name": "%s_tip_fixed" % f, "point": site, "axis": None}, tip, site))
             SENSORS.append({"finger": f, "body": "%s_tip" % f, "pos": site, "normal": n})
+            TIPS.append({"finger": f, "body": "%s_tip" % f, "pos": tip_pt})
         else:
             LINKS.append((name, parent_name, {"name": "%s_%s" % (f, JNAMES[k]), "point": pt, "axis": ax}, members, pt))
+            if k == 3: TIPS.append({"finger": f, "body": name, "pos": tip_pt})
         parent_name, parent_origin = name, pt
 
 # ---------------- zero pose ----------------
@@ -108,6 +117,8 @@ for name, parent, joint, idxs, frame in LINKS:
     for i in idxs: MESH[i].apply_transform(T)
     for s in SENSORS:
         if s["body"] == name: s["pos"] = (T @ np.r_[s["pos"], 1])[:3]; s["normal"] = T[:3, :3] @ s["normal"]
+    for s in TIPS:
+        if s["body"] == name: s["pos"] = (T @ np.r_[s["pos"], 1])[:3]
     posed.append((name, parent, joint, idxs, (T @ np.r_[frame, 1])[:3]))
 LINKS = posed
 
@@ -127,15 +138,15 @@ for name, parent, joint, idxs, frame in LINKS:
     total += sum(part_mass(i) for i in idxs)
 
 # ---------------- URDF ----------------
-U = ['<?xml version="1.0"?>', '<!-- DexRemo three-finger hand. Generated from the full-hand STEP; see README for assumptions. -->', '<robot name="dexremo_hand">']
+U = ['<?xml version="1.0"?>', '<!-- DexRemo three-finger hand. Generated from the STEP assembly; see README for assumptions. -->', '<robot name="%s">' % MODEL]
 for name, parent, joint, idxs, frame in LINKS:
     m, com, I = inertial(idxs, frame)
     U.append('  <link name="%s">' % name)
     U.append('    <inertial><origin xyz="%s"/><mass value="%.5f"/><inertia ixx="%.3e" ixy="%.3e" ixz="%.3e" iyy="%.3e" iyz="%.3e" izz="%.3e"/></inertial>'
              % (xyz(com), m, I[0, 0], I[0, 1], I[0, 2], I[1, 1], I[1, 2], I[2, 2]))
-    U.append('    <visual><geometry><mesh filename="../meshes/visual/%s.stl"/></geometry></visual>' % name)
+    U.append('    <visual><geometry><mesh filename="../meshes/%s/visual/%s.stl"/></geometry></visual>' % (MODEL, name))
     for k in range(len(idxs)):
-        U.append('    <collision><geometry><mesh filename="../meshes/collision/%s_%d.stl"/></geometry></collision>' % (name, k))
+        U.append('    <collision><geometry><mesh filename="../meshes/%s/collision/%s_%d.stl"/></geometry></collision>' % (MODEL, name, k))
     U.append('  </link>')
     if parent:
         po = origin_of[parent]
@@ -146,7 +157,7 @@ for name, parent, joint, idxs, frame in LINKS:
                      '<limit lower="%.4f" upper="%.4f" effort="%.2f" velocity="%.2f"/><dynamics damping="0.1"/></joint>'
                      % (joint["name"], parent, name, xyz(frame - po), xyz(joint["axis"]), -LIMIT, LIMIT, EFFORT, VELOCITY))
 U.append('</robot>')
-open(os.path.join(OUT, "urdf", "dexremo_hand.urdf"), "w").write("\n".join(U) + "\n")
+open(os.path.join(OUT, "urdf", MODEL + ".urdf"), "w").write("\n".join(U) + "\n")
 
 # ---------------- MJCF ----------------
 children = {}
@@ -164,6 +175,8 @@ def body(L_, depth):
     if name == "base_link": out.append('%s  <site name="franka_attach" pos="0 0 0" size="0.005" rgba="1 0.5 0 1"/>' % pad)
     for s in SENSORS:
         if s["body"] == name: out.append('%s  <site name="%s_force_site" pos="0 0 0" quat="%s" size="0.004" rgba="0.2 0.8 1 1"/>' % (pad, s["finger"], xyz(zaxis_quat(s["normal"]))))
+    for s in TIPS:
+        if s["body"] == name: out.append('%s  <site name="%s_tip_site" pos="%s" size="0.003" rgba="1 0.2 0.2 1"/>' % (pad, s["finger"], xyz(s["pos"] - frame)))
     for ch in children.get(name, []): out += body(ch, depth + 1)
     out.append("%s</body>" % pad); return out
 
@@ -171,8 +184,8 @@ meshes = ['    <mesh name="%s" file="visual/%s.stl"/>' % (L_[0], L_[0]) for L_ i
 for name, parent, joint, idxs, frame in LINKS:
     meshes += ['    <mesh name="%s_%d" file="collision/%s_%d.stl"/>' % (name, k, name, k) for k in range(len(idxs))]
 joints = [L_[2]["name"] for L_ in LINKS if L_[2] and L_[2]["axis"] is not None]
-X = ['<mujoco model="dexremo_hand">', '  <!-- DexRemo three-finger hand. Generated from the full-hand STEP; see README for assumptions. -->',
-     '  <compiler angle="radian" meshdir="../meshes" autolimits="true"/>', '  <option integrator="implicitfast"/>',
+X = ['<mujoco model="%s">' % MODEL, '  <!-- DexRemo three-finger hand. Generated from the STEP assembly; see README for assumptions. -->',
+     '  <compiler angle="radian" meshdir="../meshes/%s" autolimits="true"/>' % MODEL, '  <option integrator="implicitfast"/>',
      '  <default>', '    <joint damping="0.1" armature="0.005" frictionloss="0.01"/>',
      '    <position kp="6" forcerange="-%.2f %.2f"/>' % (EFFORT, EFFORT),
      '    <default class="visual"><geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.18 0.19 0.21 1"/></default>',
@@ -180,6 +193,7 @@ X = ['<mujoco model="dexremo_hand">', '  <!-- DexRemo three-finger hand. Generat
      '  </default>', '  <asset>'] + meshes + ['  </asset>', '  <worldbody>'] + body(LINKS[0], 2) + ['  </worldbody>']
 X += ['  <actuator>'] + ['    <position name="%s_act" joint="%s" ctrlrange="%.4f %.4f"/>' % (j, j, -LIMIT, LIMIT) for j in joints] + ['  </actuator>']
 X += ['  <sensor>'] + ['    <force name="%s_force" site="%s_force_site"/>' % (s["finger"], s["finger"]) for s in SENSORS] \
+     + ['    <framepos name="%s_tip_pos" objtype="site" objname="%s_tip_site" reftype="body" refname="base_link"/>' % (s["finger"], s["finger"]) for s in TIPS] \
      + ['    <jointpos name="%s_pos" joint="%s"/>' % (j, j) for j in joints] + ['  </sensor>', '  <!--CONTACT_EXCLUDES-->', '</mujoco>']
 hand_xml = "\n".join(X) + "\n"
 # bodies whose meshes already overlap at the zero pose (each finger's first link sits inside the palm pocket) never collide
@@ -190,7 +204,7 @@ pairs = sorted({tuple(sorted((mujoco.mj_id2name(m0, mujoco.mjtObj.mjOBJ_BODY, m0
                               mujoco.mj_id2name(m0, mujoco.mjtObj.mjOBJ_BODY, m0.geom_bodyid[c.geom2])))) for c in d0.contact[:d0.ncon]})
 excl = "  <contact>\n" + "".join('    <exclude body1="%s" body2="%s"/>\n' % p for p in pairs) + "  </contact>"
 hand_xml = hand_xml.replace("  <!--CONTACT_EXCLUDES-->", excl)
-open(os.path.join(OUT, "mjcf", "dexremo_hand.xml"), "w").write(hand_xml)
+open(os.path.join(OUT, "mjcf", MODEL + ".xml"), "w").write(hand_xml)
 # demo scene: the hand hangs fingers-down from a fixed mount 0.45 m above a floor, as on the arm
 lines = hand_xml.split("\n"); a = lines.index("  <worldbody>"); b = lines.index("  </worldbody>")
 scene = lines[:a] + [
@@ -201,10 +215,8 @@ scene = lines[:a] + [
     '  <worldbody>', '    <light pos="0.3 -0.4 1.2" dir="-0.3 0.4 -1" diffuse="0.7 0.7 0.7"/>',
     '    <geom name="floor" type="plane" size="1 1 0.01" material="grid"/>',
     '    <body name="mount" pos="0 0 0.45" quat="0 1 0 0">'] + ["  " + s for s in lines[a + 1:b]] + ['    </body>'] + lines[b:]
-scene[0] = '<mujoco model="dexremo_hand_scene">'
-open(os.path.join(OUT, "mjcf", "scene.xml"), "w").write("\n".join(scene))
-old = os.path.join(OUT, "mjcf", "dexremo_hand_mount.xml")
-if os.path.exists(old): os.replace(old, os.path.join(SRC, "old_mount.xml"))     # superseded by scene.xml
-json.dump({"part_link": {str(i): L_[0] for L_ in LINKS for i in L_[3]}, "origin": ORIGIN.tolist(), "joints": joints, "sensors": [s["finger"] for s in SENSORS], "total_mass_kg": round(total, 3)}, open(os.path.join(OUT, "build_info.json"), "w"), indent=1)
+scene[0] = '<mujoco model="%s_scene">' % MODEL
+open(os.path.join(OUT, "mjcf", SCENE), "w").write("\n".join(scene))
+json.dump({"part_link": {str(i): L_[0] for L_ in LINKS for i in L_[3]}, "origin": ORIGIN.tolist(), "joints": joints, "sensors": [s["finger"] for s in SENSORS], "total_mass_kg": round(total, 3)}, open(os.path.join(OUT, "build_info_%s.json" % MODEL), "w"), indent=1)
 print("links", len(LINKS), "| joints", len(joints), "| estimated mass %.3f kg" % total)
 for f, ch in FINGERS.items(): print(f, [("flip" if c["flip"] else "") + str(c["servo"]) for c in ch])

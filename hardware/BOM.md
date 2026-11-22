@@ -10,11 +10,12 @@ Links point to the shops the authors bought from. Equivalent parts from other su
 |---|---|---|---|
 | Serial bus servo | Feetech ST-3215-C018, 12 V, 30 kg·cm, 1:345 gear ratio | 12 | [Taobao](https://item.taobao.com/item.htm?id=712179366565&skuId=5268252241438) |
 | Power supply | 12 V, 8 A | 1 | [Taobao](https://item.taobao.com/item.htm?id=544824248494) |
+| Servo driver board | Connects the servo bus to the PC over USB | 1 | [Tmall](https://detail.tmall.com/item.htm?id=738817173460&skuId=5096283384143) |
 | Servo cable | 3-pin, 200 mm | 5 | [Taobao](https://item.taobao.com/item.htm?id=607253676830) |
 | Miniature tension/compression load cell | 0–5 kg, M2.5 thread | 9 | [Taobao](https://item.taobao.com/item.htm?id=572636578877&skuId=3893609319890) |
 | Load-cell transmitter | 9 channels or more in total; one 12-channel unit recommended (or one 4-channel and one 8-channel) | 1 (12-ch) | [Taobao](https://item.taobao.com/item.htm?id=555869772245&skuId=4525021828639) |
 | RS485–USB adapter | CP2102, 1.5 m (UT-891); one per transmitter | 1 per transmitter | [Tmall](https://detail.tmall.com/item.htm?id=35733422585) |
-| Screws and bolts | Assorted M2, M2.5, M3 and M4 | as needed | |
+| Screws and bolts | See [Fasteners](#fasteners) | | |
 
 ## Leader device
 
@@ -22,6 +23,7 @@ Links point to the shops the authors bought from. Equivalent parts from other su
 |---|---|---|---|
 | Serial bus servo | Feetech ST-3215-C001, 7.4 V, 19 kg·cm, 1:345 gear ratio | 12 | [Taobao](https://item.taobao.com/item.htm?id=712179366565&skuId=5268252241438) |
 | Power supply | 5 V, 5 A | 1 | [Taobao](https://item.taobao.com/item.htm?id=544824248494) |
+| Servo driver board | Connects the servo bus to the PC over USB | 1 | [Tmall](https://detail.tmall.com/item.htm?id=738817173460&skuId=5096283384143) |
 | Servo cable | 3-pin, 200 mm | 5 | [Taobao](https://item.taobao.com/item.htm?id=607253676830) |
 | Screws and bolts | Assorted M2, M2.5, M3 and M4 | as needed | |
 
@@ -39,6 +41,26 @@ The paper uses one wrist camera (on the printed camera mount) and two external c
 | Part | Specification | Qty | Link |
 |---|---|---|---|
 | Slotted calibration weight set | 100 mg – 1 kg, 17 pieces, with 100 g weight hanger | 1 | [Taobao](https://item.taobao.com/item.htm?id=37924053620&skuId=4667036203958) |
+
+## Fasteners
+
+Counts for one follower hand with force-sensing fingertips, taken from the assembly STEP. The [assembly guide](assembly/README.md) shows where each one goes.
+
+| Fastener | Qty | Where |
+|---|---|---|
+| M3×6 countersunk screw | 84 | Servo horns: 28 per finger |
+| ST2.2×4.5 self-tapping screw | 48 | Servo bodies into their brackets: 4 per servo |
+| M3×12 screw | 12 | Fingers onto the palm: 4 per finger |
+| M3 hex nut | 21 | 4 in each CMC1 housing; 3 embedded in each sensor inner plate while printing |
+| M2.5×3 screw | 18 | Fingertip sensor plates to the load cells: 6 per finger |
+
+Without force sensing:
+- the M2.5 screws are not needed;
+- the 9 M3 nuts go into the fingernails instead of the sensor plates.
+
+**Not counted above**
+- The connector, the flange adapter, the camera mount and the leader device are fixed with M2–M4 screws; choose lengths to suit your prints.
+- Fixing the hand to the Franka flange also needs screws.
 
 ## Notes
 

@@ -1,13 +1,23 @@
 # DexRemo hand: simulation model
 
-URDF and MuJoCo (MJCF) models of the DexRemo three-finger hand, generated from the full-hand STEP assembly.
+URDF and MuJoCo (MJCF) models of the DexRemo three-finger hand, generated from the STEP assemblies in [`../hardware/step/`](../hardware/step/).
+
+There are three versions. They share the same kinematics, zero pose and joint names; only the fingertips differ.
+
+| Version | Fingertip | Model | Demo scene |
+|---|---|---|---|
+| `dexremo_hand` | Wedge nail on a 3-axis force sensor | `mjcf/dexremo_hand.xml`, `urdf/dexremo_hand.urdf` | `mjcf/scene.xml` |
+| `dexremo_hand_no_sensor` | Wedge nail, no force sensor | `mjcf/dexremo_hand_no_sensor.xml`, `urdf/dexremo_hand_no_sensor.urdf` | `mjcf/scene_no_sensor.xml` |
+| `dexremo_hand_mushroom` | Mushroom tip (holds a sponge or wipe), no force sensor | `mjcf/dexremo_hand_mushroom.xml`, `urdf/dexremo_hand_mushroom.urdf` | `mjcf/scene_mushroom.xml` |
+
+![The three versions](docs/variants.png)
 
 ```
-urdf/dexremo_hand.urdf      URDF (ROS, Isaac, PyBullet, ...)
-mjcf/dexremo_hand.xml       MJCF: hand only, base_link at the world origin
-mjcf/scene.xml              MJCF demo: the hand hangs fingers-down 0.45 m above a floor
-meshes/visual/*.stl         one visual mesh per link
-meshes/collision/*.stl      convex hulls, one per part
+urdf/<version>.urdf                 URDF (ROS, Isaac, PyBullet, ...)
+mjcf/<version>.xml                  MJCF: hand only, base_link at the world origin
+mjcf/scene*.xml                     MJCF demo: the hand hangs fingers-down 0.45 m above a floor
+meshes/<version>/visual/*.stl       one visual mesh per link
+meshes/<version>/collision/*.stl    convex hulls, one per part
 docs/                       zero-pose and joint-convention figures
 tools/                      scripts that rebuild this package from the hardware STEP
 ```
@@ -22,7 +32,8 @@ python -m mujoco.viewer --mjcf=mjcf/scene.xml
 ## Frames
 
 - **Base frame (`base_link`)**: the origin sits at the centre of the Franka flange's mounting face, and +z points out of the flange towards the fingers. This is also the `franka_attach` site in the MJCF.
-- **Fingertip force frame (`{finger}_force_site`)**: the site lies on the mid-plane of the force sensor, with its z axis along the sensor-plate normal.
+- **Fingertip force frame (`{finger}_force_site`, force-sensing version only)**: the site lies on the mid-plane of the force sensor, with its z axis along the sensor-plate normal.
+- **Fingertip point (`{finger}_tip_site`, all versions)**: the far end of the fingertip.
 
 ## Zero pose
 
@@ -58,26 +69,31 @@ All axes follow the right-hand rule. Joint ranges are set to ±90° around the z
 ## Actuators and sensors (MJCF)
 
 - `{joint}_act`: one position actuator per joint (kp 6, force limit ±1.9 N·m, STS3215 servo).
-- `{finger}_force`: 3-axis force at each fingertip sensor, expressed in `{finger}_force_site`.
+- `{finger}_force`: 3-axis force at each fingertip sensor, expressed in `{finger}_force_site` (force-sensing version only).
+- `{finger}_tip_pos`: fingertip position in the base frame.
 - `{joint}_pos`: one joint-angle sensor per joint.
 - Contacts between the palm and each finger's first link are excluded, because those meshes already overlap at the zero pose.
 
 ## Notes
 
-- Masses are rough. Printed parts are modelled as solid PLA (1.24 g/cm³), each servo as 55 g and the load cells as steel. The total comes out at about 2.0 kg. Real prints are partly hollow, so the real hand is lighter.
+- Masses are rough. Printed parts are modelled as solid PLA (1.24 g/cm³), each servo as 55 g and the load cells as steel. The totals come out at about 2.0 kg (force-sensing), 1.95 kg (no sensor) and 1.92 kg (mushroom). Real prints are partly hollow, so the real hand is lighter.
 - Inertias come from the part meshes. Joint damping, armature and friction are generic values, not identified from the hardware.
 - The model includes the hand-eye camera mount used in the paper's experiments.
 
 ## Rebuilding from the STEP
 
-The `tools/` scripts regenerate this package from `../hardware/step/dexremo_hand_full.step`. They need Python 3.10+ with `cadquery-ocp`, `trimesh`, `scipy` and `mujoco`.
+The `tools/` scripts regenerate this package from the STEP files in `../hardware/step/`. They need Python 3.10+ with `cadquery-ocp`, `trimesh`, `scipy` and `mujoco`.
 
 ```bash
 cd tools
 python read_step.py ../../hardware/step/dexremo_hand_full.step step_out   # tessellate every part instance
 python links.py step_out                                                  # group parts into links, find the 12 servo joints
-python build_model.py step_out ..                                         # write URDF, MJCF and meshes
+python build_model.py step_out .. dexremo_hand scene.xml                  # write URDF, MJCF and meshes
 ```
+
+For the other versions, run the same three commands on `dexremo_hand_no_sensor.step` and `dexremo_hand_no_sensor_mushroom_finger.step`. Pass the model name and scene file as the last two arguments, for example `dexremo_hand_mushroom scene_mushroom.xml`.
+
+`assembly_render.py` and `fastener_map.py` produce the pictures in the [assembly guide](../hardware/assembly/README.md) from the STEP files in `../hardware/step/assembly/`.
 
 `build_model.py` holds the modelling assumptions at the top: masses, servo limits and the zero-pose angles.
 
