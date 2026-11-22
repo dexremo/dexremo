@@ -38,7 +38,7 @@ The paper uses one wrist camera (on the printed camera mount) and two external c
 
 | Part | Specification | Qty | Link |
 |---|---|---|---|
-| Calibration weight set | Class M2, 1 g – 1 kg, wooden case | 1 | [Tmall](https://detail.tmall.com/item.htm?id=660203399111) |
+| Slotted calibration weight set | 100 mg – 1 kg, 17 pieces, with 100 g weight hanger | 1 | [Taobao](https://item.taobao.com/item.htm?id=37924053620&skuId=4667036203958) |
 
 ## Notes
 
