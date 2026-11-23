@@ -173,8 +173,6 @@ DexRemo opens in three stages, hardware first. Each stage is released when someo
 
 The force-sensing version leaves one interface open for your sensor: read your transmitter there and apply the calibration from the [calibration method](hardware/force_calibration.md). Everything else (wrist-frame transform, display and recording) then works as is.
 
-We do not plan to release trained policies. Every table, camera layout and set of objects is different, so our checkpoints would not transfer to your setup. Record your own demonstrations with R2 and train on them; the policy settings from the paper are on the [Software](https://dexremo.github.io/software.html#policy) page.
-
 ## Citation
 
 ```bibtex
