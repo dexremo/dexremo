@@ -163,16 +163,17 @@ python -m mujoco.viewer --mjcf=sim/mjcf/scene.xml
 
 ## Roadmap
 
-DexRemo opens in stages, hardware first. Each stage is released when someone outside the team has followed its documentation from start to finish.
+DexRemo opens in three stages, hardware first. Each stage is released when someone outside the team has followed its documentation from start to finish.
 
 | Stage | Contents | Status |
 |---|---|---|
 | R0 | Project page, paper, video and results | Released |
-| R1 | Hardware files, bill of materials, assembly guide, simulation models and leader device | Released |
-| R1.1 | Minimal Python driver: servo ID setup, zero calibration, joint read and write | Next |
-| R2 | Fingertip sensor files and wiring, calibration method, leader–follower teleoperation, live force display | Planned |
-| R3 | Training and deployment code, pretrained checkpoints, evaluation scripts | Planned |
-| R4 | Arm-mounted configuration, community build gallery, open call for new removal tasks | Planned |
+| R1 | Hardware files, bill of materials, assembly guide, force-sensor calibration method, simulation models and leader device | Released |
+| R2 | Python servo driver (ID setup, zero calibration, joint read and write); leader–follower teleoperation in two versions, without force sensing and with a force-sensor interface; live fingertip force display; recording your own demonstrations | In progress |
+
+The force-sensing version leaves one interface open for your sensor: read your transmitter there and apply the calibration from the [calibration method](hardware/force_calibration.md). Everything else (wrist-frame transform, display and recording) then works as is.
+
+We do not plan to release trained policies. Every table, camera layout and set of objects is different, so our checkpoints would not transfer to your setup. Record your own demonstrations with R2 and train on them; the policy settings from the paper are on the [Software](https://dexremo.github.io/software.html#policy) page.
 
 ## Citation
 

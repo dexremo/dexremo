@@ -158,3 +158,7 @@ After calibration, each time you start, look at the readings with nothing touchi
 The paper expresses every fingertip force in one shared frame at the wrist. With the orientation **R**<sub>w,i</sub> of the fingertip's sensor frame from forward kinematics (for example `{finger}_force_site` in the MuJoCo model), the force in the wrist frame is:
 
 **F**<sub>w</sub> = **R**<sub>w,i</sub> **F**<sub>i</sub>
+
+## Using it with the teleoperation code
+
+The teleoperation code (release R2) comes in a version with a force-sensor interface. Read your transmitter there, apply `force()` from step 6 to each fingertip's three readings, and return the forces in the sensor frame. The code then does the wrist-frame transform, the live display and the recording.
