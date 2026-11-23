@@ -11,6 +11,7 @@ step/dexremo_hand_no_sensor_mushroom_finger.step   full hand, mushroom fingertip
 step/assembly/*.step                               assemblies with every screw and nut, used by the assembly guide,
                                                    including the leader device's ring fingertip
 stl/*.stl                                          printed parts, one file per distinct part, in millimetres
+print/force_sensor_layer1.3mf                      Bambu Studio print file for the sensor plate, with the nut pause set
 BOM.md                                             bill of materials
 assembly/                                          step-by-step assembly guide
 force_calibration.md                               calibration method for the fingertip force sensors
@@ -41,12 +42,12 @@ All structural parts are 3D printed in PLA. Print the quantity shown for each fi
 | `MCP_joints.stl` | 3 | MCP link |
 | `IP_joints.stl` | 3 | IP link |
 | `fingertip_joints.stl` | 3 | Distal link, carries the fingertip sensor |
-| `force_sensor_layer1.stl` | 6 | Fingertip sensor plates, two per finger; embed three M3 nuts in each inner plate while printing |
+| `force_sensor_layer1.stl` | 6 | Fingertip sensor plates, two per finger; embed three M3 nuts in each inner plate while printing. Print from [`print/force_sensor_layer1.3mf`](print/), which pauses for the nuts ([how](assembly/README.md#before-you-start)) |
 | `left_finger_nail.stl` | 1 | Wedge fingertip, left |
 | `mid_finger_nail.stl` | 1 | Wedge fingertip, middle |
 | `right_finger_nail.stl` | 1 | Wedge fingertip, right |
 | `mushroom_finger.stl` | 3 | Mushroom fingertip for a sponge or wipe (alternative to the nails and sensor) |
-| `controller_finger.stl` | 3 | Ring fingertip for the leader device (in place of the nails and sensor); embed three M3 nuts in each while printing |
+| `controller_finger.stl` | 3 | Ring fingertip for the leader device (in place of the nails and sensor) |
 | `hand_eye_cam_mount.stl` | 1 | Hand-eye camera arm (optional) |
 | `camera_mount.stl` | 1 | Camera holder on the arm (optional) |
 

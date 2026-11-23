@@ -27,12 +27,16 @@ All views are rendered from the assembly STEP files in [`../step/assembly/`](../
 - the printed parts listed in [`../README.md`](../README.md#printed-parts);
 - the bought parts and fasteners listed in the [bill of materials](../BOM.md).
 
-**Nuts embedded while printing.** Every fingertip part carries three M3 nuts that you place during the print:
-- the fingertip sensor inner plate (`force_sensor_layer1`);
-- the fingernail, in the no-sensor version;
-- the ring (`controller_finger`), on the leader device.
+**Nuts embedded while printing.** Only the fingertip sensor's inner plate (`force_sensor_layer1`) needs nuts placed during the print: three M3 nuts each. The fingernails and the leader's rings take their nuts after printing.
 
-Pause the print at the layer that closes the nut pockets, drop in the nuts, then resume.
+Print the inner plates from [`../print/force_sensor_layer1.3mf`](../print/). It is a Bambu Studio project for Bambu Lab printers, with the pause already set at layer 22 (3.56 mm).
+
+1. When the printer pauses, push the three M3 nuts into the hex pockets.
+2. Resume straight away. Be quick: if the part cools for too long, the next layer may not bond to it and the plate can split.
+
+![The slicer preview at the pause layer, with the three hex nut pockets still open](../img/nut_pause_bambu.jpg)
+
+On another printer, slice `force_sensor_layer1.stl` with 0.16 mm layers (0.2 mm first layer) and insert a pause at 3.56 mm, at the start of layer 22. Most slicers call this "Add pause" or "Pause at height". Check in the preview that the hex pockets are still open at the pause.
 
 **Servo IDs.** Every servo on the bus needs its own ID. Set each servo's ID before you build it in, then label the servo. Use the [ID map](#servo-id-map) below.
 
@@ -130,7 +134,7 @@ Slide the whole fingertip unit over the IP servo. Fix it with four ST2.2×4.5 se
 
 ### Step 12: version without force sensing
 
-Fit the fingernail, with its embedded nuts, straight onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
+Push three M3 nuts into the fingernail, then fit it straight onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
 
 The mushroom fingertip (`mushroom_finger`) fits the same way. It is for holding a sponge or a wet wipe.
 
@@ -140,7 +144,7 @@ The mushroom fingertip (`mushroom_finger`) fits the same way. It is for holding 
 
 The leader device has a ring (`controller_finger`) instead of a nail, for the operator's fingertip.
 
-Fit the ring, with its embedded nuts, onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
+Push three M3 nuts into the ring, then fit it onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
 
 ![Step 13](img/step13.gif)
 

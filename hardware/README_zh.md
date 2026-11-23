@@ -11,6 +11,7 @@ step/dexremo_hand_no_sensor_mushroom_finger.step   整手，蘑菇头指尖，�
 step/assembly/*.step                               含所有螺丝和螺母的装配体，装配教程用的就是这些文件，
                                                    包括主手的指环指尖
 stl/*.stl                                          打印件，每种零件一个文件，单位 mm
+print/force_sensor_layer1.3mf                      传感器板的拓竹打印文件，已设好放螺母的暂停
 BOM.md / BOM_zh.md                                 物料清单
 assembly/                                          分步装配教程
 force_calibration.md / force_calibration_zh.md     指尖力传感器标定方法
@@ -41,12 +42,12 @@ force_calibration.md / force_calibration_zh.md     指尖力传感器标定方�
 | `MCP_joints.stl` | 3 | MCP 连杆 |
 | `IP_joints.stl` | 3 | IP 连杆 |
 | `fingertip_joints.stl` | 3 | 末端连杆，装指尖传感器 |
-| `force_sensor_layer1.stl` | 6 | 指尖传感器板，每指两块；内板打印时埋入三颗 M3 螺母 |
+| `force_sensor_layer1.stl` | 6 | 指尖传感器板，每指两块；内板打印时埋入三颗 M3 螺母。请用 [`print/force_sensor_layer1.3mf`](print/) 打印，会自动暂停放螺母（[做法](assembly/README_zh.md#开始之前)） |
 | `left_finger_nail.stl` | 1 | 楔形指尖，左指 |
 | `mid_finger_nail.stl` | 1 | 楔形指尖，中指 |
 | `right_finger_nail.stl` | 1 | 楔形指尖，右指 |
 | `mushroom_finger.stl` | 3 | 蘑菇头指尖，可以包海绵或湿巾（替代指甲和传感器） |
-| `controller_finger.stl` | 3 | 主手的指环指尖（替代指甲和传感器）；打印时每个埋入三颗 M3 螺母 |
+| `controller_finger.stl` | 3 | 主手的指环指尖（替代指甲和传感器） |
 | `hand_eye_cam_mount.stl` | 1 | 手眼相机支臂（可选） |
 | `camera_mount.stl` | 1 | 支臂末端的相机座（可选） |
 

@@ -57,12 +57,12 @@ Counts for one follower hand with force-sensing fingertips, taken from the assem
 | ST2.2×4.5 self-tapping screw | 48 | Servo bodies into their brackets: 4 per servo |
 | M3×12 screw | 12 | Fingers onto the palm: 4 per finger |
 | M3×6 cheese-head screw | 9 | Fingertips onto the distal links: 3 per finger |
-| M3 hex nut | 21 | 4 in each CMC1 housing; 3 embedded in each fingertip part while printing |
+| M3 hex nut | 21 | 4 in each CMC1 housing; 3 in each fingertip: embedded in the sensor inner plate while printing |
 | M2.5×3 screw | 18 | Fingertip sensor plates to the load cells: 6 per finger |
 
-Without force sensing, the M2.5 screws are not needed, and the 9 fingertip nuts go into the fingernails instead of the sensor plates.
+Without force sensing, the M2.5 screws are not needed, and the 9 fingertip nuts go into the fingernails after printing.
 
-The leader device uses the same fasteners as a hand without force sensing; its fingertip nuts go into the rings. Mount the leader on a stand of your choice.
+The leader device uses the same fasteners as a hand without force sensing; its fingertip nuts go into the rings after printing. Mount the leader on a stand of your choice.
 
 **Not counted above**
 - The connector, the flange adapter, the camera mount and the leader device are fixed with M2–M4 screws; choose lengths to suit your prints.
