@@ -4,9 +4,22 @@
 
 **DexRemo：面向接触密集型清除操作的力感知灵巧手平台与任务集**
 
-*IEEE Transactions on Robotics (T-RO) 2026 已录用*
+[![arXiv](https://img.shields.io/badge/arXiv-2611.15981-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2611.15981)
+[![IEEE T-RO 2026](https://img.shields.io/badge/IEEE%20T--RO-2026-00629B?logo=ieee&logoColor=white)](https://arxiv.org/abs/2611.15981)
+[![Project page](https://img.shields.io/badge/Project-dexremo.github.io-2ea44f?logo=githubpages&logoColor=white)](https://dexremo.github.io)
+[![YouTube](https://img.shields.io/badge/YouTube-Video-FF0000?logo=youtube&logoColor=white)](https://youtu.be/4ot1Yy7es_o)
+[![Roadmap](https://img.shields.io/badge/%E5%8F%91%E5%B8%83%E8%AE%A1%E5%88%92-R1%20%E5%B7%B2%E5%8F%91%E5%B8%83-8250df)](https://dexremo.github.io/roadmap.html)
 
-[项目主页](https://dexremo.github.io) · [论文 (arXiv)](https://arxiv.org/abs/2611.15981) · [视频](https://youtu.be/4ot1Yy7es_o) · [发布计划](https://dexremo.github.io/roadmap.html)
+[![12 DoF](https://img.shields.io/badge/DoF-12-f76707)](#手的设计)
+[![Cost](https://img.shields.io/badge/%E6%9D%90%E6%96%99%E8%B4%B9-%E2%89%88%20%24200-f5c211)](#手的设计)
+[![Force sensing](https://img.shields.io/badge/%E5%8A%9B%E4%BC%A0%E6%84%9F-%E4%B8%89%E8%BD%B4-e03131)](#指尖与力传感)
+[![MuJoCo](https://img.shields.io/badge/MuJoCo-MJCF-1c7ed6)](sim/)
+[![URDF](https://img.shields.io/badge/ROS%20%7C%20Isaac-URDF-12a594)](sim/)
+[![Hardware licence](https://img.shields.io/badge/%E7%A1%AC%E4%BB%B6-CC%20BY--NC--SA%204.0-lightgrey)](hardware/LICENSE)
+[![Code licence](https://img.shields.io/badge/%E4%BB%A3%E7%A0%81-MIT-blue)](sim/LICENSE)
+[![Stars](https://img.shields.io/github/stars/dexremo/dexremo?style=social)](https://github.com/dexremo/dexremo)
+
+🦾 *一只会撬、会刮、会擦、会挖的三指灵巧手：12 个舵机，PLA 打印，指尖可选三轴力传感。*
 
 [English](README.md) | **中文**
 
