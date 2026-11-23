@@ -1,5 +1,7 @@
 # DexRemo bill of materials
 
+**English** | [中文](BOM_zh.md)
+
 Bought parts for the DexRemo hand (the follower), the leader device used for teleoperation, and the camera setup used in the paper. Printed parts are listed in [`README.md`](README.md#printed-parts).
 
 Links point to the shops the authors bought from. Equivalent parts from other suppliers work as well, as long as the specification matches.
@@ -13,7 +15,7 @@ Links point to the shops the authors bought from. Equivalent parts from other su
 | Servo driver board | Connects the servo bus to the PC over USB | 1 | [Tmall](https://detail.tmall.com/item.htm?id=738817173460&skuId=5096283384143) |
 | Servo cable | 3-pin, 200 mm | 5 | [Taobao](https://item.taobao.com/item.htm?id=607253676830) |
 | Miniature tension/compression load cell | 0–5 kg, M2.5 thread | 9 | [Taobao](https://item.taobao.com/item.htm?id=572636578877&skuId=3893609319890) |
-| Load-cell transmitter | 9 channels or more in total; one 12-channel unit recommended (or one 4-channel and one 8-channel) | 1 (12-ch) | [Taobao](https://item.taobao.com/item.htm?id=555869772245&skuId=4525021828639) |
+| Load-cell transmitter | One 12-channel unit (9 channels are used). Two smaller units also work but cost about the same | 1 (12-ch) | [Taobao](https://item.taobao.com/item.htm?id=555869772245&skuId=4525021828639) |
 | RS485–USB adapter | CP2102, 1.5 m (UT-891); one per transmitter | 1 per transmitter | [Tmall](https://detail.tmall.com/item.htm?id=35733422585) |
 | Screws and bolts | See [Fasteners](#fasteners) | | |
 
@@ -42,6 +44,8 @@ The paper uses one wrist camera (on the printed camera mount) and two external c
 | Part | Specification | Qty | Link |
 |---|---|---|---|
 | Slotted calibration weight set | 100 mg – 1 kg, 17 pieces, with 100 g weight hanger | 1 | [Taobao](https://item.taobao.com/item.htm?id=37924053620&skuId=4667036203958) |
+
+How to use them: [force-sensor calibration method](force_calibration.md).
 
 ## Fasteners
 

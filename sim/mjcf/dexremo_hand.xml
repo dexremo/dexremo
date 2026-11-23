@@ -124,7 +124,7 @@
                 <geom class="visual" mesh="left_tip"/>
                 <geom class="collision" mesh="left_tip_0"/>
                 <geom class="collision" mesh="left_tip_1"/>
-                <site name="left_force_site" pos="0 0 0" quat="0.923880 -0.382683 -0.000000 0.000000" size="0.004" rgba="0.2 0.8 1 1"/>
+                <site name="left_force_site" pos="0 0 0" quat="0.653281 -0.270598 -0.270598 -0.653281" size="0.004" rgba="0.2 0.8 1 1"/>
                 <site name="left_tip_site" pos="-0.004110 0.052426 0.039086" size="0.003" rgba="1 0.2 0.2 1"/>
               </body>
             </body>
@@ -202,7 +202,7 @@
                 <geom class="visual" mesh="right_tip"/>
                 <geom class="collision" mesh="right_tip_0"/>
                 <geom class="collision" mesh="right_tip_1"/>
-                <site name="right_force_site" pos="0 0 0" quat="0.923880 0.382683 -0.000000 0.000000" size="0.004" rgba="0.2 0.8 1 1"/>
+                <site name="right_force_site" pos="0 0 0" quat="0.653281 0.270598 -0.270598 0.653281" size="0.004" rgba="0.2 0.8 1 1"/>
                 <site name="right_tip_site" pos="-0.005451 -0.052397 0.039170" size="0.003" rgba="1 0.2 0.2 1"/>
               </body>
             </body>

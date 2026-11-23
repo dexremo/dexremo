@@ -1,6 +1,8 @@
 # DexRemo hand: hardware
 
-The design files for the DexRemo three-finger hand: assembly STEP files, the STL files for every printed part, a bill of materials and an assembly guide.
+**English** | [中文](README_zh.md)
+
+The design files for the DexRemo three-finger hand: assembly STEP files, the STL files for every printed part, a bill of materials, an assembly guide and the force-sensor calibration method.
 
 ```
 step/dexremo_hand_full.step                        full hand with force-sensing fingertips
@@ -11,6 +13,7 @@ step/assembly/*.step                               assemblies with every screw a
 stl/*.stl                                          printed parts, one file per distinct part, in millimetres
 BOM.md                                             bill of materials
 assembly/                                          step-by-step assembly guide
+force_calibration.md                               calibration method for the fingertip force sensors
 ```
 
 All three hands include the Franka flange adapter and the hand-eye camera mount.

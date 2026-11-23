@@ -1,5 +1,7 @@
 # DexRemo hand: simulation model
 
+**English** | [中文](README_zh.md)
+
 URDF and MuJoCo (MJCF) models of the DexRemo three-finger hand, generated from the STEP assemblies in [`../hardware/step/`](../hardware/step/).
 
 There are four versions. They share the same kinematics, zero pose and joint names; only the fingertips differ.
@@ -39,7 +41,7 @@ python -m mujoco.viewer --mjcf=mjcf/scene.xml
 ## Frames
 
 - **Base frame (`base_link`)**: the origin sits at the centre of the Franka flange's mounting face, and +z points out of the flange towards the fingers. This is also the `franka_attach` site in the MJCF. The leader model is the exception: see above.
-- **Fingertip force frame (`{finger}_force_site`, force-sensing version only)**: the site lies on the mid-plane of the force sensor, with its z axis along the sensor-plate normal.
+- **Fingertip force frame (`{finger}_force_site`, force-sensing version only)**: the site lies on the mid-plane of the force sensor. Its axes match the sensor frame used for [calibration](../hardware/force_calibration.md#sensor-frame-and-load-cell-names): z along the sensor-plate normal, pointing out of the fingertip; x towards the single load cell, which is the direction the fingertip moves when the finger curls in; y = z × x, parallel to the IP axis.
 - **Fingertip point (`{finger}_tip_site`, all versions)**: the far end of the fingertip.
 
 ## Zero pose
@@ -100,7 +102,7 @@ python build_model.py step_out .. dexremo_hand scene.xml                  # writ
 
 For the other versions, run the same three commands on `dexremo_hand_no_sensor.step` and `dexremo_hand_no_sensor_mushroom_finger.step`. Pass the model name and scene file as the last two arguments, for example `dexremo_hand_mushroom scene_mushroom.xml`.
 
-`assembly_render.py` and `fastener_map.py` produce the pictures in the [assembly guide](../hardware/assembly/README.md) from the STEP files in `../hardware/step/assembly/`.
+`assembly_render.py` and `fastener_map.py` produce the pictures in the [assembly guide](../hardware/assembly/README.md) from the STEP files in `../hardware/step/assembly/`. `sensor_axes_figure.py` draws the sensor-frame figure in the calibration method.
 
 `build_model.py` holds the modelling assumptions at the top: masses, servo limits and the zero-pose angles.
 

@@ -1,5 +1,7 @@
 # DexRemo hand: assembly guide
 
+**English** | [中文](README_zh.md)
+
 This guide builds the hand in four stages:
 
 1. Build one finger (steps 1–13): the finger from its base up to the IP servo, then the fingertip as a separate unit, which is fitted last.
@@ -99,11 +101,13 @@ Place the IP servo between the free arms of the IP link. Fix it with eight M3×6
 
 ### Step 9: fingertip sensor
 
-Build the fingertip on the bench before fitting it to the finger. The three load cells sit between the two sensor plates (`force_sensor_layer1`):
+Build the fingertip on the bench before fitting it to the finger. The three load cells sit between the two sensor plates (`force_sensor_layer1`).
+
+Before you start, label, wire and check the load cells as in steps 1–3 of the [calibration method](../force_calibration.md).
 
 1. Take the inner plate, with its three embedded M3 nuts.
-2. Fit the three load cells to it, each with one M2.5×3 screw.
-3. Place the outer plate on the load cells. Fix it with three M2.5×3 screws, one into each load cell.
+2. Fit the three load cells to it by their labels (+X, +Y, −Y; see the [sensor frame](../force_calibration.md#sensor-frame-and-load-cell-names)), each with one M2.5×3 screw and threadlocker.
+3. Place the outer plate on the load cells. Fix it with three M2.5×3 screws and threadlocker, one into each load cell. Draw the +X and +Y arrows on the outer plate.
 4. Fit the fingernail on the outer plate.
 
 Each finger has its own nail: `left_finger_nail`, `mid_finger_nail` or `right_finger_nail`.
@@ -205,3 +209,4 @@ The joint names match the simulation model (`left_cmc1` … `right_ip`). See [`.
 1. Connect the servo driver board, the power supply and the servo bus.
 2. Move the hand by hand into the zero pose shown in [`../../sim/README.md`](../../sim/README.md#zero-pose): side fingers turned outwards, each finger bent into a hook.
 3. Record each servo's position as its zero offset.
+4. If the hand has force-sensing fingertips, calibrate each one on the rig: steps 5–7 of the [calibration method](../force_calibration.md).

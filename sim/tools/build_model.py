@@ -91,7 +91,12 @@ for f, chain in FINGERS.items():
             tip = [i for i in members if np.dot((np.array(P[i]["bbox_min_mm"]) + np.array(P[i]["bbox_max_mm"])) / 2000 - site, n) > 0]
             LINKS.append((name, parent_name, {"name": "%s_%s" % (f, JNAMES[k]), "point": pt, "axis": ax}, [i for i in members if i not in tip], pt))
             LINKS.append(("%s_tip" % f, name, {"name": "%s_tip_fixed" % f, "point": site, "axis": None}, tip, site))
-            SENSORS.append({"finger": f, "body": "%s_tip" % f, "pos": site, "normal": n})
+            # sensor +X: towards the single load cell (the one not split across the IP axis); Y = Z x X is then parallel to the IP axis
+            cc = [(np.array(P[i]["bbox_min_mm"]) + np.array(P[i]["bbox_max_mm"])) / 2000 for i in cells]
+            ip_ = [v - site - np.dot(v - site, n) * n for v in cc]
+            single = min(ip_, key=lambda v: abs(np.dot(v / np.linalg.norm(v), ax)))
+            xd = np.cross(ax, n); xd = xd / np.linalg.norm(xd) * np.sign(np.dot(xd, single))   # exactly normal to the IP axis
+            SENSORS.append({"finger": f, "body": "%s_tip" % f, "pos": site, "normal": n, "xdir": xd})
             TIPS.append({"finger": f, "body": "%s_tip" % f, "pos": tip_pt})
         else:
             LINKS.append((name, parent_name, {"name": "%s_%s" % (f, JNAMES[k]), "point": pt, "axis": ax}, members, pt))
@@ -119,7 +124,7 @@ for name, parent, joint, idxs, frame in LINKS:
     pose[name] = T
     for i in idxs: MESH[i].apply_transform(T)
     for s in SENSORS:
-        if s["body"] == name: s["pos"] = (T @ np.r_[s["pos"], 1])[:3]; s["normal"] = T[:3, :3] @ s["normal"]
+        if s["body"] == name: s["pos"] = (T @ np.r_[s["pos"], 1])[:3]; s["normal"] = T[:3, :3] @ s["normal"]; s["xdir"] = T[:3, :3] @ s["xdir"]
     for s in TIPS:
         if s["body"] == name: s["pos"] = (T @ np.r_[s["pos"], 1])[:3]
     posed.append((name, parent, joint, idxs, (T @ np.r_[frame, 1])[:3]))
@@ -129,6 +134,11 @@ if os.environ.get("DUMP_POSED"):                     # optional: every part, pos
     for i, m_ in MESH.items(): m_.export(os.path.join(d_, "%03d_%s.stl" % (i, P[i]["part"].split(" gb_")[0][:40].replace(" ", "_"))))
 
 def xyz(v): return " ".join("%.6f" % x for x in v)
+def frame_quat(x, z):
+    """Quaternion (w x y z) of the frame with axes x, z x x, z."""
+    z = z / np.linalg.norm(z); x = x - np.dot(x, z) * z; x /= np.linalg.norm(x)
+    q = trimesh.transformations.quaternion_from_matrix(np.r_[np.c_[np.c_[x, np.cross(z, x), z], np.zeros(3)], [[0, 0, 0, 1]]])
+    return q if q[0] >= 0 else -q
 def zaxis_quat(n):
     """Quaternion (w x y z) rotating +z onto n."""
     z = np.array([0, 0, 1.0]); v = np.cross(z, n); s = np.linalg.norm(v); c = np.dot(z, n)
@@ -180,7 +190,7 @@ def body(L_, depth):
     for k in range(len(idxs)): out.append('%s  <geom class="collision" mesh="%s_%d"/>' % (pad, name, k))
     if name == "base_link": out.append('%s  <site name="%s" pos="0 0 0" size="0.005" rgba="1 0.5 0 1"/>' % (pad, ATTACH))
     for s in SENSORS:
-        if s["body"] == name: out.append('%s  <site name="%s_force_site" pos="0 0 0" quat="%s" size="0.004" rgba="0.2 0.8 1 1"/>' % (pad, s["finger"], xyz(zaxis_quat(s["normal"]))))
+        if s["body"] == name: out.append('%s  <site name="%s_force_site" pos="0 0 0" quat="%s" size="0.004" rgba="0.2 0.8 1 1"/>' % (pad, s["finger"], xyz(frame_quat(s["xdir"], s["normal"]))))
     for s in TIPS:
         if s["body"] == name: out.append('%s  <site name="%s_tip_site" pos="%s" size="0.003" rgba="1 0.2 0.2 1"/>' % (pad, s["finger"], xyz(s["pos"] - frame)))
     for ch in children.get(name, []): out += body(ch, depth + 1)
