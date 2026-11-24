@@ -22,8 +22,6 @@
 
 **English** | [中文](README_zh.md)
 
-<img src="docs/img/fig1.jpg" width="600" alt="Paper Fig. 1: (a) the DexRemo hand removing glued barnacle models from a turtle shell; (b) the removal tasks; (c) the shared wrist-frame force representation used by the ACT policy">
-
 🦾 *A three-finger hand that pries, scrapes, wipes and digs: 12 servos, printed in PLA, with optional force sensing in each fingertip.*
 
 </div>
@@ -39,6 +37,10 @@ Adhered, embedded, contaminated or buried targets cannot simply be grasped. The 
 - task success rises from **24% to 83%** once fingertip pose and force are expressed in one shared **wrist frame**.
 
 This repository holds the open-source release of DexRemo: hardware files, bill of materials, assembly guide and simulation models.
+
+<p align="center">
+  <img src="docs/img/fig1.jpg" width="600" alt="Paper Fig. 1: (a) the DexRemo hand removing glued barnacle models from a turtle shell; (b) the removal tasks; (c) the shared wrist-frame force representation used by the ACT policy">
+</p>
 
 ## Hand design
 
