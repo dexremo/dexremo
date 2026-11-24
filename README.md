@@ -8,16 +8,13 @@
 [![IEEE T-RO 2026](https://img.shields.io/badge/IEEE%20T--RO-2026-00629B?logo=ieee&logoColor=white)](https://arxiv.org/abs/2611.15981)
 [![Project page](https://img.shields.io/badge/Project-dexremo.github.io-2ea44f?logo=githubpages&logoColor=white)](https://dexremo.github.io)
 [![YouTube](https://img.shields.io/badge/YouTube-Video-FF0000?logo=youtube&logoColor=white)](https://youtu.be/4ot1Yy7es_o)
-[![Roadmap](https://img.shields.io/badge/Roadmap-R1%20released-8250df)](https://dexremo.github.io/roadmap.html)
 
-[![12 DoF](https://img.shields.io/badge/DoF-12-f76707)](#hand-design)
-[![Cost](https://img.shields.io/badge/Parts-%E2%89%88%20%24200-f5c211)](#hand-design)
-[![Force sensing](https://img.shields.io/badge/Force%20sensing-3--axis-e03131)](#fingertips-and-force-sensing)
-[![MuJoCo](https://img.shields.io/badge/MuJoCo-MJCF-1c7ed6)](sim/)
-[![URDF](https://img.shields.io/badge/ROS%20%7C%20Isaac-URDF-12a594)](sim/)
-[![Hardware licence](https://img.shields.io/badge/Hardware-CC%20BY--NC--SA%204.0-lightgrey)](hardware/LICENSE)
-[![Code licence](https://img.shields.io/badge/Code-MIT-blue)](sim/LICENSE)
-[![Stars](https://img.shields.io/github/stars/dexremo/dexremo?style=social)](https://github.com/dexremo/dexremo)
+[Liman Wang](https://limanwang.github.io/#/)<sup>1,†</sup>, [Hanyang Zhong](https://hanyangzhong.github.io/)<sup>1,†</sup>, [Sun Zhaole](https://sunzhaole.github.io/)<sup>2</sup>, Wenting Cao<sup>3</sup>, [Babar Jamil](https://www.york.ac.uk/physics-engineering-technology/people/babarjamil/)<sup>1</sup>, [Andy Tyrrell](https://www.york.ac.uk/physics-engineering-technology/people/andy_tyrrell/)<sup>1</sup>, [Shan Luo](https://shanluo.github.io/)<sup>4</sup>, [Jihong Zhu](https://jihong-zhu.github.io/)<sup>1,*</sup>
+
+<sup>1</sup>University of York &nbsp; <sup>2</sup>The University of Hong Kong &nbsp; <sup>3</sup>Friedrich Schiller University Jena &nbsp; <sup>4</sup>University of Oxford<br>
+† Equal contribution &nbsp;·&nbsp; * Corresponding author
+
+<a href="https://dexremo.github.io"><img src="docs/img/logos.png" width="640" alt="University of York, The University of Hong Kong, Friedrich Schiller University Jena, University of Oxford"></a>
 
 🦾 *A three-finger hand that pries, scrapes, wipes and digs: 12 servos, printed in PLA, with optional force sensing in each fingertip.*
 

@@ -8,16 +8,13 @@
 [![IEEE T-RO 2026](https://img.shields.io/badge/IEEE%20T--RO-2026-00629B?logo=ieee&logoColor=white)](https://arxiv.org/abs/2611.15981)
 [![Project page](https://img.shields.io/badge/Project-dexremo.github.io-2ea44f?logo=githubpages&logoColor=white)](https://dexremo.github.io)
 [![YouTube](https://img.shields.io/badge/YouTube-Video-FF0000?logo=youtube&logoColor=white)](https://youtu.be/4ot1Yy7es_o)
-[![Roadmap](https://img.shields.io/badge/%E5%8F%91%E5%B8%83%E8%AE%A1%E5%88%92-R1%20%E5%B7%B2%E5%8F%91%E5%B8%83-8250df)](https://dexremo.github.io/roadmap.html)
 
-[![12 DoF](https://img.shields.io/badge/DoF-12-f76707)](#手的设计)
-[![Cost](https://img.shields.io/badge/%E6%9D%90%E6%96%99%E8%B4%B9-%E2%89%88%20%24200-f5c211)](#手的设计)
-[![Force sensing](https://img.shields.io/badge/%E5%8A%9B%E4%BC%A0%E6%84%9F-%E4%B8%89%E8%BD%B4-e03131)](#指尖与力传感)
-[![MuJoCo](https://img.shields.io/badge/MuJoCo-MJCF-1c7ed6)](sim/)
-[![URDF](https://img.shields.io/badge/ROS%20%7C%20Isaac-URDF-12a594)](sim/)
-[![Hardware licence](https://img.shields.io/badge/%E7%A1%AC%E4%BB%B6-CC%20BY--NC--SA%204.0-lightgrey)](hardware/LICENSE)
-[![Code licence](https://img.shields.io/badge/%E4%BB%A3%E7%A0%81-MIT-blue)](sim/LICENSE)
-[![Stars](https://img.shields.io/github/stars/dexremo/dexremo?style=social)](https://github.com/dexremo/dexremo)
+[Liman Wang](https://limanwang.github.io/#/)<sup>1,†</sup>, [Hanyang Zhong](https://hanyangzhong.github.io/)<sup>1,†</sup>, [Sun Zhaole](https://sunzhaole.github.io/)<sup>2</sup>, Wenting Cao<sup>3</sup>, [Babar Jamil](https://www.york.ac.uk/physics-engineering-technology/people/babarjamil/)<sup>1</sup>, [Andy Tyrrell](https://www.york.ac.uk/physics-engineering-technology/people/andy_tyrrell/)<sup>1</sup>, [Shan Luo](https://shanluo.github.io/)<sup>4</sup>, [Jihong Zhu](https://jihong-zhu.github.io/)<sup>1,*</sup>
+
+<sup>1</sup>约克大学 &nbsp; <sup>2</sup>香港大学 &nbsp; <sup>3</sup>耶拿大学 &nbsp; <sup>4</sup>牛津大学<br>
+† 共同第一作者 &nbsp;·&nbsp; * 通讯作者
+
+<a href="https://dexremo.github.io"><img src="docs/img/logos.png" width="640" alt="约克大学、香港大学、耶拿大学、牛津大学"></a>
 
 🦾 *一只会撬、会刮、会擦、会挖的三指灵巧手：12 个舵机，PLA 打印，指尖可选三轴力传感。*
 
