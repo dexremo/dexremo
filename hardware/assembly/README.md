@@ -27,7 +27,7 @@ All views are rendered from the assembly STEP files in [`../step/assembly/`](../
 - the printed parts listed in [`../README.md`](../README.md#printed-parts);
 - the bought parts and fasteners listed in the [bill of materials](../BOM.md).
 
-**Nuts embedded while printing.** Only the fingertip sensor's inner plate (`force_sensor_layer1`) needs nuts placed during the print: three M3 nuts each. The fingernails and the leader's rings take their nuts after printing; the rings have slots that the nuts slide into.
+**Nuts embedded while printing.** Only the fingertip sensor's inner plate (`force_sensor_layer1`) needs nuts placed during the print: three M3 nuts each. The fingernails and the leader's rings take their nuts after printing: the nails have openings that the nuts push straight into, and the rings have slots that the nuts slide into.
 
 Print the inner plates from [`../print/force_sensor_layer1.3mf`](../print/). It is a Bambu Studio project for Bambu Lab printers, with the pause already set at layer 22 (3.56 mm).
 
@@ -134,7 +134,7 @@ Slide the whole fingertip unit over the IP servo. Fix it with four ST2.2×4.5 se
 
 ### Step 12: version without force sensing
 
-Push three M3 nuts into the fingernail, then fit it straight onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
+Push three M3 nuts into the fingernail through its openings, then fit it straight onto the distal link. Fix it with three M3×6 screws from inside the distal link. Then fit the fingertip onto the IP servo as in step 11.
 
 The mushroom fingertip (`mushroom_finger`) fits the same way. It is for holding a sponge or a wet wipe.
 
