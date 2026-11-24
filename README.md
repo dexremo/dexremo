@@ -22,7 +22,7 @@
 
 **English** | [中文](README_zh.md)
 
-<img src="docs/img/hero.jpg" width="520" alt="The DexRemo hand prying a glued barnacle model off a turtle-shell mockup">
+<img src="docs/img/fig1.jpg" width="600" alt="Paper Fig. 1: (a) the DexRemo hand removing glued barnacle models from a turtle shell; (b) the removal tasks; (c) the shared wrist-frame force representation used by the ACT policy">
 
 🦾 *A three-finger hand that pries, scrapes, wipes and digs: 12 servos, printed in PLA, with optional force sensing in each fingertip.*
 

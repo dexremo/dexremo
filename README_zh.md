@@ -22,7 +22,7 @@
 
 [English](README.md) | **中文**
 
-<img src="docs/img/hero.jpg" width="520" alt="DexRemo 灵巧手从海龟壳模型上撬下粘住的藤壶模型">
+<img src="docs/img/fig1.jpg" width="600" alt="论文图 1：(a) DexRemo 灵巧手清除海龟壳上粘住的藤壶模型；(b) 清除任务；(c) ACT 策略使用的统一腕部坐标系力表示">
 
 🦾 *一只会撬、会刮、会擦、会挖的三指灵巧手：12 个舵机，PLA 打印，指尖可选三轴力传感。*
 
