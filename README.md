@@ -1,26 +1,30 @@
 <div align="center">
 
-# DexRemo
+<h1>DexRemo: A Force-Sensing Hand Platform and Task Suite<br>for Contact-Rich Removal Manipulation</h1>
 
-**DexRemo: A Force-Sensing Hand Platform and Task Suite for Contact-Rich Removal Manipulation**
+[Liman Wang](https://limanwang.github.io/#/)<sup>†</sup> · [Hanyang Zhong](https://hanyangzhong.github.io/)<sup>†</sup> · [Zhaole Sun](https://sunzhaole.github.io/) · Wenting Cao · [Babar Jamil](https://www.york.ac.uk/physics-engineering-technology/people/babarjamil/) · [Andy Tyrrell](https://www.york.ac.uk/physics-engineering-technology/people/andy_tyrrell/) · [Shan Luo](https://shanluo.github.io/) · [Jihong Zhu](https://jihong-zhu.github.io/)<sup>*</sup>
+
+<sub>† Equal contribution &nbsp;·&nbsp; * Corresponding author</sub>
+
+<a href="https://dexremo.github.io"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/logos_dark.png">
+  <img src="docs/img/logos.png" width="640" alt="University of York, University of Oxford, The University of Hong Kong, Friedrich Schiller University Jena">
+</picture></a>
+
+**IEEE Transactions on Robotics (T-RO), 2026**
 
 [![arXiv](https://img.shields.io/badge/arXiv-2611.15981-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2611.15981)
 [![IEEE T-RO 2026](https://img.shields.io/badge/IEEE%20T--RO-2026-00629B?logo=ieee&logoColor=white)](https://arxiv.org/abs/2611.15981)
 [![Project page](https://img.shields.io/badge/Project-dexremo.github.io-2ea44f?logo=githubpages&logoColor=white)](https://dexremo.github.io)
 [![YouTube](https://img.shields.io/badge/YouTube-Video-FF0000?logo=youtube&logoColor=white)](https://youtu.be/4ot1Yy7es_o)
 
-[Liman Wang](https://limanwang.github.io/#/)<sup>1,†</sup>, [Hanyang Zhong](https://hanyangzhong.github.io/)<sup>1,†</sup>, [Sun Zhaole](https://sunzhaole.github.io/)<sup>2</sup>, Wenting Cao<sup>3</sup>, [Babar Jamil](https://www.york.ac.uk/physics-engineering-technology/people/babarjamil/)<sup>1</sup>, [Andy Tyrrell](https://www.york.ac.uk/physics-engineering-technology/people/andy_tyrrell/)<sup>1</sup>, [Shan Luo](https://shanluo.github.io/)<sup>4</sup>, [Jihong Zhu](https://jihong-zhu.github.io/)<sup>1,*</sup>
-
-<sup>1</sup>University of York &nbsp; <sup>2</sup>The University of Hong Kong &nbsp; <sup>3</sup>Friedrich Schiller University Jena &nbsp; <sup>4</sup>University of Oxford<br>
-† Equal contribution &nbsp;·&nbsp; * Corresponding author
-
-<a href="https://dexremo.github.io"><img src="docs/img/logos.png" width="640" alt="University of York, The University of Hong Kong, Friedrich Schiller University Jena, University of Oxford"></a>
-
-🦾 *A three-finger hand that pries, scrapes, wipes and digs: 12 servos, printed in PLA, with optional force sensing in each fingertip.*
+[Hardware](hardware/) | [Bill of Materials](hardware/BOM.md) | [Assembly Guide](hardware/assembly/) | [Force Calibration](hardware/force_calibration.md) | [Simulation](sim/)
 
 **English** | [中文](README_zh.md)
 
 <img src="docs/img/hero.jpg" width="520" alt="The DexRemo hand prying a glued barnacle model off a turtle-shell mockup">
+
+🦾 *A three-finger hand that pries, scrapes, wipes and digs: 12 servos, printed in PLA, with optional force sensing in each fingertip.*
 
 </div>
 

@@ -1,26 +1,30 @@
 <div align="center">
 
-# DexRemo
+<h1>DexRemo：面向接触密集型清除操作的<br>力感知灵巧手平台与任务集</h1>
 
-**DexRemo：面向接触密集型清除操作的力感知灵巧手平台与任务集**
+[Liman Wang](https://limanwang.github.io/#/)<sup>†</sup> · [Hanyang Zhong](https://hanyangzhong.github.io/)<sup>†</sup> · [Zhaole Sun](https://sunzhaole.github.io/) · Wenting Cao · [Babar Jamil](https://www.york.ac.uk/physics-engineering-technology/people/babarjamil/) · [Andy Tyrrell](https://www.york.ac.uk/physics-engineering-technology/people/andy_tyrrell/) · [Shan Luo](https://shanluo.github.io/) · [Jihong Zhu](https://jihong-zhu.github.io/)<sup>*</sup>
+
+<sub>† 共同第一作者 &nbsp;·&nbsp; * 通讯作者</sub>
+
+<a href="https://dexremo.github.io"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/logos_dark.png">
+  <img src="docs/img/logos.png" width="640" alt="约克大学、牛津大学、香港大学、耶拿大学">
+</picture></a>
+
+**IEEE Transactions on Robotics (T-RO)，2026**
 
 [![arXiv](https://img.shields.io/badge/arXiv-2611.15981-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2611.15981)
 [![IEEE T-RO 2026](https://img.shields.io/badge/IEEE%20T--RO-2026-00629B?logo=ieee&logoColor=white)](https://arxiv.org/abs/2611.15981)
 [![Project page](https://img.shields.io/badge/Project-dexremo.github.io-2ea44f?logo=githubpages&logoColor=white)](https://dexremo.github.io)
 [![YouTube](https://img.shields.io/badge/YouTube-Video-FF0000?logo=youtube&logoColor=white)](https://youtu.be/4ot1Yy7es_o)
 
-[Liman Wang](https://limanwang.github.io/#/)<sup>1,†</sup>, [Hanyang Zhong](https://hanyangzhong.github.io/)<sup>1,†</sup>, [Sun Zhaole](https://sunzhaole.github.io/)<sup>2</sup>, Wenting Cao<sup>3</sup>, [Babar Jamil](https://www.york.ac.uk/physics-engineering-technology/people/babarjamil/)<sup>1</sup>, [Andy Tyrrell](https://www.york.ac.uk/physics-engineering-technology/people/andy_tyrrell/)<sup>1</sup>, [Shan Luo](https://shanluo.github.io/)<sup>4</sup>, [Jihong Zhu](https://jihong-zhu.github.io/)<sup>1,*</sup>
-
-<sup>1</sup>约克大学 &nbsp; <sup>2</sup>香港大学 &nbsp; <sup>3</sup>耶拿大学 &nbsp; <sup>4</sup>牛津大学<br>
-† 共同第一作者 &nbsp;·&nbsp; * 通讯作者
-
-<a href="https://dexremo.github.io"><img src="docs/img/logos.png" width="640" alt="约克大学、香港大学、耶拿大学、牛津大学"></a>
-
-🦾 *一只会撬、会刮、会擦、会挖的三指灵巧手：12 个舵机，PLA 打印，指尖可选三轴力传感。*
+[硬件](hardware/README_zh.md) | [物料清单](hardware/BOM_zh.md) | [装配教程](hardware/assembly/README_zh.md) | [力传感器标定](hardware/force_calibration_zh.md) | [仿真](sim/README_zh.md)
 
 [English](README.md) | **中文**
 
 <img src="docs/img/hero.jpg" width="520" alt="DexRemo 灵巧手从海龟壳模型上撬下粘住的藤壶模型">
+
+🦾 *一只会撬、会刮、会擦、会挖的三指灵巧手：12 个舵机，PLA 打印，指尖可选三轴力传感。*
 
 </div>
 
