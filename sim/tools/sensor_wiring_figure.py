@@ -1,7 +1,7 @@
 """Schematic figures for the fingertip force sensor: wiring and labelling.
 
 Usage: python sensor_wiring_figure.py <out_dir>   (e.g. hardware/img)
-Writes sensor_wiring.png, sensor_wiring_zh.png, sensor_labels.png, sensor_labels_zh.png.
+Writes sensor_wiring, sensor_labels and sensor_mounting figures (.png, plus _zh versions).
 """
 import sys, os
 import numpy as np
@@ -264,7 +264,77 @@ def labels(lang):
     plt.close(fig)
 
 
+M = {
+ "en": dict(
+   title_a="(a) Mark the end of the distal link", title_b="(b) Fit the sensor with its marks matching",
+   palm="palm", link="distal link\n(fingertip_joints)",
+   face="end face, seen\nstraight on",
+   xnote="+X: up, towards the palm\n(the way the tip moves\nwhen the finger curls in)",
+   ynote="+Y: to the left", znote="+Z: towards you",
+   fit="Look at the hand from the front, palm on top:\nthe sensor's +X arrow points up, +Y points left.",
+   outer="outer plate", top="TOP",
+ ),
+ "zh": dict(
+   title_a="(a) 在末端连杆端面上做标记", title_b="(b) 装传感器时标记对齐",
+   palm="手掌", link="末端连杆\n（fingertip_joints）",
+   face="端面（正对着看）",
+   xnote="+X：朝上，指向手掌\n（手指往里弯时\n指尖移动的方向）",
+   ynote="+Y：朝左", znote="+Z：朝向你",
+   fit="正对着手看、手掌在上方时：\n传感器的 +X 箭头朝上，+Y 箭头朝左。",
+   outer="外板", top="顶",
+ ),
+}
+
+
+def zdot(ax, x, y, r=0.16):
+    ax.add_patch(Circle((x, y), r, fc="white", ec=MARK, lw=2.2, zorder=12))
+    ax.add_patch(Circle((x, y), r * 0.32, fc=MARK, ec=MARK, zorder=13))
+
+
+def mounting(lang):
+    t = M[lang]
+    plt.rcParams["font.family"] = [CJK, "DejaVu Sans"] if lang == "zh" else ["DejaVu Sans"]
+    fig, axs = plt.subplots(1, 2, figsize=(12, 5.6))
+    for k, ax in enumerate(axs):
+        ax.set_xlim(-3.2, 3.2); ax.set_ylim(-3.0, 3.0); ax.set_aspect("equal"); ax.axis("off")
+        ax.set_title(t["title_a"] if k == 0 else t["title_b"], fontsize=12.5, fontweight="bold", color=INK, loc="left")
+        # palm above
+        box(ax, -1.6, 2.15, 3.2, 0.6, "#dee2e6", r=0.08)
+        ax.text(0, 2.45, t["palm"], ha="center", va="center", fontsize=10, color=INK2)
+        ax.plot([0, 0], [2.15, 1.55], color=MUTED, lw=6, solid_capstyle="butt", zorder=1)
+        if k == 0:
+            # distal link end face
+            box(ax, -1.15, -1.55, 2.3, 3.1, "#343a40", ec=INK, r=0.12)
+            ax.text(0, -1.85, t["face"], ha="center", va="top", fontsize=9.5, color=INK2)
+            marker_arrow(ax, (0, -0.45), (0, 1.15), lw=3.2)
+            hand(ax, 0.42, 0.95, "+X", 15)
+            marker_arrow(ax, (0, -0.45), (-0.9, -0.45), lw=3.2)
+            hand(ax, -0.72, -0.05, "+Y", 15)
+            zdot(ax, 0, -0.45)
+            ax.text(1.4, 1.2, t["xnote"], fontsize=9.5, color=INK2, va="center", linespacing=1.35)
+            ax.text(-3.15, -0.45, t["ynote"], fontsize=9.5, color=INK2, va="center")
+            ax.text(1.4, -0.45, t["znote"], fontsize=9.5, color=INK2, va="center")
+            ax.text(-3.15, 1.75, t["link"], fontsize=9, color=MUTED, va="center", linespacing=1.3)
+        else:
+            box(ax, -1.15, -1.55, 2.3, 3.1, "#343a40", ec=INK, r=0.12)
+            ax.add_patch(Circle((0, 0), 1.0, fc="#f8f9fa", ec=INK, lw=1.6, zorder=4))
+            ax.add_patch(Circle((0, 0), 0.28, fc="#343a40", ec=INK, lw=1.2, zorder=5))
+            marker_arrow(ax, (0, 0.3), (0, 0.9), lw=2.6)
+            hand(ax, 0.3, 0.62, "+X", 12)
+            marker_arrow(ax, (-0.3, 0), (-0.9, 0), lw=2.6)
+            hand(ax, -0.6, 0.27, "+Y", 12)
+            hand(ax, -0.45, -0.55, t["top"], 12)
+            ax.text(1.3, 0.75, t["outer"], fontsize=9.5, color=INK2, va="center")
+            ax.text(0, -2.05, t["fit"], ha="center", va="top", fontsize=10, color=INK, linespacing=1.45)
+    fig.tight_layout()
+    fig.subplots_adjust(top=0.9)
+    name = "sensor_mounting" + ("_zh" if lang == "zh" else "") + ".png"
+    fig.savefig(os.path.join(OUT, name), dpi=160, facecolor="white")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     for lg in ("en", "zh"):
         wiring(lg)
         labels(lg)
+        mounting(lg)

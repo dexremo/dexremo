@@ -124,6 +124,10 @@ Skip steps 9 and 10 if you are building the version without force sensing; go to
 
 Fit the distal link (`fingertip_joints`) onto the inner plate from below. Fix it with three M3×6 screws from inside the distal link into the embedded nuts.
 
+**Mind the orientation.** Look at the hand from the front, with the palm on top and the end of the distal link facing you. The sensor's +X arrow must point up, towards the palm (the way the fingertip moves when the finger curls in), and its +Y arrow to the left. Draw the same two arrows on the end of the distal link first, then line the sensor up with them.
+
+![Sensor orientation on the distal link: +X up towards the palm, +Y to the left](../img/sensor_mounting.png)
+
 ![Step 10](img/step10.gif)
 
 ### Step 11: fingertip onto the IP servo

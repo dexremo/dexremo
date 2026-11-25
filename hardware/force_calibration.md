@@ -27,6 +27,8 @@ The geometry, cross-axis coupling, mounting preload and zero point all differ sl
 
 The `{finger}_force_site` frame in the simulation model has exactly these axes.
 
+When you fit the sensor to the finger, look at the hand from the front with the palm on top: +X points up towards the palm and +Y points left. See step 10 of the [assembly guide](assembly/README.md#step-10-distal-link-onto-the-sensor).
+
 Name each load cell by its fingertip number and its position. The fingertip numbers follow the [servo IDs](assembly/README.md#servo-id-map):
 
 | Fingertip | Finger | Load cells |
