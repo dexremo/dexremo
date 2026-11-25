@@ -2,7 +2,7 @@
 
 <a href="https://dexremo.github.io"><picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/wordmark_dark.png">
-  <img src="docs/img/wordmark.png" height="72" alt="DexRemo">
+  <img src="docs/img/wordmark.png" height="56" alt="DexRemo">
 </picture></a>
 
 <h3>面向接触密集型清除操作的力感知灵巧手平台与任务集</h3>

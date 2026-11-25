@@ -2,7 +2,7 @@
 
 <a href="https://dexremo.github.io"><picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/wordmark_dark.png">
-  <img src="docs/img/wordmark.png" height="72" alt="DexRemo">
+  <img src="docs/img/wordmark.png" height="56" alt="DexRemo">
 </picture></a>
 
 <h4>A Force-Sensing Hand Platform and Task Suite for Contact-Rich Removal Manipulation</h4>
