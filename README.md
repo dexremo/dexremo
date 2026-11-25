@@ -1,6 +1,11 @@
 <div align="center">
 
-<h1>DexRemo: A Force-Sensing<br>Hand Platform and Task Suite for<br>Contact-Rich Removal Manipulation</h1>
+<a href="https://dexremo.github.io"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/wordmark_dark.png">
+  <img src="docs/img/wordmark.png" height="72" alt="DexRemo">
+</picture></a>
+
+<h4>A Force-Sensing Hand Platform and Task Suite for Contact-Rich Removal Manipulation</h4>
 
 [Liman Wang](https://limanwang.github.io/#/)<sup>†</sup> · [Hanyang Zhong](https://hanyangzhong.github.io/)<sup>†</sup> · [Zhaole Sun](https://sunzhaole.github.io/) · Wenting Cao · [Babar Jamil](https://www.york.ac.uk/physics-engineering-technology/people/babarjamil/) · [Andy Tyrrell](https://www.york.ac.uk/physics-engineering-technology/people/andy_tyrrell/) · [Shan Luo](https://shanluo.github.io/) · [Jihong Zhu](https://jihong-zhu.github.io/)<sup>*</sup>
 
