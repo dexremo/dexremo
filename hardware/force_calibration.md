@@ -43,6 +43,7 @@ Picture (a) also labels the three positions A, B and C: A is the +X cell, B is o
 - threadlocker;
 - labels and a marker pen;
 - the transmitter, the RS485–USB adapter and the transmitter's datasheet (ask the seller for it);
+- a 24 V DC power supply for the transmitter;
 - the slotted weight set with its hanger, from the [bill of materials](BOM.md#calibration-tools);
 - a calibration rig: an aluminium-profile frame with a few printed parts, which holds the fingertip firmly and can turn it so that any axis points straight up or down. (Parts and photos to follow.)
 
@@ -50,9 +51,14 @@ Each load cell is rated for about 49 N (5 kgf). A force along Z is shared by the
 
 ## Step 1: label and wire the load cells
 
-1. Write the name on each load cell, for example 1+X, 1+Y, 1−Y.
-2. Put a label with the same name on the end of each load-cell cable. Once the cells are inside the fingertip you cannot see them, and the cable labels are the only way to tell them apart.
-3. Connect the cables to the transmitter channels in order, for example:
+1. With a marker pen, write each load cell's position on its body: +X, +Y or −Y.
+2. Put a tag on the end of each load-cell cable with the full name: fingertip number plus position, for example 1+X, 1+Y, 1−Y. Once the cells are inside the fingertip you cannot see them, and the cable tags are the only way to tell them apart.
+3. Connect each load cell to its own transmitter channel. Each channel has a block of four terminals. Connect the wires by colour (check your load cell's datasheet): red → E+, black → E−, white → S−, green → S+.
+4. Connect the transmitter's power and signal port: V+ to the positive terminal of the 24 V supply, GND to the negative; A to T/R+ on the RS485–USB adapter, B to T/R−. Leave RXD+, RXD− and GND on the adapter unconnected.
+
+![Wiring: (a) each load cell to its own transmitter channel; (b) the transmitter to the 24 V supply and the RS485–USB adapter](img/sensor_wiring.png)
+
+Assign the channels as in this table:
 
 | Channel | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -84,7 +90,9 @@ Finish this step before assembly. If you find a wiring or scale mistake after as
 1. Fit the three load cells to the inner plate by their names, as in picture (a): the +X cell on its own on one side, the +Y and −Y cells on the other.
 2. Fix each cell with an M2.5×3 screw, with threadlocker on the thread.
 3. Fit the outer plate, also with M2.5×3 screws and threadlocker. Tighten both sides before you go on.
-4. Draw +X and +Y arrows on the outer plate, so that you can find the directions when you mount and calibrate the fingertip.
+4. Mark the outer plate (the face that points out of the fingertip) with a marker pen: write "TOP", draw the +X and +Y arrows and write the fingertip number. Write the number on the side of the inner plate too. You will use these marks to find the directions when you mount and calibrate the fingertip.
+
+![Marking: (a) "TOP", the +X and +Y arrows and the fingertip number on the outer plate; (b) the position on each load cell body and the number on the inner plate; (c) the full name on each cable tag](img/sensor_labels.png)
 
 ## Step 5: calibrate on the rig, one axis at a time
 

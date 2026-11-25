@@ -102,7 +102,7 @@ python build_model.py step_out .. dexremo_hand scene.xml                  # writ
 
 For the other versions, run the same three commands on `dexremo_hand_no_sensor.step` and `dexremo_hand_no_sensor_mushroom_finger.step`. Pass the model name and scene file as the last two arguments, for example `dexremo_hand_mushroom scene_mushroom.xml`.
 
-`assembly_render.py` and `fastener_map.py` produce the pictures in the [assembly guide](../hardware/assembly/README.md) from the STEP files in `../hardware/step/assembly/`. `sensor_axes_figure.py` draws the sensor-frame figure in the calibration method.
+`assembly_render.py` and `fastener_map.py` produce the pictures in the [assembly guide](../hardware/assembly/README.md) from the STEP files in `../hardware/step/assembly/`. `sensor_axes_figure.py` draws the sensor-frame figure in the calibration method, and `sensor_wiring_figure.py` draws its wiring and marking figures.
 
 `build_model.py` holds the modelling assumptions at the top: masses, servo limits and the zero-pose angles.
 

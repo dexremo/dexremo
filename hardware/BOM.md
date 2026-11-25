@@ -16,6 +16,7 @@ Links point to the shops the authors bought from. Equivalent parts from other su
 | Servo cable | 3-pin, 200 mm | 5 | [Taobao](https://item.taobao.com/item.htm?id=607253676830) |
 | Miniature tension/compression load cell | 0–5 kg, M2.5 thread | 9 | [Taobao](https://item.taobao.com/item.htm?id=572636578877&skuId=3893609319890) |
 | Load-cell transmitter | One 12-channel unit (9 channels are used). Two smaller units also work but cost about the same | 1 (12-ch) | [Taobao](https://item.taobao.com/item.htm?id=555869772245&skuId=4525021828639) |
+| Transmitter power supply | 24 V DC, for the transmitter (V+ and GND) | 1 | |
 | RS485–USB adapter | CP2102, 1.5 m (UT-891); one per transmitter | 1 per transmitter | [Tmall](https://detail.tmall.com/item.htm?id=35733422585) |
 | Screws and bolts | See [Fasteners](#fasteners) | | |
 

@@ -102,7 +102,7 @@ python build_model.py step_out .. dexremo_hand scene.xml                  # 写�
 
 其他版本对 `dexremo_hand_no_sensor.step` 和 `dexremo_hand_no_sensor_mushroom_finger.step` 运行同样的三条命令，最后两个参数换成对应的模型名和场景文件，比如 `dexremo_hand_mushroom scene_mushroom.xml`。
 
-`assembly_render.py` 和 `fastener_map.py` 从 `../hardware/step/assembly/` 的 STEP 生成[装配教程](../hardware/assembly/README_zh.md)里的图。`sensor_axes_figure.py` 生成标定方法里的传感器坐标系示意图。
+`assembly_render.py` 和 `fastener_map.py` 从 `../hardware/step/assembly/` 的 STEP 生成[装配教程](../hardware/assembly/README_zh.md)里的图。`sensor_axes_figure.py` 生成标定方法里的传感器坐标系示意图，`sensor_wiring_figure.py` 生成接线示意图和标记示意图。
 
 `build_model.py` 开头集中写了建模假设：质量、舵机限制和零位角度。
 

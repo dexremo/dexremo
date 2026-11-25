@@ -111,7 +111,7 @@ Before you start, label, wire and check the load cells as in steps 1–3 of the 
 
 1. Take the inner plate, with its three embedded M3 nuts.
 2. Fit the three load cells to it by their labels (+X, +Y, −Y; see the [sensor frame](../force_calibration.md#sensor-frame-and-load-cell-names)), each with one M2.5×3 screw and threadlocker.
-3. Place the outer plate on the load cells. Fix it with three M2.5×3 screws and threadlocker, one into each load cell. Draw the +X and +Y arrows on the outer plate.
+3. Place the outer plate on the load cells. Fix it with three M2.5×3 screws and threadlocker, one into each load cell. Mark the outer plate: "TOP", the +X and +Y arrows and the fingertip number (see step 4 of the [calibration method](../force_calibration.md)).
 4. Fit the fingernail on the outer plate.
 
 Each finger has its own nail: `left_finger_nail`, `mid_finger_nail` or `right_finger_nail`.
