@@ -27,8 +27,6 @@
 
 **English** | [中文](README_zh.md)
 
-🦾 *A three-finger hand that pries, scrapes, wipes and digs: 12 servos, printed in PLA, with optional force sensing in each fingertip.*
-
 </div>
 
 ## Overview
