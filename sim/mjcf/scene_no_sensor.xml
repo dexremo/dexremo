@@ -83,24 +83,24 @@
         <site name="franka_attach" pos="0 0 0" size="0.005" rgba="1 0.5 0 1"/>
         <body name="left_cmc1_link" pos="-0.010908 0.049950 0.063442">
           <inertial pos="-0.000829 -0.000130 0.042133" mass="0.06543" fullinertia="1.978e-05 1.667e-05 1.071e-05 -2.319e-08 -6.846e-07 -1.726e-07"/>
-          <joint name="left_cmc1" axis="0.000000 0.000000 1.000000" range="-1.5708 1.5708"/>
+          <joint name="left_cmc1" axis="0.000000 0.000000 -1.000000" range="-1.5708 1.5708"/>
           <geom class="visual" mesh="left_cmc1_link"/>
           <geom class="collision" mesh="left_cmc1_link_0"/>
           <geom class="collision" mesh="left_cmc1_link_1"/>
           <body name="left_cmc2_link" pos="0.000000 -0.000100 0.058000">
             <inertial pos="-0.000127 0.013888 0.015825" mass="0.01913" fullinertia="9.806e-06 6.207e-06 1.157e-05 1.059e-07 4.325e-08 -1.503e-06"/>
-            <joint name="left_cmc2" axis="-0.000000 1.000000 0.000000" range="-1.5708 1.5708"/>
+            <joint name="left_cmc2" axis="0.000000 -1.000000 0.000000" range="-1.5708 1.5708"/>
             <geom class="visual" mesh="left_cmc2_link"/>
             <geom class="collision" mesh="left_cmc2_link_0"/>
             <body name="left_mcp_link" pos="0.000300 0.037800 0.030000">
               <inertial pos="-0.000258 0.013788 0.011813" mass="0.07467" fullinertia="2.426e-05 2.189e-05 2.261e-05 1.303e-08 -3.361e-08 -7.499e-06"/>
-              <joint name="left_mcp" axis="1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+              <joint name="left_mcp" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
               <geom class="visual" mesh="left_mcp_link"/>
               <geom class="collision" mesh="left_mcp_link_0"/>
               <geom class="collision" mesh="left_mcp_link_1"/>
               <body name="left_ip_link" pos="0.000200 0.040447 0.037618">
                 <inertial pos="-0.000115 0.022438 0.020217" mass="0.09666" fullinertia="7.113e-05 4.047e-05 5.267e-05 -9.553e-08 -9.226e-08 -2.494e-05"/>
-                <joint name="left_ip" axis="1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+                <joint name="left_ip" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
                 <geom class="visual" mesh="left_ip_link"/>
                 <geom class="collision" mesh="left_ip_link_0"/>
                 <geom class="collision" mesh="left_ip_link_1"/>
@@ -112,24 +112,24 @@
         </body>
         <body name="mid_cmc1_link" pos="-0.009008 -0.000050 0.063442">
           <inertial pos="0.000130 -0.000829 0.042133" mass="0.06543" fullinertia="1.667e-05 1.978e-05 1.071e-05 2.319e-08 1.726e-07 -6.846e-07"/>
-          <joint name="mid_cmc1" axis="0.000000 0.000000 1.000000" range="-1.5708 1.5708"/>
+          <joint name="mid_cmc1" axis="0.000000 0.000000 -1.000000" range="-1.5708 1.5708"/>
           <geom class="visual" mesh="mid_cmc1_link"/>
           <geom class="collision" mesh="mid_cmc1_link_0"/>
           <geom class="collision" mesh="mid_cmc1_link_1"/>
           <body name="mid_cmc2_link" pos="0.000100 0.000000 0.058000">
             <inertial pos="-0.013888 -0.000127 0.015825" mass="0.01913" fullinertia="6.207e-06 9.806e-06 1.157e-05 -1.059e-07 1.503e-06 4.325e-08"/>
-            <joint name="mid_cmc2" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+            <joint name="mid_cmc2" axis="1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
             <geom class="visual" mesh="mid_cmc2_link"/>
             <geom class="collision" mesh="mid_cmc2_link_0"/>
             <body name="mid_mcp_link" pos="-0.037800 0.000300 0.030000">
               <inertial pos="-0.013788 -0.000258 0.011813" mass="0.07467" fullinertia="2.189e-05 2.426e-05 2.261e-05 -1.303e-08 7.499e-06 -3.361e-08"/>
-              <joint name="mid_mcp" axis="0.000000 1.000000 0.000000" range="-1.5708 1.5708"/>
+              <joint name="mid_mcp" axis="0.000000 -1.000000 0.000000" range="-1.5708 1.5708"/>
               <geom class="visual" mesh="mid_mcp_link"/>
               <geom class="collision" mesh="mid_mcp_link_0"/>
               <geom class="collision" mesh="mid_mcp_link_1"/>
               <body name="mid_ip_link" pos="-0.040447 0.000200 0.037618">
                 <inertial pos="-0.022900 -0.000115 0.020593" mass="0.09871" fullinertia="4.173e-05 7.361e-05 5.449e-05 9.621e-08 2.574e-05 -9.282e-08"/>
-                <joint name="mid_ip" axis="0.000000 1.000000 0.000000" range="-1.5708 1.5708"/>
+                <joint name="mid_ip" axis="0.000000 -1.000000 0.000000" range="-1.5708 1.5708"/>
                 <geom class="visual" mesh="mid_ip_link"/>
                 <geom class="collision" mesh="mid_ip_link_0"/>
                 <geom class="collision" mesh="mid_ip_link_1"/>
@@ -141,24 +141,24 @@
         </body>
         <body name="right_cmc1_link" pos="-0.011008 -0.050050 0.063642">
           <inertial pos="0.000829 0.000130 0.042133" mass="0.06543" fullinertia="1.978e-05 1.667e-05 1.071e-05 -2.319e-08 6.846e-07 1.726e-07"/>
-          <joint name="right_cmc1" axis="0.000000 0.000000 1.000000" range="-1.5708 1.5708"/>
+          <joint name="right_cmc1" axis="0.000000 0.000000 -1.000000" range="-1.5708 1.5708"/>
           <geom class="visual" mesh="right_cmc1_link"/>
           <geom class="collision" mesh="right_cmc1_link_0"/>
           <geom class="collision" mesh="right_cmc1_link_1"/>
           <body name="right_cmc2_link" pos="0.000000 0.000100 0.058000">
             <inertial pos="0.000127 -0.013888 0.015825" mass="0.01913" fullinertia="9.806e-06 6.207e-06 1.157e-05 1.059e-07 -4.325e-08 1.503e-06"/>
-            <joint name="right_cmc2" axis="-0.000000 -1.000000 0.000000" range="-1.5708 1.5708"/>
+            <joint name="right_cmc2" axis="0.000000 1.000000 0.000000" range="-1.5708 1.5708"/>
             <geom class="visual" mesh="right_cmc2_link"/>
             <geom class="collision" mesh="right_cmc2_link_0"/>
             <body name="right_mcp_link" pos="-0.000300 -0.037800 0.030000">
               <inertial pos="0.000258 -0.013788 0.011813" mass="0.07467" fullinertia="2.426e-05 2.189e-05 2.261e-05 1.303e-08 3.361e-08 7.499e-06"/>
-              <joint name="right_mcp" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+              <joint name="right_mcp" axis="1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
               <geom class="visual" mesh="right_mcp_link"/>
               <geom class="collision" mesh="right_mcp_link_0"/>
               <geom class="collision" mesh="right_mcp_link_1"/>
               <body name="right_ip_link" pos="-0.000200 -0.040447 0.037618">
                 <inertial pos="0.000115 -0.022438 0.020217" mass="0.09666" fullinertia="7.113e-05 4.047e-05 5.267e-05 -9.553e-08 9.226e-08 2.494e-05"/>
-                <joint name="right_ip" axis="-1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
+                <joint name="right_ip" axis="1.000000 0.000000 0.000000" range="-1.5708 1.5708"/>
                 <geom class="visual" mesh="right_ip_link"/>
                 <geom class="collision" mesh="right_ip_link_0"/>
                 <geom class="collision" mesh="right_ip_link_1"/>

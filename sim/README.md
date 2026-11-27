@@ -41,7 +41,7 @@ python -m mujoco.viewer --mjcf=mjcf/scene.xml
 ## Frames
 
 - **Base frame (`base_link`)**: the origin sits at the centre of the Franka flange's mounting face, and +z points out of the flange towards the fingers. This is also the `franka_attach` site in the MJCF. The leader model is the exception: see above.
-- **Fingertip force frame (`{finger}_force_site`, force-sensing version only)**: the site lies on the mid-plane of the force sensor. Its axes match the sensor frame used for [calibration](../hardware/force_calibration.md#sensor-frame-and-load-cell-names): z along the sensor-plate normal, pointing out of the fingertip; x towards the single load cell, which is the direction the fingertip moves when the finger curls in; y = z × x, parallel to the IP axis.
+- **Fingertip force frame (`{finger}_force_site`, force-sensing version only)**: the site lies on the mid-plane of the force sensor. Its axes match the sensor frame used for [calibration](../hardware/force_calibration.md#sensor-frame-and-load-cell-names): z along the sensor-plate normal, pointing out of the fingertip; x towards the single load cell and the palm, which is the direction the fingertip moves when the IP joint turns towards +q; y = z × x, parallel to the IP axis.
 - **Fingertip point (`{finger}_tip_site`, all versions)**: the far end of the fingertip.
 
 ## Zero pose
@@ -58,20 +58,20 @@ The zero pose (`q = 0`) is the calibration pose of the real hand and of the lead
 
 There are 12 revolute joints, four per finger, named `{left|mid|right}_{cmc1|cmc2|mcp|ip}`. All joint angles are in radians.
 
-The positive direction of each joint is defined by this model and is the same on all three fingers. If you drive the real hand, map each servo's sign to this convention once in your driver.
+The positive direction of each joint is the same on all three fingers and matches the real hand's servos: a servo built in as in the [assembly guide](../hardware/assembly/README.md) turns the joint towards +q when its position count goes up. The teleoperation code in [`../teleop/`](../teleop/) uses this convention.
 
 ![Joint convention](docs/joint_convention.png)
 
-Orange shows +0.5 rad, blue shows -0.5 rad and grey shows zero.
+The figure shows the hand palm down, the way it is mounted on the arm. Orange shows +0.5 rad, blue shows -0.5 rad and grey shows zero.
 
 For each finger, let *u* be its outward direction in the palm plane: -x for `mid`, +y for `left` and -y for `right`.
 
 | Joint | Axis at zero pose | What +q does |
 |---|---|---|
-| `*_cmc1` | +z (palm normal) | turns the whole finger counter-clockwise, seen from the fingertip side |
-| `*_cmc2` | *u* | swings the finger sideways, counter-clockwise when seen from outside looking towards the palm centre |
-| `*_mcp`  | *u* × z | curls the finger inwards, towards the palm centre |
-| `*_ip`   | *u* × z | curls the fingertip inwards |
+| `*_cmc1` | -z (palm normal) | turns the whole finger counter-clockwise, seen from the back of the hand (the flange side) |
+| `*_cmc2` | -*u* | swings the finger sideways, clockwise when seen from outside looking towards the palm centre |
+| `*_mcp`  | z × *u* | lifts the finger towards the palm (up, with the hand mounted palm down) |
+| `*_ip`   | z × *u* | curls the fingertip towards the palm |
 
 All axes follow the right-hand rule. Joint ranges are set to ±90° around the zero pose for simulation only; they are not the hardware limits.
 

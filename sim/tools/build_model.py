@@ -19,6 +19,7 @@ DENSITY = {"pla": 1240.0, "steel": 7850.0}          # kg/m^3; printed parts take
 MATERIAL = {"tension-sensor": "steel"}               # bought load cells; every other non-servo part is printed PLA
 EFFORT, VELOCITY = 1.9, 4.7                          # N m, rad/s (STS3215 at 7.4 V, to confirm)
 LIMIT = math.radians(90)                             # placeholder range +-90 deg until measured limits arrive
+AXIS_SIGN = -1   # the CAD joint directions are opposite to the real servos; flip every axis on output so +q matches the hardware
 # --------------------------------------------------------------------------------
 
 # base frame: centre of the Franka flange's mounting face; a hand without the flange (the leader device) uses the centre of
@@ -91,11 +92,12 @@ for f, chain in FINGERS.items():
             tip = [i for i in members if np.dot((np.array(P[i]["bbox_min_mm"]) + np.array(P[i]["bbox_max_mm"])) / 2000 - site, n) > 0]
             LINKS.append((name, parent_name, {"name": "%s_%s" % (f, JNAMES[k]), "point": pt, "axis": ax}, [i for i in members if i not in tip], pt))
             LINKS.append(("%s_tip" % f, name, {"name": "%s_tip_fixed" % f, "point": site, "axis": None}, tip, site))
-            # sensor +X: towards the single load cell (the one not split across the IP axis); Y = Z x X is then parallel to the IP axis
+            # sensor +X: towards the palm, the way the real sensor is mounted (assembly guide, step 10). The CAD has the single load
+            # cell on the far side, so take the direction away from it. Y = Z x X is then parallel to the IP axis.
             cc = [(np.array(P[i]["bbox_min_mm"]) + np.array(P[i]["bbox_max_mm"])) / 2000 for i in cells]
             ip_ = [v - site - np.dot(v - site, n) * n for v in cc]
             single = min(ip_, key=lambda v: abs(np.dot(v / np.linalg.norm(v), ax)))
-            xd = np.cross(ax, n); xd = xd / np.linalg.norm(xd) * np.sign(np.dot(xd, single))   # exactly normal to the IP axis
+            xd = np.cross(ax, n); xd = -xd / np.linalg.norm(xd) * np.sign(np.dot(xd, single))   # exactly normal to the IP axis
             SENSORS.append({"finger": f, "body": "%s_tip" % f, "pos": site, "normal": n, "xdir": xd})
             TIPS.append({"finger": f, "body": "%s_tip" % f, "pos": tip_pt})
         else:
@@ -171,7 +173,7 @@ for name, parent, joint, idxs, frame in LINKS:
         else:
             U.append('  <joint name="%s" type="revolute"><parent link="%s"/><child link="%s"/><origin xyz="%s"/><axis xyz="%s"/>'
                      '<limit lower="%.4f" upper="%.4f" effort="%.2f" velocity="%.2f"/><dynamics damping="0.1"/></joint>'
-                     % (joint["name"], parent, name, xyz(frame - po), xyz(joint["axis"]), -LIMIT, LIMIT, EFFORT, VELOCITY))
+                     % (joint["name"], parent, name, xyz(frame - po), xyz(AXIS_SIGN * joint["axis"] + 0.0), -LIMIT, LIMIT, EFFORT, VELOCITY))
 U.append('</robot>')
 open(os.path.join(OUT, "urdf", MODEL + ".urdf"), "w").write("\n".join(U) + "\n")
 
@@ -185,7 +187,7 @@ def body(L_, depth):
     out = ['%s<body name="%s" pos="%s">' % (pad, name, xyz(frame - po))]
     out.append('%s  <inertial pos="%s" mass="%.5f" fullinertia="%.3e %.3e %.3e %.3e %.3e %.3e"/>' % (pad, xyz(com), m, I[0, 0], I[1, 1], I[2, 2], I[0, 1], I[0, 2], I[1, 2]))
     if joint and joint["axis"] is not None:
-        out.append('%s  <joint name="%s" axis="%s" range="%.4f %.4f"/>' % (pad, joint["name"], xyz(joint["axis"]), -LIMIT, LIMIT))
+        out.append('%s  <joint name="%s" axis="%s" range="%.4f %.4f"/>' % (pad, joint["name"], xyz(AXIS_SIGN * joint["axis"] + 0.0), -LIMIT, LIMIT))
     out.append('%s  <geom class="visual" mesh="%s"/>' % (pad, name))
     for k in range(len(idxs)): out.append('%s  <geom class="collision" mesh="%s_%d"/>' % (pad, name, k))
     if name == "base_link": out.append('%s  <site name="%s" pos="0 0 0" size="0.005" rgba="1 0.5 0 1"/>' % (pad, ATTACH))
