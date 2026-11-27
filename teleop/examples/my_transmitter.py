@@ -2,6 +2,7 @@
 
 Copy this file, fill in read_channels() from your transmitter's datasheet, then run
 
+    dexremo-teleop force-zero --force my_transmitter.py:MyTransmitter      # once a day, after power-on
     dexremo-teleop force-check --force my_transmitter.py:MyTransmitter
     dexremo-teleop teleop ... --force my_transmitter.py:MyTransmitter --force-calibration my_force_calib.json
 
@@ -34,6 +35,12 @@ class MyTransmitter(TransmitterForceSensor):
         # Return the values in the order of CHANNELS, scaled to about newtons.
         raise NotImplementedError("Fill in read_channels() for your transmitter.")
         return np.zeros(len(CHANNELS))
+
+    def zero(self) -> None:
+        # TODO: send the datasheet's zeroing command (often a Modbus "write single
+        # coil" or "write register" request) and check the reply. Called by
+        # `dexremo-teleop force-zero`, once a day after power-on.
+        raise NotImplementedError("Fill in zero() for your transmitter.")
 
     def close(self) -> None:
         self.serial.close()

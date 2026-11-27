@@ -10,6 +10,9 @@ license = { text = "MIT" }
 requires-python = ">=3.10"
 dependencies = ["numpy", "pyserial", "feetech-servo-sdk"]
 
+[project.optional-dependencies]
+viewer = ["mujoco>=3.0"]
+
 [project.scripts]
 dexremo-teleop = "dexremo_teleop.cli:main"
 

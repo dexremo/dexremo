@@ -17,6 +17,12 @@ pip install -e .
 
 This installs the `dexremo-teleop` command. It needs only `numpy`, `pyserial` and the Feetech servo SDK (`feetech-servo-sdk`).
 
+For the live 3D view (`--viewer`, `view`) and wrist-frame forces, also install MuJoCo:
+
+```bash
+pip install -e ".[viewer]"
+```
+
 **Linux:** your user needs access to the serial ports. Run this once, then log out and in again:
 
 ```bash
@@ -90,18 +96,28 @@ dexremo-teleop teleop --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0
 - At the start, the hand moves slowly to the leader's pose (`--ramp`, 2 s by default). Then it follows the leader at 30 Hz (`--fps`).
 - Commands are clipped to each joint's calibrated range (`--margin` ticks inside it) and to a maximum joint speed (`--max-speed`, rad/s).
 - Ctrl+C stops. The hand's torque is turned off; add `--hold` to keep it on.
+- `--viewer` opens a 3D window with the hand's live pose and a force arrow at each fingertip (right red, middle green, left blue; 2.5 cm per newton). It runs in its own thread and does not slow down the control loop.
+- To watch one device without teleoperation (torque off, move it by hand): `dexremo-teleop view --port /dev/ttyACM1 --name leader`.
 
 ## Force sensors
 
 Without force-sensing fingertips, leave `--force` at its default, `none`.
 
+To try the display and the data flow without sensors, `--force mock` makes up fingertip forces:
+
+```bash
+dexremo-teleop teleop --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0 --viewer --force mock
+```
+
 The code does not include a driver for any particular transmitter. To use force-sensing fingertips:
 
-1. Copy [`examples/my_transmitter.py`](examples/my_transmitter.py) and fill in `read_channels()` from your transmitter's datasheet. It returns the nine readings in the channel order of the [calibration method](../hardware/force_calibration.md#step-1-label-and-wire-the-load-cells) (1+X, 1+Y, 1−Y, 2+X, …).
-2. Check the readings:
+1. Copy [`examples/my_transmitter.py`](examples/my_transmitter.py) and fill in `read_channels()` and `zero()` from your transmitter's datasheet. `read_channels()` returns the nine readings in the channel order of the [calibration method](../hardware/force_calibration.md#step-1-label-and-wire-the-load-cells) (1+X, 1+Y, 1−Y, 2+X, …); `zero()` sends the datasheet's zeroing command.
+2. Once a day after power-on, zero the transmitter with nothing touching the fingertips, then check the readings:
    ```bash
+   dexremo-teleop force-zero --force my_transmitter.py:MyTransmitter
    dexremo-teleop force-check --force my_transmitter.py:MyTransmitter
    ```
+   Do not zero more often: each zeroing writes the transmitter's flash memory, which allows only a limited number of writes.
 3. Put each fingertip's fit from [step 6](../hardware/force_calibration.md#step-6-fit-the-mapping) in a JSON file:
    ```json
    {"right": {"K": [[...], [...], [...]], "c": [0, 0, 0]}, "mid": {...}, "left": {...}}
@@ -111,7 +127,9 @@ The code does not include a driver for any particular transmitter. To use force-
    dexremo-teleop teleop ... --force my_transmitter.py:MyTransmitter --force-calibration my_force_calib.json
    ```
 
-The forces are shown in each fingertip's sensor frame. Any class that subclasses `ForceSensor` in [`dexremo_teleop/force.py`](dexremo_teleop/force.py) and returns one force per fingertip also works.
+The terminal shows each fingertip's force in its sensor frame and in the wrist frame (F_wrist = R(q) F_sensor, with R from the simulation model's forward kinematics; needs MuJoCo). The sensor is read in its own thread, so a slow transmitter does not slow down teleoperation.
+
+Any class that subclasses `ForceSensor` in [`dexremo_teleop/force.py`](dexremo_teleop/force.py) and returns one force per fingertip also works.
 
 ## Use from Python
 
@@ -129,7 +147,6 @@ hand.disconnect()
 
 ## Not yet included
 
-- the live fingertip-force display in the wrist frame;
 - recording demonstrations.
 
 ## Licence

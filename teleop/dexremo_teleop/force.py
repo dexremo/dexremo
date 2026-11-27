@@ -5,6 +5,8 @@ The teleoperation code does not depend on any particular transmitter. It asks a
 sensor frame (``hardware/force_calibration.md#sensor-frame-and-load-cell-names``).
 
 * ``NoForceSensor`` is the default: the hand has no force-sensing fingertips.
+* ``MockForceSensor`` makes up smooth forces, for trying the display and the
+  recording without hardware (``--force mock``).
 * ``TransmitterForceSensor`` is the base class for a real transmitter. Subclass it,
   implement ``read_channels()`` from your transmitter's datasheet, and pass the
   file to the teleoperation script with ``--force path/to/file.py:ClassName``.
@@ -16,6 +18,9 @@ from __future__ import annotations
 import importlib
 import importlib.util
 import json
+import math
+import threading
+import time
 from abc import ABC, abstractmethod
 from pathlib import Path
 
@@ -38,6 +43,11 @@ class ForceSensor(ABC):
     def read(self) -> dict[str, np.ndarray] | None:
         """Return {"right": F, "mid": F, "left": F}, each F = (Fx, Fy, Fz) in newtons in
         the sensor frame, or None if this hand has no force sensors."""
+
+    def zero(self) -> None:
+        """Send the transmitter's zeroing command. Use it once a day after power-on, with
+        nothing touching the fingertips: each zeroing writes the transmitter's flash."""
+        raise NotImplementedError(f"{type(self).__name__} has no zeroing command.")
 
     def close(self) -> None:
         pass
@@ -95,17 +105,86 @@ _UNCALIBRATED_K = np.array(
 )
 
 
+class MockForceSensor(ForceSensor):
+    """Made-up forces: each fingertip presses and releases about once every few seconds,
+    with a small tangential wobble and noise. ``latency`` imitates a slow transmitter."""
+
+    def __init__(self, latency: float = 0.008):
+        self.latency = latency
+        self._t0 = time.perf_counter()
+        self._rng = np.random.default_rng(0)
+
+    def read(self) -> dict[str, np.ndarray]:
+        time.sleep(self.latency)
+        t = time.perf_counter() - self._t0
+        out = {}
+        for i, f in enumerate(FINGERTIPS):
+            phase = t * 2 * math.pi / (3.0 + i)
+            press = 4.0 * max(0.0, math.sin(phase)) ** 2
+            out[f] = np.array([0.8 * press * math.sin(2 * phase), 0.5 * press * math.cos(phase), press])
+            out[f] = out[f] + self._rng.normal(0, 0.02, 3)
+        return out
+
+    def zero(self) -> None:
+        print("MockForceSensor: zero (nothing to do).")
+
+
+class BackgroundReader:
+    """Reads a ForceSensor in its own thread, so a slow transmitter does not slow down
+    the control loop. ``latest()`` returns the newest sample and its age in seconds."""
+
+    def __init__(self, sensor: ForceSensor):
+        self.sensor = sensor
+        self._lock = threading.Lock()
+        self._sample: dict[str, np.ndarray] | None = None
+        self._stamp = 0.0
+        self._stop = threading.Event()
+        self._thread = threading.Thread(target=self._run, daemon=True)
+        self.errors = 0
+        self.rate = 0.0  # samples per second, smoothed
+
+    def start(self) -> BackgroundReader:
+        self._thread.start()
+        return self
+
+    def latest(self) -> tuple[dict[str, np.ndarray] | None, float]:
+        with self._lock:
+            return self._sample, time.perf_counter() - self._stamp
+
+    def stop(self) -> None:
+        self._stop.set()
+        self._thread.join(timeout=1.0)
+
+    def _run(self) -> None:
+        last = time.perf_counter()
+        while not self._stop.is_set():
+            try:
+                sample = self.sensor.read()
+            except Exception:
+                self.errors += 1
+                time.sleep(0.01)
+                continue
+            now = time.perf_counter()
+            with self._lock:
+                self._sample, self._stamp = sample, now
+            self.rate = 0.9 * self.rate + 0.1 / max(now - last, 1e-6)
+            last = now
+
+
 def load_force_sensor(spec: str | None, calibration: str | None = None) -> ForceSensor:
     """Create a force sensor from a command-line spec.
 
-    ``none`` (or empty) gives NoForceSensor. ``path/to/file.py:ClassName`` or
+    ``none`` (or empty) gives NoForceSensor, ``mock`` gives MockForceSensor.
+    ``path/to/file.py:ClassName`` or
     ``package.module:ClassName`` loads your own ForceSensor subclass; it is built
     with ``calibration=<file>`` if it is a TransmitterForceSensor.
     """
     if not spec or spec.lower() == "none":
         return NoForceSensor()
+    if spec.lower() == "mock":
+        return MockForceSensor()
     if ":" not in spec:
-        raise ValueError(f"--force expects 'none' or 'file.py:ClassName', got {spec!r}")
+        raise ValueError(f"--force expects 'none', 'mock' or 'file.py:ClassName', got {spec!r}")
     target, class_name = spec.rsplit(":", 1)
     if target.endswith(".py"):
         module_spec = importlib.util.spec_from_file_location(Path(target).stem, target)

@@ -17,6 +17,12 @@ pip install -e .
 
 装好后可以用 `dexremo-teleop` 命令。依赖只有 `numpy`、`pyserial` 和飞特舵机 SDK（`feetech-servo-sdk`）。
 
+想要 3D 实时显示（`--viewer`、`view`）和腕部坐标系下的力，再装 MuJoCo：
+
+```bash
+pip install -e ".[viewer]"
+```
+
 **Linux：** 当前用户要有串口权限。运行下面这条命令一次，然后注销再重新登录：
 
 ```bash
@@ -90,18 +96,28 @@ dexremo-teleop teleop --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0
 - 开始时，灵巧手会慢慢移动到主手的姿态（`--ramp`，默认 2 秒），然后以 30 Hz 跟随主手（`--fps`）。
 - 指令会被限制在每个关节的标定行程内（留 `--margin` 个刻度的余量），关节速度也有上限（`--max-speed`，单位 rad/s）。
 - 按 Ctrl+C 停止。停止后灵巧手的扭矩会关掉；如果想保持扭矩，加 `--hold`。
+- 加 `--viewer` 会打开一个 3D 窗口，实时显示灵巧手的姿态和指尖力箭头（右指红、中指绿、左指蓝，箭头长度每牛顿 2.5 cm）。显示在单独的线程里，不影响控制频率。
+- 只想看一个设备、不做遥操作（扭矩关闭，用手掰）：`dexremo-teleop view --port /dev/ttyACM1 --name leader`。
 
 ## 力传感器
 
 如果没有力传感指尖，`--force` 用默认的 `none` 就行。
 
+没有传感器也可以先试显示和数据流程：`--force mock` 会生成模拟的指尖力。
+
+```bash
+dexremo-teleop teleop --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0 --viewer --force mock
+```
+
 代码里没有针对某一款变送器的驱动。要用力传感指尖，按下面几步做：
 
-1. 复制 [`examples/my_transmitter.py`](examples/my_transmitter.py)，照着变送器的说明书填好 `read_channels()`。它要按[标定方法](../hardware/force_calibration_zh.md)里的通道顺序（1+X、1+Y、1−Y、2+X……）返回 9 个读数。
-2. 检查读数：
+1. 复制 [`examples/my_transmitter.py`](examples/my_transmitter.py)，照着变送器的说明书填好 `read_channels()` 和 `zero()`。`read_channels()` 要按[标定方法](../hardware/force_calibration_zh.md)里的通道顺序（1+X、1+Y、1−Y、2+X……）返回 9 个读数；`zero()` 发送说明书里的清零命令。
+2. 每天开机后清零一次（指尖不要碰任何东西），然后检查读数：
    ```bash
+   dexremo-teleop force-zero --force my_transmitter.py:MyTransmitter
    dexremo-teleop force-check --force my_transmitter.py:MyTransmitter
    ```
+   不要频繁清零：每次清零都会写变送器单片机的存储器，写入次数有限。
 3. 把标定方法第 6 步里每个指尖拟合出来的结果写进一个 JSON 文件：
    ```json
    {"right": {"K": [[...], [...], [...]], "c": [0, 0, 0]}, "mid": {...}, "left": {...}}
@@ -111,7 +127,9 @@ dexremo-teleop teleop --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0
    dexremo-teleop teleop ... --force my_transmitter.py:MyTransmitter --force-calibration my_force_calib.json
    ```
 
-显示的力是在每个指尖自己的传感器坐标系下。你也可以自己写一个类，只要继承 [`dexremo_teleop/force.py`](dexremo_teleop/force.py) 里的 `ForceSensor`，并为每个指尖返回一个力，就能用。
+终端里同时显示每个指尖传感器坐标系下的力和腕部坐标系下的力（F_wrist = R(q)·F_sensor，R 由仿真模型的正运动学算出；需要装 MuJoCo）。传感器在单独的线程里读取，变送器慢也不会拖慢遥操作。
+
+你也可以自己写一个类，只要继承 [`dexremo_teleop/force.py`](dexremo_teleop/force.py) 里的 `ForceSensor`，并为每个指尖返回一个力，就能用。
 
 ## 在 Python 里调用
 
@@ -129,7 +147,6 @@ hand.disconnect()
 
 ## 还没有的功能
 
-- 腕部坐标系下的指尖力实时显示；
 - 录制示教数据。
 
 ## 许可

@@ -10,7 +10,7 @@ import time
 
 import numpy as np
 
-from .force import FINGERTIPS, load_force_sensor
+from .force import FINGERTIPS, BackgroundReader, NoForceSensor, load_force_sensor
 from .hand import Hand, JointCalibration, calibration_path, load_calibration, save_calibration
 from .joints import DEFAULT_SIGNS, FINGER_JOINTS, FINGERS, JOINT_NAMES, SERVO_IDS
 from .servo_bus import CENTER, DEFAULT_BAUDRATE, ServoBus, ServoError, decode_offset
@@ -198,20 +198,42 @@ def cmd_monitor(args) -> None:
 # -- teleoperation -------------------------------------------------------------------
 
 
-def _format_forces(forces) -> list[str]:
+def _format_forces(forces, wrist=None) -> list[str]:
     if forces is None:
         return []
-    rows = ["fingertip force, N (sensor frame):     Fx      Fy      Fz"]
+    head = "fingertip force, N       sensor frame: Fx      Fy      Fz"
+    if wrist is not None:
+        head += "    wrist frame: Fx      Fy      Fz"
+    rows = [head]
     for f in FINGERTIPS:
-        fx, fy, fz = forces[f]
-        rows.append(f"  {f:<34}{fx:+7.2f} {fy:+7.2f} {fz:+7.2f}")
+        row = f"  {f:<34}" + " ".join(f"{v:+7.2f}" for v in forces[f])
+        if wrist is not None:
+            row += " " * 17 + " ".join(f"{v:+7.2f}" for v in wrist[f])
+        rows.append(row)
     return rows
+
+
+def _optional_kinematics():
+    """Forward kinematics for wrist-frame forces, or None without MuJoCo."""
+    try:
+        from .kinematics import HandKinematics
+
+        return HandKinematics()
+    except ImportError:
+        return None
 
 
 def cmd_teleop(args) -> None:
     leader = Hand(args.leader_port, load_calibration(args.leader_name), baudrate=args.baudrate)
     follower = Hand(args.follower_port, load_calibration(args.follower_name), baudrate=args.baudrate)
     sensor = load_force_sensor(args.force, args.force_calibration)
+    has_force = not isinstance(sensor, NoForceSensor)
+    kin = _optional_kinematics() if has_force else None
+    viewer = None
+    if args.viewer:
+        from .viewer import HandViewer
+
+        viewer = HandViewer()
 
     leader.connect()
     try:
@@ -220,6 +242,7 @@ def cmd_teleop(args) -> None:
         leader.disconnect()
         raise
     sensor.connect()
+    reader = BackgroundReader(sensor).start() if has_force else None
 
     dt = 1.0 / args.fps
     max_step = args.max_speed * dt
@@ -238,18 +261,21 @@ def cmd_teleop(args) -> None:
             follower.write_q(goal, margin=args.margin)
             time.sleep(dt)
         sent = follower.write_q(leader.read_q(), margin=args.margin)
+        if viewer is not None:
+            viewer.start()
 
-        print(f"Teleoperating at {args.fps} Hz. Ctrl+C to stop.\n")
+        print(f"Teleoperating at {args.fps:g} Hz. Ctrl+C to stop.\n")
         first = True
         last_draw = 0.0
         loop_hz = float(args.fps)
+        worst_ms = 0.0  # longest cycle (without the sleep) since the last redraw
+        forces = None
         while True:
             tick = time.perf_counter()
             try:
                 q_leader = leader.read_q()
                 goal = sent + np.clip(q_leader - sent, -max_step, max_step)
                 sent = follower.write_q(goal, margin=args.margin)
-                forces = sensor.read()
                 errors = 0
             except ServoError as e:
                 errors += 1
@@ -258,14 +284,31 @@ def cmd_teleop(args) -> None:
                 print(f"{e} (retrying)")
                 first = True
                 continue
+            if reader is not None:
+                forces, age = reader.latest()
+                if age > 0.5:
+                    forces = None  # stale: the sensor stopped answering
+            if viewer is not None:
+                viewer.update(sent, forces)
+            worst_ms = max(worst_ms, (time.perf_counter() - tick) * 1e3)
 
             if tick - last_draw > 0.2:
-                lines = [f"loop {loop_hz:5.1f} Hz   leader joint angles, degrees:"]
-                lines += _joint_table(np.degrees(q_leader), "+.1f")
-                lines += _format_forces(forces)
+                status = f"loop {loop_hz:5.1f} Hz, longest cycle {worst_ms:4.1f} ms"
+                if reader is not None:
+                    status += f", force sensor {reader.rate:5.1f} Hz"
+                    if forces is None:
+                        status += " (no data)"
+                lines = [status, "leader joint angles, degrees:", *_joint_table(np.degrees(q_leader), "+.1f")]
+                if forces is not None:
+                    wrist = None
+                    if kin is not None:
+                        kin.update(sent)
+                        wrist = kin.forces_to_wrist(forces)
+                    lines += _format_forces(forces, wrist)
                 _redraw(lines, first)
                 first = False
                 last_draw = tick
+                worst_ms = 0.0
 
             elapsed = time.perf_counter() - tick
             if elapsed < dt:
@@ -274,11 +317,56 @@ def cmd_teleop(args) -> None:
     except KeyboardInterrupt:
         print()
     finally:
+        if viewer is not None:
+            viewer.close()
+        if reader is not None:
+            reader.stop()
         sensor.close()
         follower.disconnect(disable_torque=not args.hold)
         leader.disconnect()
         if args.hold:
             print("The hand keeps its torque on (--hold). Power it off or run `monitor` to release it.")
+
+
+def cmd_view(args) -> None:
+    from .viewer import HandViewer
+
+    hand = Hand(args.port, load_calibration(args.name), baudrate=args.baudrate)
+    sensor = load_force_sensor(args.force, args.force_calibration)
+    hand.connect()
+    sensor.connect()
+    reader = None if isinstance(sensor, NoForceSensor) else BackgroundReader(sensor).start()
+    viewer = HandViewer()
+    try:
+        hand.bus.set_torque(hand.ids, False)
+        viewer.start()
+        print("Torque is off; move the device by hand. Close the window or press Ctrl+C to stop.")
+        while viewer.is_running:
+            viewer.update(hand.read_q(), reader.latest()[0] if reader else None)
+            time.sleep(1 / 60)
+    except KeyboardInterrupt:
+        print()
+    finally:
+        viewer.close()
+        if reader is not None:
+            reader.stop()
+        sensor.close()
+        hand.disconnect()
+
+
+def cmd_force_zero(args) -> None:
+    sensor = load_force_sensor(args.force, args.force_calibration)
+    if isinstance(sensor, NoForceSensor):
+        sys.exit("No force sensor given (--force).")
+    input("Make sure nothing touches the fingertips, then press ENTER to zero the transmitter...")
+    sensor.connect()
+    try:
+        sensor.zero()
+        print("Zeroed. Do this once a day after power-on, not more: each zeroing writes the transmitter's flash.")
+    except NotImplementedError as e:
+        sys.exit(f"Error: {e} Implement zero() in your ForceSensor class (see examples/my_transmitter.py).")
+    finally:
+        sensor.close()
 
 
 def cmd_force_check(args) -> None:
@@ -345,10 +433,22 @@ def main(argv=None) -> None:
     p.add_argument("--margin", type=int, default=10, help="keep this many ticks inside the calibrated range")
     p.add_argument("--ramp", type=float, default=2.0, help="seconds to move to the leader's pose at start")
     p.add_argument("--hold", action="store_true", help="keep the hand's torque on after stopping")
-    p.add_argument("--force", default="none", help="'none' (default) or file.py:ClassName of a ForceSensor")
+    p.add_argument("--force", default="none", help="'none' (default), 'mock', or file.py:ClassName of a ForceSensor")
+    p.add_argument("--force-calibration", help="JSON file with K and c per fingertip")
+
+    p.add_argument("--viewer", action="store_true", help="show the hand and fingertip forces in a 3D window (needs mujoco)")
+
+    p = add("view", cmd_view, "Show a device's live pose (and fingertip forces) in a 3D window, torque off.")
+    bus_args(p)
+    p.add_argument("--name", required=True, help="calibration name, e.g. follower or leader")
+    p.add_argument("--force", default="none", help="'none' (default), 'mock' or file.py:ClassName")
     p.add_argument("--force-calibration", help="JSON file with K and c per fingertip")
 
     p = add("force-check", cmd_force_check, "Print live fingertip forces from a ForceSensor.")
+    p.add_argument("--force", required=True, help="'mock' or file.py:ClassName of a ForceSensor")
+    p.add_argument("--force-calibration", help="JSON file with K and c per fingertip")
+
+    p = add("force-zero", cmd_force_zero, "Send the transmitter's zeroing command (once a day, after power-on).")
     p.add_argument("--force", required=True, help="file.py:ClassName of a ForceSensor")
     p.add_argument("--force-calibration", help="JSON file with K and c per fingertip")
 
