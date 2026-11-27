@@ -99,6 +99,42 @@ dexremo-teleop teleop --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0
 - `--viewer` opens a 3D window with the hand's live pose and a force arrow at each fingertip (right red, middle green, left blue; 2.5 cm per newton). It runs in its own thread and does not slow down the control loop.
 - To watch one device without teleoperation (torque off, move it by hand): `dexremo-teleop view --port /dev/ttyACM1 --name leader`.
 
+## 6. Record demonstrations
+
+Recording writes a [LeRobot](https://github.com/huggingface/lerobot) dataset (format v3.0), ready for LeRobot's training scripts. It needs LeRobot 0.4 or later, MuJoCo and OpenCV:
+
+```bash
+pip install lerobot
+pip install -e ".[record]"
+```
+
+Find your cameras with `v4l2-ctl --list-devices` (each camera usually shows up as two `/dev/video*` nodes; use the first). Then:
+
+```bash
+dexremo-teleop record --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0 \
+    --repo-id yourname/dexremo_a1 --task "Remove the barnacle from the shell" \
+    --camera left=/dev/video0 --camera right=/dev/video2 --camera wrist=/dev/video4
+```
+
+- Press ENTER to start the first episode. Each episode lasts `--episode-time` seconds (120 by default); ENTER ends it early. Type `r` and ENTER to discard it and record it again, `q` and ENTER to save it and stop.
+- After each episode, the videos are encoded while you reset the scene; teleoperation keeps running. The reset lasts `--reset-time` seconds (30 by default; ENTER to go on), counted from the end of the episode, or until encoding is done if that takes longer. Encoding runs at about 80 frames per second per camera: a 60 s episode at 15 Hz with three cameras takes about 35 s.
+- `--episodes` is the number to record in this session (20 by default). Add `--resume` to add episodes to an existing dataset in a later session.
+- The dataset goes to `~/.cache/huggingface/lerobot/<repo-id>` unless you give `--root`. Nothing is uploaded.
+- The recording rate is `--fps` (15 Hz by default, as in the paper; anything from about 10 Hz up to the camera rate works, but encoding time and disk use grow with it). Teleoperation runs at `--control-fps` (30 Hz) in its own process, so recording and video encoding never slow it down.
+- With `--force`, the fingertip forces are recorded too. `--display` shows the cameras, joint angles and forces live in [Rerun](https://rerun.io) (installed with LeRobot); `--viewer` shows the 3D view. `teleop` takes `--camera` and `--display` too, to check the cameras without recording.
+- **Cameras and USB.** Use MJPG (the default). Webcams reserve USB bandwidth up front, so two webcams behind the same USB 2.0 hub can starve each other (one drops to a few frames per second). Plug each camera into a port on a different USB controller; `lsusb -t` shows which ports share one. In dim light, many webcams lengthen the exposure and deliver fewer frames than their rated 30 fps; the status line shows each camera's real rate.
+
+Each frame holds:
+
+| Key | Size | Content |
+|---|---|---|
+| `observation.state` | 54 (45 without force) | joint angles (12, rad), joint velocities (12, rad/s), fingertip poses in the wrist frame (3 × x, y, z in m, qx, qy, qz, qw), fingertip forces in the wrist frame (3 × 3, N; with a force sensor) |
+| `observation.force_sensor` | 9 | fingertip forces in each sensor frame (with a force sensor) |
+| `observation.images.<name>` | 480 × 640 × 3 | one video per camera |
+| `action` | 12 | joint angles sent to the hand, rad |
+
+Every value has a name in the dataset's `meta/info.json`. The joint displacement used as the action in the paper is `action` minus the first 12 values of `observation.state`.
+
 ## Force sensors
 
 Without force-sensing fingertips, leave `--force` at its default, `none`.
@@ -144,10 +180,6 @@ hand.set_torque(True)
 hand.write_q(q)                   # clipped to the calibrated range
 hand.disconnect()
 ```
-
-## Not yet included
-
-- recording demonstrations.
 
 ## Licence
 

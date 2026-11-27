@@ -12,6 +12,9 @@ dependencies = ["numpy", "pyserial", "feetech-servo-sdk"]
 
 [project.optional-dependencies]
 viewer = ["mujoco>=3.0"]
+# Recording also needs LeRobot 0.4 or later (pip install lerobot), not listed here so that
+# an existing LeRobot install is not replaced.
+record = ["mujoco>=3.0", "opencv-python"]
 
 [project.scripts]
 dexremo-teleop = "dexremo_teleop.cli:main"

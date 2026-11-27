@@ -62,6 +62,22 @@ class HandKinematics:
         r = self.data.site_xmat[s].reshape(3, 3)
         return r0.T @ (p - p0), r0.T @ r
 
+    def tip_pose(self, finger: str) -> np.ndarray:
+        """Fingertip pose in the wrist frame: (x, y, z, qx, qy, qz, qw), metres.
+
+        The position is the fingertip point (``{finger}_tip_site``); the orientation
+        is that of the fingertip sensor frame (``{finger}_force_site``) if the model
+        has one, otherwise that of the fingertip site.
+        """
+        p0, r0 = self._base_pose()
+        pos = r0.T @ (self.data.site_xpos[self.tips[finger]] - p0)
+        rot = r0.T @ self.data.site_xmat[self.sites[finger]].reshape(3, 3)
+        wxyz = np.zeros(4)
+        self._mj.mju_mat2Quat(wxyz, rot.flatten())
+        if wxyz[0] < 0:  # keep qw >= 0 so the same orientation always gives the same numbers
+            wxyz = -wxyz
+        return np.concatenate([pos, wxyz[1:], wxyz[:1]])
+
     def forces_to_wrist(self, forces: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
         """Sensor-frame forces -> wrist-frame forces, at the pose of the last update()."""
         if not self.has_sensors:

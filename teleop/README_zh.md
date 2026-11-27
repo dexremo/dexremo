@@ -99,6 +99,42 @@ dexremo-teleop teleop --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0
 - 加 `--viewer` 会打开一个 3D 窗口，实时显示灵巧手的姿态和指尖力箭头（右指红、中指绿、左指蓝，箭头长度每牛顿 2.5 cm）。显示在单独的线程里，不影响控制频率。
 - 只想看一个设备、不做遥操作（扭矩关闭，用手掰）：`dexremo-teleop view --port /dev/ttyACM1 --name leader`。
 
+## 6. 录制示教数据
+
+录下来的是 [LeRobot](https://github.com/huggingface/lerobot) 数据集（v3.0 格式），可以直接用 LeRobot 的训练脚本训练。需要 LeRobot 0.4 及以上、MuJoCo 和 OpenCV：
+
+```bash
+pip install lerobot
+pip install -e ".[record]"
+```
+
+先用 `v4l2-ctl --list-devices` 找到摄像头（一个摄像头一般会出现两个 `/dev/video*`，用第一个）。然后：
+
+```bash
+dexremo-teleop record --leader-port /dev/ttyACM1 --follower-port /dev/ttyACM0 \
+    --repo-id yourname/dexremo_a1 --task "Remove the barnacle from the shell" \
+    --camera left=/dev/video0 --camera right=/dev/video2 --camera wrist=/dev/video4
+```
+
+- 按回车开始第一段。每段录 `--episode-time` 秒（默认 120 秒），按回车可以提前结束。输入 `r` 再回车：丢掉这一段重录；输入 `q` 再回车：保存这一段然后停止。
+- 每段录完后，视频在你复位场景的同时编码，遥操作不停。复位时间是 `--reset-time` 秒（默认 30 秒，按回车可以提前继续），从这一段结束时开始算；如果编码比这更久，就等编码完。编码速度大约是每个摄像头每秒 80 帧：15 Hz、三个摄像头、60 秒的一段，大约要 35 秒。
+- `--episodes` 是这次要录的段数（默认 20）。下次接着录，加 `--resume`，会追加到同一个数据集里。
+- 数据集默认存在 `~/.cache/huggingface/lerobot/<repo-id>`，也可以用 `--root` 指定目录。不会上传到任何地方。
+- 录制频率是 `--fps`（默认 15 Hz，和论文一样；大约 10 Hz 到摄像头帧率之间都可以，但频率越高，编码时间和占用的硬盘空间越多）。遥操作以 `--control-fps`（30 Hz）在单独的进程里运行，录制和视频编码都不会拖慢它。
+- 加 `--force` 会同时录指尖力。加 `--display` 会在 [Rerun](https://rerun.io)（装 LeRobot 时会一起装上）里实时显示摄像头画面、关节角和指尖力；加 `--viewer` 会打开 3D 显示。`teleop` 也支持 `--camera` 和 `--display`，不录制也能先看看摄像头。
+- **摄像头和 USB。** 用 MJPG（默认就是）。摄像头会预先占用 USB 带宽，两个摄像头接在同一个 USB 2.0 集线器后面，可能会互相抢带宽，其中一个只剩每秒几帧。每个摄像头尽量接到不同 USB 控制器的口上；用 `lsusb -t` 可以看出哪些口共用一个控制器。光线暗的时候，很多摄像头会自动拉长曝光，实际帧率达不到标称的 30 fps；状态行里会显示每个摄像头的实际帧率。
+
+每一帧包括：
+
+| 键 | 维度 | 内容 |
+|---|---|---|
+| `observation.state` | 54（没有力传感器时 45） | 关节角（12，rad）、关节角速度（12，rad/s）、腕部坐标系下的指尖位姿（3 × x、y、z（m）、qx、qy、qz、qw）、腕部坐标系下的指尖力（3 × 3，N；有力传感器时才有） |
+| `observation.force_sensor` | 9 | 每个指尖传感器坐标系下的力（有力传感器时才有） |
+| `observation.images.<名字>` | 480 × 640 × 3 | 每个摄像头一段视频 |
+| `action` | 12 | 发给灵巧手的关节角，rad |
+
+每个数值的名字都写在数据集的 `meta/info.json` 里。论文里用作动作的关节增量，就是 `action` 减去 `observation.state` 的前 12 个数。
+
 ## 力传感器
 
 如果没有力传感指尖，`--force` 用默认的 `none` 就行。
@@ -144,10 +180,6 @@ hand.set_torque(True)
 hand.write_q(q)                   # 会被限制在标定行程内
 hand.disconnect()
 ```
-
-## 还没有的功能
-
-- 录制示教数据。
 
 ## 许可
 
