@@ -140,7 +140,7 @@
 
 <img src="docs/img/leader.jpg" width="480" alt="主手模型：带指环的同一只手">
 
-主手的零件、物料和装配步骤都在本仓库里（装配教程第 13 步）。遥操作软件会在 R2 发布。
+主手的零件、物料和装配步骤都在本仓库里（装配教程第 13 步）。遥操作软件在 [`teleop/`](teleop/) 里：舵机 ID 设置、零位标定、主从遥操作、实时显示和录制示教数据。
 
 ## 仓库内容
 
@@ -148,6 +148,7 @@
 |---|---|---|
 | [`hardware/`](hardware/) | 装配 STEP、可打印 STL、[物料清单](hardware/BOM_zh.md)、[装配教程](hardware/assembly/README_zh.md)、[力传感器标定方法](hardware/force_calibration_zh.md) | CC BY-NC-SA 4.0 |
 | [`sim/`](sim/) | 三种指尖版本的手和主手的 URDF、MuJoCo (MJCF) 模型，以及从 STEP 生成它们的脚本 | MIT（网格文件：CC BY-NC-SA 4.0） |
+| [`teleop/`](teleop/) | Python 舵机驱动、零位标定、主从遥操作、实时 3D 和摄像头显示、录制示教数据（LeRobot 数据集格式）、力传感器接口 | MIT |
 
 <img src="sim/docs/variants.png" alt="四个仿真模型：力传感版、无传感器版、蘑菇头版和主手">
 
@@ -167,6 +168,8 @@ python -m mujoco.viewer --mjcf=sim/mjcf/scene.xml
 3. 跟着[装配教程](hardware/assembly/README_zh.md)从一根手指装到整只手；
 4. 如果用力传感指尖，按[标定方法](hardware/force_calibration_zh.md)标定每个指尖。
 
+**遥操作和录制示教数据：** 安装 [`teleop/`](teleop/)，按它的 [README](teleop/README_zh.md) 一步步来，从设置舵机 ID、标定一直到录制数据集。
+
 ## 发布计划
 
 DexRemo 分三个阶段开源，硬件优先。每个阶段在团队外的人照着文档完整走通一遍之后才发布。
@@ -175,9 +178,11 @@ DexRemo 分三个阶段开源，硬件优先。每个阶段在团队外的人照
 |---|---|---|
 | R0 | 项目主页、论文、视频、结果 | 已发布 |
 | R1 | 硬件文件、物料清单、装配教程、力传感器标定方法、仿真模型、主手 | 已发布 |
-| R2 | Python 舵机驱动（ID 设置、零位标定、关节读写）；主从遥操作，分不带力传感和带力传感接口两个版本；实时指尖力显示；录制你自己的示教数据 | 进行中 |
+| R2 | Python 舵机驱动（ID 设置、零位标定、关节读写）；主从遥操作，分不带力传感和带力传感接口两个版本；实时指尖力显示；录制你自己的示教数据 | 已发布 |
 
-带力传感的版本给传感器留了一个接口：你在这里读取自己的变送器，套上按[标定方法](hardware/force_calibration_zh.md)得到的标定结果，其余部分（转到腕部坐标系、显示和录制）就能直接用。
+带力传感的版本给传感器留了一个接口：你在这里读取自己的变送器，套上按[标定方法](hardware/force_calibration_zh.md)得到的标定结果，其余部分（转到腕部坐标系、显示和录制）就能直接用。详见 teleop README 的[力传感器](teleop/README_zh.md#力传感器)一节。
+
+R2 同时修正了仿真模型的关节正方向和指尖传感器坐标系，使它们和实机一致（见 [`sim/README_zh.md`](sim/README_zh.md)）。如果你用过 R1 的模型，把每个关节角取反即可。
 
 ## 引用
 

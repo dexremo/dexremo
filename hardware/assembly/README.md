@@ -212,9 +212,10 @@ Within each finger, IDs run from the palm out to the fingertip.
 
 The joint names match the simulation model (`left_cmc1` … `right_ip`). See [`../../sim/README.md`](../../sim/README.md#joints) for each joint's axis and sign.
 
+New servos all have ID 1. Set each one's ID before you build it in, one servo at a time on the driver board: `dexremo-teleop set-id --port <port> --id <ID>` (see [`../../teleop/README.md`](../../teleop/README.md#2-set-the-servo-ids)).
+
 ## After assembly
 
-1. Connect the servo driver board, the power supply and the servo bus.
-2. Move the hand by hand into the zero pose shown in [`../../sim/README.md`](../../sim/README.md#zero-pose): side fingers turned outwards, each finger bent into a hook.
-3. Record each servo's position as its zero offset.
-4. If the hand has force-sensing fingertips, calibrate each one on the rig: steps 5–7 of the [calibration method](../force_calibration.md).
+1. Connect the servo driver board, the power supply and the servo bus. Check that all twelve servos answer: `dexremo-teleop scan --port <port>`.
+2. Run the zero calibration: `dexremo-teleop calibrate --port <port> --name follower` (`--name leader` for the leader device). It asks you to move the hand into the zero pose shown in [`../../sim/README.md`](../../sim/README.md#zero-pose) (side fingers turned outwards, each finger bent into a hook), stores each servo's position there as its zero offset, then records each joint's range of motion. See [`../../teleop/README.md`](../../teleop/README.md#3-calibrate).
+3. If the hand has force-sensing fingertips, calibrate each one on the rig: steps 5–7 of the [calibration method](../force_calibration.md).

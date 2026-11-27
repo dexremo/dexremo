@@ -140,7 +140,7 @@ Demonstrations are collected by teleoperation with a leader device. It has the s
 
 <img src="docs/img/leader.jpg" width="480" alt="Model of the leader device: the same hand with ring fingertips">
 
-The leader's parts, bill of materials and assembly step are in this repository (step 13 of the assembly guide). The teleoperation software follows in R2.
+The leader's parts, bill of materials and assembly step are in this repository (step 13 of the assembly guide). The teleoperation software is in [`teleop/`](teleop/): servo ID setup, zero calibration, leader–follower teleoperation, live display and demonstration recording.
 
 ## Repository contents
 
@@ -148,6 +148,7 @@ The leader's parts, bill of materials and assembly step are in this repository (
 |---|---|---|
 | [`hardware/`](hardware/) | Assembly STEP files, printable STL files, [bill of materials](hardware/BOM.md), [assembly guide](hardware/assembly/README.md), [force-sensor calibration method](hardware/force_calibration.md) | CC BY-NC-SA 4.0 |
 | [`sim/`](sim/) | URDF and MuJoCo (MJCF) models of the hand (three fingertip versions) and the leader device, with the scripts that build them from the STEP | MIT (meshes: CC BY-NC-SA 4.0) |
+| [`teleop/`](teleop/) | Python servo driver, zero calibration, leader–follower teleoperation, live 3D and camera display, demonstration recording as a LeRobot dataset, force-sensor interface | MIT |
 
 <img src="sim/docs/variants.png" alt="The four simulation models: force-sensing, no sensor, mushroom tips and leader device">
 
@@ -167,6 +168,8 @@ python -m mujoco.viewer --mjcf=sim/mjcf/scene.xml
 3. Follow the [assembly guide](hardware/assembly/README.md) from one finger to the full hand.
 4. If you use force-sensing fingertips, calibrate each one with the [calibration method](hardware/force_calibration.md).
 
+**Teleoperate and record demonstrations:** install [`teleop/`](teleop/) and follow its [README](teleop/README.md), from servo IDs and calibration to recording a dataset.
+
 ## Roadmap
 
 DexRemo opens in three stages, hardware first. Each stage is released when someone outside the team has followed its documentation from start to finish.
@@ -175,9 +178,11 @@ DexRemo opens in three stages, hardware first. Each stage is released when someo
 |---|---|---|
 | R0 | Project page, paper, video and results | Released |
 | R1 | Hardware files, bill of materials, assembly guide, force-sensor calibration method, simulation models and leader device | Released |
-| R2 | Python servo driver (ID setup, zero calibration, joint read and write); leader–follower teleoperation in two versions, without force sensing and with a force-sensor interface; live fingertip force display; recording your own demonstrations | In progress |
+| R2 | Python servo driver (ID setup, zero calibration, joint read and write); leader–follower teleoperation in two versions, without force sensing and with a force-sensor interface; live fingertip force display; recording your own demonstrations | Released |
 
-The force-sensing version leaves one interface open for your sensor: read your transmitter there and apply the calibration from the [calibration method](hardware/force_calibration.md). Everything else (wrist-frame transform, display and recording) then works as is.
+The force-sensing version leaves one interface open for your sensor: read your transmitter there and apply the calibration from the [calibration method](hardware/force_calibration.md). Everything else (wrist-frame transform, display and recording) then works as is. See [Force sensors](teleop/README.md#force-sensors) in the teleop README.
+
+With R2, the simulation models' joint signs and fingertip sensor frame were corrected to match the real hand (see [`sim/README.md`](sim/README.md#joints)). If you used the R1 models, flip the sign of every joint angle.
 
 ## Citation
 

@@ -212,9 +212,10 @@ STEP 里没有这些零件的螺丝，长度按你的打印件自己选。
 
 关节名和仿真模型一致（`left_cmc1` … `right_ip`）。每个关节的转轴和正方向见 [`../../sim/README_zh.md`](../../sim/README_zh.md#关节)。
 
+新舵机的 ID 都是 1。装进去之前先给每个舵机设好 ID，驱动板上一次只接一个舵机：`dexremo-teleop set-id --port <串口> --id <ID>`（见 [`../../teleop/README_zh.md`](../../teleop/README_zh.md#2-设置舵机-id)）。
+
 ## 装好之后
 
-1. 接上舵机驱动板、电源和舵机总线。
-2. 用手把手掰到 [`../../sim/README_zh.md`](../../sim/README_zh.md#零位) 里的零位：两侧手指朝外转，每根手指弯成钩状。
-3. 记录每个舵机此时的位置，作为零位偏置。
-4. 如果是力传感指尖，在标定架上逐个标定：[标定方法](../force_calibration_zh.md)的第五到第七步。
+1. 接上舵机驱动板、电源和舵机总线。检查 12 个舵机是否都有应答：`dexremo-teleop scan --port <串口>`。
+2. 做零位标定：`dexremo-teleop calibrate --port <串口> --name follower`（主手用 `--name leader`）。脚本会让你把手掰到 [`../../sim/README_zh.md`](../../sim/README_zh.md#零位) 里的零位（两侧手指朝外转，每根手指弯成钩状），把此时每个舵机的位置存为零位偏置，然后记录每个关节的活动范围。详见 [`../../teleop/README_zh.md`](../../teleop/README_zh.md#3-标定)。
+3. 如果是力传感指尖，在标定架上逐个标定：[标定方法](../force_calibration_zh.md)的第五到第七步。
