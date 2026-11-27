@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dexremo-teleop"
+version = "0.1.0"
+description = "DexRemo hand: servo driver, calibration and leader-follower teleoperation"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = ["numpy", "pyserial", "feetech-servo-sdk"]
+
+[project.scripts]
+dexremo-teleop = "dexremo_teleop.cli:main"
+
+[tool.setuptools]
+packages = ["dexremo_teleop"]
